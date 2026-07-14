@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rev Nation Jaipur | The Art of Invisible Armor</title>
+    
+    <!-- Google Fonts: Syne, Space Grotesk, Instrument Serif -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=Space+Grotesk:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & Lenis for Smooth Scrolling & Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js"></script>
+
+    <style>
+        /* ==========================================
+           1. CSS VARIABLES & BASE SETUP
+        ========================================== */
+        :root {
+            --obsidian: #0a0a0a;
+            --charcoal: #141414;
+            --champagne: #c9a84c;
+            --champagne-light: #e8d48b;
+            --platinum: #f5f5f5;
+            --smoke: #888888;
+            --nav-height: 80px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none; /* Custom magnetic cursor takes over */
+        }
+
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+
+        body {
+            background-color: var(--obsidian);
+            color: var(--platinum);
+            font-family: 'Space Grotesk', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .font-syne {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .font-serif {
+            font-family: 'Instrument Serif', serif;
+            font-style: italic;
+            text-transform: lowercase;
+            color: var(--champagne);
+            font-weight: 400;
+        }
+
+        /* ==========================================
+           2. PREMIUM OVERLAYS (Grain & Cursor)
+        ========================================== */
+        .film-grain {
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.04;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        .cursor-dot, .cursor-outline {
+            position: fixed;
+            top: 0; left: 0;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            z-index: 10000;
+            pointer-events: none;
+        }
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background-color: var(--champagne);
+        }
+        .cursor-outline {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(201, 168, 76, 0.5);
+            transition: width 0.3s, height 0.3s, background-color 0.3s;
+            mix-blend-mode: difference;
+        }
+        .cursor-hover .cursor-outline {
+            width: 60px; height: 60px;
+            background-color: rgba(201, 168, 76, 0.1);
+            backdrop-filter: blur(2px);
+        }
+
+        /* ==========================================
+           3. PRELOADER
+        ========================================== */
+        #preloader {
+            position: fixed;
+            inset: 0;
+            background: var(--obsidian);
+            z-index: 9000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .loader-text {
+            font-size: 3rem;
+            letter-spacing: 0.5rem;
+            overflow: hidden;
+        }
+        .loader-text span {
+            display: inline-block;
+            transform: translateY(100%);
+        }
+        .loader-progress {
+            margin-top: 2rem;
+            font-family: 'Space Grotesk';
+            color: var(--champagne);
+            font-size: 1.2rem;
+        }
+        .loader-bar-wrap {
+            width: 200px;
+            height: 2px;
+            background: var(--charcoal);
+            margin-top: 1rem;
+            position: relative;
+        }
+        .loader-bar {
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            background: var(--champagne);
+            width: 0%;
+        }
+
+        /* ==========================================
+           4. NAVIGATION
+        ========================================== */
+        nav {
+            position: fixed;
+            top: 0; width: 100%;
+            height: var(--nav-height);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 4rem;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.6);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .logo {
+            font-family: 'Syne';
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+        }
+        .logo span { color: var(--champagne); }
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+        }
+        .nav-links a {
+            color: var(--platinum);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 0;
+            width: 100%; height: 1px;
+            background: var(--champagne);
+            transform: translateX(-101%);
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .nav-links a:hover::after { transform: translateX(0); }
+
+        /* ==========================================
+           5. LIQUID BUTTON (WhatsApp Style SVG Morph)
+        ========================================== */
+        .btn-liquid {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 3rem;
+            background: transparent;
+            color: var(--obsidian);
+            font-family: 'Syne', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            outline: none;
+            overflow: hidden;
+            border-radius: 50px;
+            z-index: 1;
+            transition: color 0.4s ease;
+        }
+        .btn-liquid::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--champagne);
+            z-index: -2;
+            border-radius: 50px;
+        }
+        .btn-liquid::after {
+            content: '';
+            position: absolute;
+            top: 100%; left: 0; right: 0; height: 100%;
+            background: var(--champagne-light);
+            z-index: -1;
+            transition: top 0.6s cubic-bezier(0.19, 1, 0.22, 1);
+            filter: url(#liquid-filter); /* SVG Filter applied */
+            border-radius: 50px;
+        }
+        .btn-liquid:hover::after { top: 0; }
+
+        /* ==========================================
+           6. HERO SECTION (Scroll Frame Animation)
+        ========================================== */
+        .hero {
+            position: relative;
+            height: 300vh; /* Pinned area for scrolling frames */
+            background: var(--obsidian);
+        }
+        .hero-sticky {
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        #hero-canvas {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.6;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            mix-blend-mode: difference;
+        }
+        .hero-content h1 {
+            font-size: clamp(3rem, 8vw, 8rem);
+            line-height: 0.9;
+            margin-bottom: 2rem;
+        }
+        .hero-content .subtitle {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 3rem;
+            color: var(--smoke);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 2;
+        }
+        .scroll-line {
+            width: 1px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .scroll-line::after {
+            content: '';
+            position: absolute;
+            top: -100%; left: 0; width: 100%; height: 100%;
+            background: var(--champagne);
+            animation: scrollDown 2s infinite ease-in-out;
+        }
+        @keyframes scrollDown {
+            0% { top: -100%; }
+            100% { top: 100%; }
+        }
+
+        /* ==========================================
+           7. SERVICES GRID (Parallax Layers)
+        ========================================== */
+        .services {
+            padding: 10rem 4rem;
+            background: var(--obsidian);
+            position: relative;
+        }
+        .section-header {
+            margin-bottom: 6rem;
+            text-align: center;
+        }
+        .section-header h2 {
+            font-size: 4rem;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        .service-card {
+            background: var(--charcoal);
+            padding: 3rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.02);
+            transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(201, 168, 76, 0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.8s;
+        }
+        .service-card:hover::before { transform: translateX(100%); }
+        .service-card:hover {
+            border-color: rgba(201, 168, 76, 0.3);
+            transform: translateY(-10px);
+        }
+        .service-icon {
+            font-size: 2.5rem;
+            color: var(--champagne);
+            margin-bottom: 2rem;
+        }
+        .service-title {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .service-price {
+            font-family: 'Syne';
+            color: var(--champagne);
+            margin-top: 2rem;
+            font-size: 1.2rem;
+        }
+
+        /* ==========================================
+           8. STATS HORIZONTAL SCROLL
+        ========================================== */
+        .stats-wrapper {
+            height: 100vh; /* Will be pinned by GSAP */
+            background: var(--charcoal);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        .stats-container {
+            display: flex;
+            width: 300vw; /* 3 sections */
+            height: 100%;
+        }
+        .stat-panel {
+            width: 100vw;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem;
+        }
+        .stat-number {
+            font-size: 12vw;
+            font-family: 'Syne';
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--champagne);
+            position: relative;
+        }
+        .stat-number::after {
+            content: attr(data-val);
+            position: absolute;
+            left: 0; top: 0;
+            color: var(--champagne);
+            clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%); /* Animated by GSAP */
+            transition: clip-path 1s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .stat-panel.active .stat-number::after {
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        }
+        .stat-label {
+            font-size: 2rem;
+            margin-top: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* ==========================================
+           9. BOOKING FORM (Glassmorphism)
+        ========================================== */
+        .booking-section {
+            padding: 10rem 4rem;
+            background: url('https://images.unsplash.com/photo-1614200187524-dc4b892acf16?q=80&w=2560&auto=format&fit=crop') center/cover no-repeat;
+            position: relative;
+            background-attachment: fixed;
+        }
+        .booking-section::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, var(--obsidian) 0%, rgba(10,10,10,0.7) 100%);
+        }
+        .booking-container {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .glass-form {
+            background: rgba(20, 20, 20, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 4rem;
+            border-radius: 24px;
+        }
+        .form-group {
+            margin-bottom: 2rem;
+            position: relative;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding: 1rem 0;
+            color: var(--platinum);
+            font-family: 'Space Grotesk';
+            font-size: 1.1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-bottom-color: var(--champagne);
+        }
+        .form-group label {
+            position: absolute;
+            top: 1rem; left: 0;
+            color: var(--smoke);
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+        .form-group input:focus ~ label,
+        .form-group input:valid ~ label {
+            top: -10px;
+            font-size: 0.8rem;
+            color: var(--champagne);
+        }
+
+        /* ==========================================
+           10. FOOTER
+        ========================================== */
+        footer {
+            background: var(--obsidian);
+            padding: 6rem 4rem 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        .footer-col h4 {
+            color: var(--champagne);
+            margin-bottom: 2rem;
+        }
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 1rem; }
+        .footer-col a {
+            color: var(--smoke);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-col a:hover { color: var(--platinum); }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--smoke);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .booking-container { grid-template-columns: 1fr; gap: 3rem; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            nav { padding: 0 2rem; }
+            .nav-links { display: none; } /* Add hamburger logic here later */
+            .hero-content h1 { font-size: 3rem; }
+            .services { padding: 5rem 2rem; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .cursor-dot, .cursor-outline { display: none; } /* Hide on mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SVG Definitions for Liquid Filters -->
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+        <filter id="liquid-filter">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="liquid" />
+            <feComposite in="SourceGraphic" in2="liquid" operator="atop" />
+        </filter>
+    </svg>
+
+    <!-- Grain Overlay -->
+    <div class="film-grain"></div>
+
+    <!-- Magnetic Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <h1 class="loader-text font-syne">
+            <span>REV</span> <span class="font-serif">NATION</span>
+        </h1>
+        <div class="loader-progress">0%</div>
+        <div class="loader-bar-wrap">
+            <div class="loader-bar"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">REV<span class="font-serif">NATION</span></div>
+        <div class="nav-links hover-target">
+            <a href="#services">Services</a>
+            <a href="#technology">Technology</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#booking">Book Now</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section (Scroll Canvas) -->
+    <section class="hero">
+        <div class="hero-sticky">
+            <canvas id="hero-canvas"></canvas>
+            
+            <div class="hero-content">
+                <p class="subtitle">Premium Paint Protection</p>
+                <h1 class="font-syne split-text">The Art of <br><span class="font-serif">Invisible Armor</span></h1>
+                <button class="btn-liquid hover-target" onclick="document.getElementById('booking').scrollIntoView()">Protect Your Asset</button>
+            </div>
+
+            <div class="scroll-indicator">
+                <span style="font-size: 0.8rem; letter-spacing: 2px;">SCROLL</span>
+                <div class="scroll-line"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section id="services" class="services">
+        <div class="section-header">
+            <h2 class="font-syne">Our <span class="font-serif">Expertise</span></h2>
+            <p style="color: var(--smoke); margin-top: 1rem;">Precision detailing for the world's finest automobiles.</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Card 1 -->
+            <div class="service-card hover-target">
+                <div class="service-icon">🛡️</div>
+                <h3 class="font-syne service-title">Full Body PPF</h3>
+                <p style="color: var(--smoke);">Complete 10-mil self-healing polyurethane protection for ultimate peace of mind against rocks, chips, and scratches.</p>
+                <div class="service-price">From ₹1,20,000</div>
+            </div>
+            <!-- Card 2 -->
+            <div class="service-card hover-target">
+                <div class="service-icon">✨</div>
+                <h3 class="font-syne service-title">Ceramic Coating</h3>
+                <p style="color: var(--smoke);">9H hardness nano-ceramic layer providing extreme hydrophobicity, gloss enhancement, and UV protection.</p>
+                <div class="service-price">From ₹35,000</div>
+            </div>
+            <!-- Card 3 -->
+            <div class="service-card hover-target">
+                <div class="service-icon">🏎️</div>
+                <h3 class="font-syne service-title">Track Pack PPF</h3>
+                <p style="color: var(--smoke);">High-impact zone coverage: Bumper, hood, fenders, mirrors, and rocker panels designed for spirited driving.</p>
+                <div class="service-price">From ₹65,000</div>
+            </div>
+            <!-- Card 4 -->
+            <div class="service-card hover-target">
+                <div class="service-icon">🖤</div>
+                <h3 class="font-syne service-title">Paint Correction</h3>
+                <p style="color: var(--smoke);">Multi-stage compounding and polishing to remove swirls, scratches, and oxidation. Flawless mirror finish.</p>
+                <div class="service-price">From ₹25,000</div>
+            </div>
+            <!-- Card 5 -->
+            <div class="service-card hover-target">
+                <div class="service-icon">🪟</div>
+                <h3 class="font-syne service-title">Ceramic Tint</h3>
+                <p style="color: var(--smoke);">Advanced heat rejection window film. Blocks 99% UV rays and reduces cabin temperature significantly.</p>
+                <div class="service-price">From ₹18,000</div>
+            </div>
+            <!-- Card 6 -->
+            <div class="service-card hover-target">
+                <div class="service-icon">🛋️</div>
+                <h3 class="font-syne service-title">Interior Detailing</h3>
+                <p style="color: var(--smoke);">Deep extraction, leather conditioning, and interior ceramic coating to protect against spills and dye transfer.</p>
+                <div class="service-price">From ₹12,000</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Horizontal Scroll -->
+    <section id="stats" class="stats-wrapper">
+        <div class="stats-container">
+            <div class="stat-panel">
+                <div class="stat-number" data-val="500+">500+</div>
+                <div class="stat-label font-syne">Supercars <span class="font-serif">Protected</span></div>
+            </div>
+            <div class="stat-panel">
+                <div class="stat-number" data-val="10">10</div>
+                <div class="stat-label font-syne">Years <span class="font-serif">Warranty</span></div>
+            </div>
+            <div class="stat-panel">
+                <div class="stat-number" data-val="100%">100%</div>
+                <div class="stat-label font-syne">Client <span class="font-serif">Satisfaction</span></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section id="booking" class="booking-section">
+        <div class="booking-container">
+            <div class="booking-info">
+                <h2 class="font-syne" style="font-size: 3.5rem; margin-bottom: 2rem;">Secure Your <br><span class="font-serif">Slot</span></h2>
+                <p style="color: var(--platinum); font-size: 1.2rem; line-height: 1.6; margin-bottom: 3rem;">
+                    Due to our meticulous process and high demand, we take a limited number of vehicles per month. Book your consultation to ensure your vehicle gets the Rev Nation standard.
+                </p>
+                
+                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--charcoal); display: flex; align-items: center; justify-content: center; color: var(--champagne);">📍</div>
+                        <p>Radha Kishanpura Rural, Rajasthan, India</p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div style="width: 40px; height: 40px; border-radius: 50%; background: var(--charcoal); display: flex; align-items: center; justify-content: center; color: var(--champagne);">📞</div>
+                        <p>+91 98765 43210</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-form hover-target">
+                <form id="contactForm" onsubmit="event.preventDefault(); alert('Booking logic connects to Supabase here!');">
+                    <div class="form-group">
+                        <input type="text" id="name" required>
+                        <label for="name">Full Name</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="phone" required>
+                        <label for="phone">Phone Number</label>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="vehicle" required>
+                        <label for="vehicle">Vehicle Make & Model</label>
+                    </div>
+                    <div class="form-group">
+                        <select id="service" required>
+                            <option value="" disabled selected></option>
+                            <option value="ppf">Full Body PPF</option>
+                            <option value="ceramic">Ceramic Coating</option>
+                            <option value="track">Track Pack PPF</option>
+                            <option value="other">Other / Consultation</option>
+                        </select>
+                        <label for="service">Interested Service</label>
+                    </div>
+                    <button type="submit" class="btn-liquid hover-target" style="width: 100%; margin-top: 2rem;">Request Consultation</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 2rem;">REV<span class="font-serif">NATION</span></div>
+                <p style="color: var(--smoke); line-height: 1.6;">The premier automotive styling and protection studio in Jaipur. We don't just protect cars; we preserve automotive art.</p>
+            </div>
+            <div class="footer-col">
+                <h4 class="font-syne">Services</h4>
+                <ul>
+                    <li><a href="#" class="hover-target">Paint Protection Film</a></li>
+                    <li><a href="#" class="hover-target">Ceramic Coating</a></li>
+                    <li><a href="#" class="hover-target">Paint Correction</a></li>
+                    <li><a href="#" class="hover-target">Window Tinting</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="font-syne">Company</h4>
+                <ul>
+                    <li><a href="#" class="hover-target">About Us</a></li>
+                    <li><a href="#" class="hover-target">Gallery</a></li>
+                    <li><a href="#" class="hover-target">FAQ</a></li>
+                    <li><a href="#" class="hover-target">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="font-syne">Connect</h4>
+                <ul>
+                    <li><a href="#" class="hover-target">Instagram</a></li>
+                    <li><a href="#" class="hover-target">YouTube</a></li>
+                    <li><a href="#" class="hover-target">WhatsApp</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Rev Nation Jaipur. All rights reserved.</p>
+            <p>Designed for Excellence.</p>
+        </div>
+    </footer>
+
+    <!-- JS LOGIC: Animations, ScrollTrigger, Cursor, Setup -->
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.registerPlugin(ScrollTrigger);
+
+            /* ==========================================
+               1. SMOOTH SCROLL (LENIS)
+            ========================================== */
+            const lenis = new Lenis({
+                duration: 1.2,
+                easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+                direction: 'vertical',
+                gestureDirection: 'vertical',
+                smooth: true,
+                mouseMultiplier: 1,
+                smoothTouch: false,
+                touchMultiplier: 2,
+                infinite: false,
+            });
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            /* ==========================================
+               2. MAGNETIC CURSOR
+            ========================================== */
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const hoverTargets = document.querySelectorAll('.hover-target, a, button');
+
+            window.addEventListener('mousemove', (e) => {
+                const posX = e.clientX;
+                const posY = e.clientY;
+
+                // Instant dot follow
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+
+                // Smooth outline follow
+                cursorOutline.animate({
+                    left: `${posX}px`,
+                    top: `${posY}px`
+                }, { duration: 500, fill: "forwards" });
+            });
+
+            hoverTargets.forEach(target => {
+                target.addEventListener('mouseenter', () => {
+                    document.body.classList.add('cursor-hover');
+                });
+                target.addEventListener('mouseleave', () => {
+                    document.body.classList.remove('cursor-hover');
+                });
+            });
+
+            /* ==========================================
+               3. PRELOADER ANIMATION
+            ========================================== */
+            const tlPreload = gsap.timeline();
+            
+            // Simulate loading progress
+            let progress = { val: 0 };
+            tlPreload.to(progress, {
+                val: 100,
+                duration: 2,
+                ease: "power2.inOut",
+                onUpdate: function() {
+                    document.querySelector('.loader-progress').innerHTML = Math.round(progress.val) + "%";
+                    document.querySelector('.loader-bar').style.width = progress.val + "%";
+                }
+            })
+            .to('.loader-text span', { y: 0, duration: 1, stagger: 0.2, ease: "power4.out" }, "-=1.5")
+            .to('#preloader', { yPercent: -100, duration: 1, ease: "power4.inOut", delay: 0.5 })
+            .from('.hero-content h1', { y: 100, opacity: 0, duration: 1, ease: "power4.out" }, "-=0.5")
+            .from('.hero-content .subtitle', { opacity: 0, duration: 1 }, "-=0.8");
+
+            /* ==========================================
+               4. CANVAS SCROLL SEQUENCE (Apple-Style)
+            ========================================== */
+            const canvas = document.getElementById("hero-canvas");
+            const context = canvas.getContext("2d");
+
+            // For the demo, we use high-quality placeholder car images from Unsplash
+            // In production, replace these with your 8 Supabase/Cloudinary frame URLs
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const frameCount = 8;
+            const currentFrame = index => (
+                `https://images.unsplash.com/photo-1503376760366-5a4ed4f70af5?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3` 
+                // Note: Normally you'd interpolate ${index.toString().padStart(4, '0')}.jpg here
+                // We use one static hi-res URL and adjust opacity/zoom via GSAP to simulate the effect for a standalone file.
+            );
+
+            const images = [];
+            const frames = { frame: 0 };
+
+            // Preload 1 image (simulating 8 for the single-file demo)
+            const img = new Image();
+            img.src = currentFrame(1);
+            img.onload = render;
+
+            function render() {
+                // To create the premium parallax zoom effect on the image
+                const scale = 1 + (frames.frame / frameCount) * 0.2; 
+                const w = canvas.width * scale;
+                const h = canvas.height * scale;
+                const x = (canvas.width - w) / 2;
+                const y = (canvas.height - h) / 2;
+                
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                context.drawImage(img, x, y, w, h);
+            }
+
+            // Tie frames to ScrollTrigger
+            gsap.to(frames, {
+                frame: frameCount - 1,
+                snap: "frame",
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".hero",
+                    start: "top top",
+                    end: "bottom bottom",
+                    scrub: 1, // Smooth scrub
+                },
+                onUpdate: render
+            });
+
+            // Handle Resize for Canvas
+            window.addEventListener("resize", () => {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+                render();
+            });
+
+            /* ==========================================
+               5. HORIZONTAL STATS SCROLL
+            ========================================== */
+            const statsContainer = document.querySelector('.stats-container');
+            const statPanels = gsap.utils.toArray('.stat-panel');
+
+            gsap.to(statPanels, {
+                xPercent: -100 * (statPanels.length - 1),
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".stats-wrapper",
+                    pin: true,
+                    scrub: 1,
+                    snap: 1 / (statPanels.length - 1),
+                    end: () => "+=" + document.querySelector(".stats-wrapper").offsetWidth
+                }
+            });
+
+            // Animate stats text clipping on view
+            statPanels.forEach(panel => {
+                ScrollTrigger.create({
+                    trigger: panel,
+                    containerAnimation: gsap.getById("statsScrollTween"),
+                    start: "left center",
+                    toggleClass: "active"
+                });
+            });
+
+            /* ==========================================
+               6. SERVICES STAGGER REVEAL
+            ========================================== */
+            gsap.from(".service-card", {
+                y: 100,
+                opacity: 0,
+                duration: 0.8,
+                stagger: 0.1,
+                scrollTrigger: {
+                    trigger: ".services-grid",
+                    start: "top 80%",
+                }
+            });
+
+            /* ==========================================
+               7. CONFIGURATION / API NOTES
+            ========================================== */
+            // Note on Supabase / Cloudinary Integration:
+            // For the frontend index.html, we don't expose secret keys. 
+            // When fetching gallery images dynamically, use the Anon Key provided:
+            const SUPABASE_URL = "https://yidiixcqffkwuucuenvc.supabase.co";
+            const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9... (Truncated for safety)";
+            
+            // Example Fetch Function (Commented out for static demo)
+            /*
+            async function loadGallery() {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/gallery`, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    }
+                });
+                const data = await response.json();
+                // Inject into DOM...
+            }
+            */
+        });
+    </script>
+</body>
+</html>
