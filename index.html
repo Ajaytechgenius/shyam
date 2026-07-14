@@ -163,13 +163,12 @@ body.menu-open{overflow:hidden;}
 @media(max-width:900px){.authority-grid{grid-template-columns:1fr;gap:40px;}.stat-grid{grid-template-columns:1fr 1fr;}}
 
 /* ============================================================
-  PPF — Premium Shield Reveal Animation
+  PPF — Normal section (no scroll trap)
   ============================================================ */
-#ppf-scene{height:200vh;position:relative;background:var(--void);}
-.ppf-sticky{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-.ppf-bg-grid{position:absolute;inset:0;background-image:radial-gradient(circle,var(--line) 1px,transparent 1px);background-size:48px 48px;opacity:.25;mask-image:radial-gradient(ellipse at 50% 50%,black 0%,transparent 70%);}
-.ppf-heading{position:absolute;top:100px;left:0;right:0;text-align:center;z-index:5;opacity:0;transition:opacity .5s var(--ease);}
-.ppf-heading.active{opacity:1;}
+#ppf-scene{position:relative;background:var(--void);padding:128px 0;overflow:hidden;}
+.ppf-inner{display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;min-height:80vh;}
+.ppf-bg-grid{position:absolute;inset:0;background-image:radial-gradient(circle,var(--line) 1px,transparent 1px);background-size:48px 48px;opacity:.25;mask-image:radial-gradient(ellipse at 50% 50%,black 0%,transparent 70%);pointer-events:none;}
+.ppf-heading{text-align:center;z-index:5;margin-bottom:48px;}
 .ppf-heading h3{font-size:clamp(22px,3vw,34px);font-weight:800;}
 .ppf-heading .eyebrow{justify-content:center;margin-bottom:12px;}
 
@@ -211,11 +210,6 @@ body.menu-open{overflow:hidden;}
 .shield-pulse.p2{width:300px;height:300px;animation-delay:1s;}
 .shield-pulse.p3{width:420px;height:420px;animation-delay:2s;}
 
-.ppf-final-msg{position:absolute;bottom:100px;left:0;right:0;text-align:center;z-index:5;font-family:var(--display);font-size:clamp(18px,2.4vw,28px);font-weight:700;opacity:0;transition:opacity .6s var(--ease);}
-.ppf-final-msg.active{opacity:1;}
-.ppf-progress{position:absolute;bottom:50px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:5;}
-.ppf-progress i{width:28px;height:2px;background:var(--line-strong);border-radius:1px;transition:background .3s var(--ease);}
-.ppf-progress i.active{background:var(--accent);}
 
 /* ============================================================
   SERVICES — Premium Capsule Tabs
@@ -362,12 +356,7 @@ footer{background:var(--graphite);border-top:1px solid var(--line);padding:80px 
 #sound-toggle{position:fixed;bottom:26px;left:26px;z-index:80;width:42px;height:42px;border-radius:50%;background:rgba(20,20,22,.7);backdrop-filter:blur(8px);border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;color:var(--ink-dim);transition:.3s var(--ease);}
 #sound-toggle:hover{color:var(--ink);}
 #sound-toggle svg{width:16px;height:16px;}
-@media(prefers-reduced-motion:reduce){*{animation-duration:0.001ms!important;animation-iteration-count:1!important;transition-duration:0.2s!important;scroll-behavior:auto!important;}.reveal{opacity:1;transform:none;filter:none;}#ppf-scene{height:auto;}.ppf-sticky{position:relative;height:auto;padding:100px 0;}}
-/* When no GSAP loaded, collapse PPF to normal section */
-body.no-gsap #ppf-scene{height:auto;min-height:100vh;}
-body.no-gsap .ppf-sticky{position:relative;height:auto;min-height:100vh;padding:100px 0;}
-body.no-gsap .ppf-sticky .ppf-shield{position:relative;width:min(80vw,900px);height:min(50vw,560px);}
-body.no-gsap .ppf-progress{display:none;}
+@media(prefers-reduced-motion:reduce){*{animation-duration:0.001ms!important;animation-iteration-count:1!important;transition-duration:0.2s!important;scroll-behavior:auto!important;}.reveal{opacity:1;transform:none;filter:none;}}
 .visually-hidden{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);}
 </style>
 </head>
@@ -429,13 +418,9 @@ body.no-gsap .ppf-progress{display:none;}
 
 <!-- PPF — Premium Shield Reveal -->
 <section id="ppf-scene">
-  <div class="ppf-sticky">
+  <div class="ppf-inner">
     <div class="ppf-bg-grid"></div>
-    <div class="ppf-heading" data-stage="0"><div class="eyebrow">Signature Sequence</div><h3>Protection beneath the surface.</h3></div>
-    <div class="ppf-heading" data-stage="1"><div class="eyebrow">Layer 01</div><h3>Optically clear protection</h3></div>
-    <div class="ppf-heading" data-stage="2"><div class="eyebrow">Layer 02</div><h3>Impact resistance</h3></div>
-    <div class="ppf-heading" data-stage="3"><div class="eyebrow">Layer 03</div><h3>Self-healing top coat</h3></div>
-    <div class="ppf-heading" data-stage="4"><div class="eyebrow">Full System</div><h3>Every panel, engineered as armor.</h3></div>
+    <div class="ppf-heading"><div class="eyebrow">Signature Sequence</div><h3>Protection beneath the surface.</h3></div>
 
     <div class="ppf-shield" id="ppfShieldWrap">
       <!-- Frame scroll-scrub canvas (shown when frames exist) -->
@@ -459,8 +444,7 @@ body.no-gsap .ppf-progress{display:none;}
       <div class="ppf-feature" id="feat3"><div class="ppf-feature-card"><div class="f-label">Self-Healing</div><div class="f-desc">Scratches vanish with heat</div></div><div class="f-dot"></div><div class="f-line" style="background:linear-gradient(270deg,var(--accent),transparent);"></div></div>
     </div>
 
-    <div class="ppf-final-msg" data-stage="5">Invisible protection. Visible confidence.</div>
-    <div class="ppf-progress"><i data-p="0"></i><i data-p="1"></i><i data-p="2"></i><i data-p="3"></i><i data-p="4"></i><i data-p="5"></i></div>
+    </div>
   </div>
 </section>
 
@@ -575,7 +559,7 @@ body.no-gsap .ppf-progress{display:none;}
 <!-- FOOTER -->
 <footer id="siteFooter">
   <div class="container">
-    <div class="foot-top"><div class="foot-word">REV NATION</div><div class="foot-cols"><div class="foot-col"><h5>Studio</h5><p>Vaishali Nagar, Jaipur</p><p>Rajasthan, India</p></div><div class="foot-col"><h5>Contact</h5><a href="tel:+910000000000">+91 00000 00000</a><a href="/cdn-cgi/l/email-protection#b9cacdccddd0d6f9cbdccfd7d8cdd0d6d797dcc1d8d4c9d5dc"><span class="__cf_email__" data-cfemail="5122252435383e112334273f3025383e3f7f3429303c213d34">[email&#160;protected]</span></a></div><div class="foot-col"><h5>Studio Links</h5><a href="#services">Services</a><a href="#builds">Builds</a><a href="#booking">Booking</a></div><div class="foot-col"><h5>Follow</h5><a href="#">Instagram</a><a href="#">YouTube</a></div></div></div>
+    <div class="foot-top"><div class="foot-word">REV NATION</div><div class="foot-cols"><div class="foot-col"><h5>Studio</h5><p>Vaishali Nagar, Jaipur</p><p>Rajasthan, India</p></div><div class="foot-col"><h5>Contact</h5><a href="tel:+910000000000">+91 00000 00000</a><a href="/cdn-cgi/l/email-protection#96e5e2e3f2fff9d6e4f3e0f8f7e2fff9f8b8f3eef7fbe6faf3"><span class="__cf_email__" data-cfemail="a6d5d2d3c2cfc9e6d4c3d0c8c7d2cfc9c888c3dec7cbd6cac3">[email&#160;protected]</span></a></div><div class="foot-col"><h5>Studio Links</h5><a href="#services">Services</a><a href="#builds">Builds</a><a href="#booking">Booking</a></div><div class="foot-col"><h5>Follow</h5><a href="#">Instagram</a><a href="#">YouTube</a></div></div></div>
     <div class="foot-bottom"><p>© 2026 Rev Nation Jaipur. All rights reserved.</p><button class="back-top" id="backTop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>
   </div>
 </footer>
@@ -683,11 +667,6 @@ async function initSite() {
   var hasGsap = !!window.gsap;
   var hasST = !!window.ScrollTrigger;
   var hasLenis = !!window.Lenis;
-
-  // If no GSAP, collapse PPF scroll trap to normal section
-  if (!hasGsap || !hasST) {
-    document.body.classList.add('no-gsap');
-  }
 
   if (hasGsap && hasST) { try { gsap.registerPlugin(ScrollTrigger); } catch(e){ console.warn('ScrollTrigger register failed:',e); } }
 
@@ -808,50 +787,56 @@ async function initSite() {
   },{threshold:0.3});
   if(document.getElementById('authority')) cIo.observe(document.getElementById('authority'));
 
-  // ---- PPF SHIELD ANIMATION ----
-  var headings=document.querySelectorAll('.ppf-heading');
-  var finalMsg=document.querySelector('.ppf-final-msg');
-  var progressDots=document.querySelectorAll('.ppf-progress i');
+  // ---- PPF SHIELD — show animation on viewport enter ----
+  var shieldGlow=document.getElementById('shieldGlow');
   var ring1=document.getElementById('ring1');
   var ring2=document.getElementById('ring2');
   var ring3=document.getElementById('ring3');
   var feat1=document.getElementById('feat1');
   var feat2=document.getElementById('feat2');
   var feat3=document.getElementById('feat3');
-  var shieldGlow=document.getElementById('shieldGlow');
   var pulse1=document.getElementById('pulse1');
   var pulse2=document.getElementById('pulse2');
   var pulse3=document.getElementById('pulse3');
 
-  function setPPFStage(stage){
+  function revealShield(){
     try {
-      headings.forEach(function(h){h.classList.toggle('active',parseInt(h.dataset.stage)===Math.min(stage,4));});
-      if(finalMsg) finalMsg.classList.toggle('active',stage===5);
-      progressDots.forEach(function(d){d.classList.toggle('active',parseInt(d.dataset.p)<=stage);});
-      if(ring1)ring1.classList.toggle('visible',stage>=1);
-      if(ring2)ring2.classList.toggle('visible',stage>=2);
-      if(ring3)ring3.classList.toggle('visible',stage>=3);
-      if(shieldGlow)shieldGlow.classList.toggle('visible',stage>=3);
-      if(feat1)feat1.classList.toggle('visible',stage===1);
-      if(feat2)feat2.classList.toggle('visible',stage===2);
-      if(feat3)feat3.classList.toggle('visible',stage===3);
-      if(pulse1)pulse1.style.opacity=stage>=1?'1':'0';
-      if(pulse2)pulse2.style.opacity=stage>=2?'1':'0';
-      if(pulse3)pulse3.style.opacity=stage>=3?'1':'0';
+      if(ring1){ring1.classList.add('visible');ring1.style.transitionDelay='0.1s';}
+      if(ring2){ring2.classList.add('visible');ring2.style.transitionDelay='0.3s';}
+      if(ring3){ring3.classList.add('visible');ring3.style.transitionDelay='0.5s';}
+      if(shieldGlow){shieldGlow.classList.add('visible');shieldGlow.style.transitionDelay='0.4s';}
+      if(feat1){feat1.classList.add('visible');feat1.style.transitionDelay='0.6s';}
+      if(feat2){feat2.classList.add('visible');feat2.style.transitionDelay='0.8s';}
+      if(feat3){feat3.classList.add('visible');feat3.style.transitionDelay='1.0s';}
+      if(pulse1)pulse1.style.opacity='1';
+      if(pulse2)pulse2.style.opacity='1';
+      if(pulse3)pulse3.style.opacity='1';
       var core=document.getElementById('shieldCore');
-      if(core) core.style.boxShadow=stage>=4?'0 0 40px var(--accent),0 0 80px var(--accent-dim)':'';
+      if(core)core.style.boxShadow='0 0 40px var(--accent),0 0 80px var(--accent-dim)';
     } catch(e){}
   }
-  setPPFStage(0);
+
+  // Observe PPF section — reveal when it enters viewport
+  var ppfScene=document.getElementById('ppf-scene');
+  if(ppfScene){
+    var ppfIo=new IntersectionObserver(function(entries){
+      entries.forEach(function(x){
+        if(x.isIntersecting){
+          setTimeout(revealShield,200);
+          ppfIo.unobserve(ppfScene);
+        }
+      });
+    },{threshold:0.2});
+    ppfIo.observe(ppfScene);
+  }
 
   // ---- FRAME SCROLL-SCRUB PLAYER ----
-  // Premium scroll-driven frame animation for PPF section
+  // If frames exist in DB for PPF, show canvas instead of shield
   var ppfCanvas = document.getElementById('ppfCanvas');
   var ppfShieldInner = document.getElementById('ppfShieldInner');
   var frameImages = [];
   var framePlayerReady = false;
 
-  // Check if we have frame URLs from the DB load
   var ppfFrameURLs = window.__ppfFrameFiles;
   if (ppfFrameURLs && ppfFrameURLs.length > 0 && db && ppfCanvas) {
     var totalFrames = ppfFrameURLs.length;
@@ -881,11 +866,8 @@ async function initSite() {
       frameImages[fi] = img;
     }
 
-    // Timeout: if frames don't load in 15s, give up and show shield
     setTimeout(function() {
-      if (!framePlayerReady) {
-        console.warn('[Frame Player] Timeout — falling back to shield animation');
-      }
+      if (!framePlayerReady) console.warn('[Frame Player] Timeout — using shield animation');
     }, 15000);
   } else {
     console.log('[Frame Player] No frame sequences found — using shield animation');
@@ -896,39 +878,40 @@ async function initSite() {
     framePlayerReady = true;
     console.log('[Frame Player] Activating canvas player');
 
-    // Hide shield animation, show canvas
     if (ppfShieldInner) ppfShieldInner.classList.add('hidden');
     ppfCanvas.style.display = 'block';
 
-    // Set canvas internal resolution from first valid image
-    var foundSize = false;
     for (var i = 0; i < frameImages.length; i++) {
       if (frameImages[i] && frameImages[i].complete && frameImages[i].naturalWidth > 0) {
         ppfCanvas.width = frameImages[i].naturalWidth;
         ppfCanvas.height = frameImages[i].naturalHeight;
-        console.log('[Frame Player] Canvas size: ' + ppfCanvas.width + 'x' + ppfCanvas.height);
-        foundSize = true;
         break;
       }
     }
-    if (!foundSize) {
-      // Fallback: use container size
-      var rect = ppfCanvas.parentElement.getBoundingClientRect();
-      ppfCanvas.width = rect.width * (window.devicePixelRatio || 1);
-      ppfCanvas.height = rect.height * (window.devicePixelRatio || 1);
-    }
-
-    // Draw first frame
     drawFrame(0);
+
+    // Scroll-driven frame scrub: as you scroll past the section, frames progress
+    var ppfSection = document.getElementById('ppf-scene');
+    if (ppfSection) {
+      var scrollHandler = function() {
+        if (!framePlayerReady) return;
+        var rect = ppfSection.getBoundingClientRect();
+        // Progress from when section top enters viewport bottom to when section bottom exits viewport top
+        var viewH = window.innerHeight;
+        var sectionH = ppfSection.offsetHeight;
+        var progress = 1 - (rect.bottom / (viewH + sectionH));
+        progress = Math.max(0, Math.min(1, progress));
+        drawFrame(progress * (frameImages.length - 1));
+      };
+      window.addEventListener('scroll', scrollHandler, {passive: true});
+    }
   }
 
   function drawFrame(index) {
     if (!ppfCanvas || !ppfCanvas.getContext) return;
-    // Find nearest loaded frame
     index = Math.max(0, Math.min(frameImages.length - 1, Math.round(index)));
     var img = frameImages[index];
     if (!img || !img.complete || img.naturalWidth === 0) {
-      // Try to find nearest valid frame
       for (var offset = 1; offset < frameImages.length; offset++) {
         var before = frameImages[Math.max(0, index - offset)];
         if (before && before.complete && before.naturalWidth > 0) { img = before; break; }
@@ -940,67 +923,12 @@ async function initSite() {
     try {
       var ctx = ppfCanvas.getContext('2d');
       ctx.clearRect(0, 0, ppfCanvas.width, ppfCanvas.height);
-      // Draw image to fill canvas (CSS handles the display sizing)
       var cw = ppfCanvas.width, ch = ppfCanvas.height;
       var iw = img.naturalWidth, ih = img.naturalHeight;
-      // Calculate cover-fit dimensions
       var scale = Math.max(cw / iw, ch / ih);
       var sw = iw * scale, sh = ih * scale;
-      var sx = (cw - sw) / 2, sy = (ch - sh) / 2;
-      ctx.drawImage(img, sx, sy, sw, sh);
+      ctx.drawImage(img, (cw - sw) / 2, (ch - sh) / 2, sw, sh);
     } catch(e) {}
-  }
-
-  // Override the PPF scroll handler to also drive the frame player
-  var ppfScrollTriggerActive = false;
-
-  if(hasGsap && hasST && !rm){
-    try {
-      gsap.timeline({
-        scrollTrigger:{
-          trigger:'#ppf-scene',start:'top top',end:'bottom bottom',scrub:0.6,
-          onUpdate:function(self){
-            var p=self.progress;
-            var stage=p<0.10?0:p<0.25?1:p<0.42?2:p<0.58?3:p<0.82?4:5;
-            setPPFStage(stage);
-            // Drive frame player if active
-            if (framePlayerReady && frameImages.length > 0) {
-              var frameIdx = p * (frameImages.length - 1);
-              drawFrame(frameIdx);
-            }
-          }
-        }
-      });
-      ppfScrollTriggerActive = true;
-      console.log('[PPF] GSAP ScrollTrigger active');
-    } catch(e){ console.warn('PPF animation failed:',e); setPPFStage(5); }
-  } else {
-    // No GSAP — show final shield state or frame player with basic scroll
-    if (frameImages.length > 0 || window.__ppfFrameFiles) {
-      setPPFStage(3); // Show mid-state as default
-      try {
-        var ppfSection = document.getElementById('ppf-scene');
-        if (ppfSection) {
-          var scrollHandler = function() {
-            if (!framePlayerReady) return;
-            var rect = ppfSection.getBoundingClientRect();
-            var totalHeight = ppfSection.offsetHeight - window.innerHeight;
-            if (totalHeight <= 0) return;
-            var scrolled = -rect.top;
-            var progress = Math.max(0, Math.min(1, scrolled / totalHeight));
-            var frameIdx = progress * (frameImages.length - 1);
-            drawFrame(frameIdx);
-            var stage = progress < 0.10 ? 0 : progress < 0.25 ? 1 : progress < 0.42 ? 2 : progress < 0.58 ? 3 : progress < 0.82 ? 4 : 5;
-            setPPFStage(stage);
-          };
-          window.addEventListener('scroll', scrollHandler, {passive: true});
-          console.log('[PPF] Fallback scroll listener active');
-        }
-      } catch(e){ console.warn('PPF fallback scroll failed:',e); }
-    } else {
-      // No frames, no GSAP — just show a nice static PPF section
-      setPPFStage(4);
-    }
   }
 
   // ---- SERVICE CAPSULE TABS ----
@@ -1148,6 +1076,5 @@ async function initSite() {
   window.addEventListener('load',function(){try{if(hasST)ScrollTrigger.refresh();}catch(e){}});
 }
 </script>
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","server_timing":{"name":{"cfCacheStatus":true,"cfEdge":true,"cfExtPri":true,"cfL4":true,"cfOrigin":true,"cfSpeedBrain":true},"location_startswith":null}}' crossorigin="anonymous"></script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1b1c42c9cef9198',t:'MTc4NDA0NTA5OA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a1b1d0fe2997518d',t:'MTc4NDA0NTYyNA=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
