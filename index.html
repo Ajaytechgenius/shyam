@@ -100,7 +100,6 @@ header {
   border: 1px solid rgba(255,255,255,0.08); display: flex; align-items: center; justify-content: space-between;
   transition: all 0.8s var(--ease-out); overflow: hidden;
 }
-/* CHANGED LOGO COLOR TO PREMIUM RED/IGNITION */
 .header-logo { font-family: var(--display); font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 10px; color: var(--ignition-bright); transition: all 0.6s var(--ease-out); text-transform: uppercase; letter-spacing: 1px;}
 .header-logo .mark { width: 24px; height: 24px; flex-shrink: 0; transition: all 0.6s var(--ease-out); }
 .header-links { display: flex; gap: 40px; position: absolute; left: 50%; transform: translateX(-50%); transition: all 0.6s var(--ease-out); }
@@ -164,13 +163,13 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .hero.revealed p.sub { opacity: 1; transform: translateY(0); }
 .hero-actions { margin-top: 48px; display: flex; gap: 20px; flex-wrap: wrap; opacity: 0; transform: translateY(20px); transition: all 0.8s var(--ease-out) 0.7s; }
 .hero.revealed .hero-actions { opacity: 1; transform: translateY(0); }
-   /* --- MARQUEE (Fixed Spacing & Premium Font) --- */
+   /* --- MARQUEE (Fixed Premium Spacing) --- */
 .marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--graphite); padding: 24px 0; }
 .marquee-track { display: flex; gap: 120px; width: max-content; animation: marquee-scroll 35s linear infinite; }
 .marquee-track span { font-family: var(--display); font-weight: 500; font-size: 15px; letter-spacing: 0.15em; color: var(--ink-faint); text-transform: uppercase; white-space: nowrap; }
 @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* --- ASYMMETRICAL AUTHORITY STATS (Perfect Image 2 Match) --- */
+/* --- ASYMMETRICAL AUTHORITY STATS --- */
 #authority { background: var(--void); }
 .authority-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
 .authority-left h2 { font-family: var(--body); font-size: clamp(32px, 3.5vw, 48px); font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; margin-top: 16px; color: var(--ink); }
@@ -187,23 +186,50 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .stat-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.15em; margin-top: 16px; text-transform: uppercase; }
 @media(max-width: 900px) { .authority-grid { grid-template-columns: 1fr; gap: 60px; } .stat-grid { gap: 40px 20px; } .stat:nth-child(-n+3)::after { bottom: -20px; } }
 
-/* --- THE DESTINATION ACCORDION (Replaces PPF) --- */
-#destination { height: 100vh; min-height: 600px; display: flex; background: #000; overflow: hidden; }
-.dest-pillar { flex: 1; position: relative; border-right: 1px solid rgba(255,255,255,0.05); transition: flex 0.8s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; overflow: hidden; }
-.dest-pillar:last-child { border-right: none; }
-.dest-pillar:hover { flex: 3; }
-.dest-bg { position: absolute; inset: 0; background-size: cover; background-position: center; opacity: 0.4; transition: opacity 0.8s var(--ease), transform 1.5s var(--ease); transform: scale(1.1); filter: grayscale(100%); }
-.dest-pillar:hover .dest-bg { opacity: 0.8; transform: scale(1); filter: grayscale(0%); }
-.dest-content { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: flex-end; padding: 40px; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 60%); }
-.dest-title { font-family: var(--display); font-size: 32px; font-weight: 600; color: #fff; margin-bottom: 8px; white-space: nowrap; }
-.dest-desc { font-family: var(--mono); font-size: 12px; color: var(--accent-bright); letter-spacing: 0.1em; text-transform: uppercase; opacity: 0; transform: translateY(10px); transition: all 0.4s var(--ease); white-space: nowrap; }
-.dest-pillar:hover .dest-desc { opacity: 1; transform: translateY(0); transition-delay: 0.2s; }
-@media(max-width: 900px) { #destination { flex-direction: column; } .dest-pillar { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.05); } }
+/* --- LUXURY DESTINATION CARDS (Focus Expanding Grid) --- */
+#destination { background: var(--void); padding: 140px 0; overflow: hidden; }
+.dest-container { 
+  display: flex; gap: 16px; height: 500px; width: 100%; 
+  max-width: 1300px; margin: 0 auto; padding: 0 40px; 
+}
+.dest-card { 
+  position: relative; flex: 1; border-radius: 24px; overflow: hidden; cursor: pointer;
+  transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); background: var(--surface);
+}
+.dest-bg { 
+  position: absolute; inset: 0; background-size: cover; background-position: center; 
+  transition: transform 0.7s var(--ease), filter 0.7s var(--ease); filter: brightness(0.5);
+}
+
+/* The Magic Hover Effect: Blur & shrink the others, expand the hovered one */
+.dest-container:hover .dest-card { flex: 0.5; opacity: 0.4; filter: blur(4px); transform: scale(0.97); }
+.dest-container .dest-card:hover { 
+  flex: 3.5; opacity: 1; filter: blur(0); transform: scale(1); z-index: 2; 
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+}
+.dest-card:hover .dest-bg { transform: scale(1.05); filter: brightness(0.85); }
+
+/* Text appears only on hover */
+.dest-content { 
+  position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: flex-end; 
+  background: linear-gradient(0deg, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0) 60%);
+  opacity: 0; transform: translateY(20px); transition: all 0.5s var(--ease) 0.15s; pointer-events: none;
+}
+.dest-card:hover .dest-content { opacity: 1; transform: translateY(0); }
+.dest-content h3 { font-family: var(--display); font-size: clamp(24px, 3vw, 40px); color: var(--ink); margin-bottom: 8px; white-space: nowrap; }
+.dest-content p { font-family: var(--mono); font-size: 13px; color: var(--accent-bright); letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap; }
+
+/* Mobile fallback */
+@media(max-width: 900px) { 
+  .dest-container { flex-direction: column; height: auto; padding: 0 24px; gap: 24px; }
+  .dest-card { height: 250px; flex: auto !important; opacity: 1 !important; filter: none !important; transform: none !important; }
+  .dest-content { opacity: 1; transform: translateY(0); background: linear-gradient(0deg, rgba(10,10,11,0.9) 0%, rgba(10,10,11,0.2) 100%); }
+}
 
 /* --- SERVICES (Strict 50/50 Layout Fix) --- */
 #services { padding: 140px 0; background: var(--void); position: relative; }
 .services-layout { display: flex; align-items: flex-start; gap: 100px; }
-.service-list-wrap { flex: 1; min-width: 0; } /* min-width 0 prevents flex child from expanding past container */
+.service-list-wrap { flex: 1; min-width: 0; } 
 .service-media-wrap { width: 50%; position: sticky; top: 120px; height: calc(100vh - 180px); max-height: 720px; display: flex; align-items: center; flex-shrink: 0; }
 
 .service-list { border-top: 1px solid var(--line); }
@@ -241,7 +267,7 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .build-card.build-end { justify-content: center; gap: 20px; padding: 48px; background: transparent; border-style: dashed; box-shadow: none; align-items: center; text-align: center; }
 @media(max-width: 900px) { .builds-layout { gap: 40px; } .builds-viewport { width: 100vw; padding-left: 24px; overflow-x: auto; -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; padding-bottom: 20px; } .build-card { scroll-snap-align: start; width: 85vw; max-width: 400px; } }
 
-/* Process Tabs & Reviews & Booking (Condensed slightly to save space) */
+/* Compare Slider */
 #compare { background: var(--void); }
 .compare-frame { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); user-select: none; background: var(--void); }
 .compare-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; }
@@ -254,6 +280,7 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .compare-handle .grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 50%; background: var(--void); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0,0,0,0.5); pointer-events: none; }
 .compare-handle .grip svg { width: 16px; height: 16px; color: var(--accent); }
 
+/* Process Tabs */
 #process { background: var(--graphite); }
 .process-tabs { display: flex; border-bottom: 1px solid var(--line); position: relative; margin-bottom: 80px; cursor: pointer; }
 .ptab { flex: 1; padding: 28px 0; text-align: center; font-family: var(--display); font-size: clamp(18px, 2vw, 24px); color: var(--ink-dim); transition: all 0.3s var(--ease); }
@@ -270,7 +297,15 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .p-text h4 { font-size: clamp(28px, 3vw, 40px); margin-bottom: 20px; color: var(--ink); }
 .p-text p { color: var(--ink-dim); font-size: 18px; line-height: 1.6; }
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@media(max-width: 900px) { 
+  .process-tabs { overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 10px; white-space: nowrap; } 
+  .ptab { flex: 0 0 75%; scroll-snap-align: start; padding: 16px 0; }
+  .ptab-indicator { width: 75%; }
+  .process-content { grid-template-columns: 1fr; gap: 40px; } 
+  .p-media { order: -1; }  
+}
 
+/* Reviews */
 #testimonials { background: var(--void); }
 .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 64px; }
 .testi-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; gap: 24px; transition: all 0.4s var(--ease); }
@@ -282,6 +317,7 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .testi-card .author h5 { font-size: 18px; color: var(--ink); margin-bottom: 6px; font-family: var(--display); }
 .testi-card .author span { font-size: 14px; color: var(--ink-faint); font-family: var(--mono); }
 
+/* Booking */
 #booking { background: var(--graphite); position: relative; overflow: hidden; }
 .booking-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 900px; height: 900px; background: radial-gradient(circle, rgba(193,127,62,0.06) 0%, transparent 65%); pointer-events: none; }
 .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; position: relative; z-index: 1; }
@@ -297,6 +333,7 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .confirm-card { position: absolute; inset: 0; background: var(--surface); border: 1px solid var(--accent); border-radius: 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 48px; opacity: 0; transform: scale(.97); pointer-events: none; transition: all 0.5s var(--ease); }
 .confirm-card.show { opacity: 1; transform: scale(1); pointer-events: auto; }
 .confirm-card svg { width: 42px; height: 42px; color: var(--accent); margin-bottom: 20px; }
+@media(max-width: 900px) { .booking-grid { grid-template-columns: 1fr; gap: 56px; } .field-row { grid-template-columns: 1fr; } }
 
 /* Footer */
 footer { background: var(--void); border-top: 1px solid var(--line); padding: 100px 0 40px; }
@@ -444,43 +481,62 @@ footer { background: var(--void); border-top: 1px solid var(--line); padding: 10
   </div>
 </section>
 
-<!-- LUXURY DESTINATION ACCORDION (Replaces PPF Section) -->
+<!-- LUXURY DESTINATION EXPERIENCE (The Focus Expanding Gallery) -->
 <section id="destination">
-  <!-- Pillar 1 -->
-  <div class="dest-pillar">
-    <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1549646487-b9f49eb2f43b?q=80&w=1400&auto=format&fit=crop');"></div>
-    <div class="dest-content">
-      <div class="dest-title">Valet Parking</div>
-      <div class="dest-desc">Your car, our responsibility.</div>
-    </div>
+  <div class="section-head reveal" style="text-align:center; margin: 0 auto 64px auto;">
+    <div class="eyebrow ignite" style="justify-content:center;">Beyond the Build</div>
+    <h2>Not just a studio. A destination.</h2>
   </div>
-  <!-- Pillar 2 -->
-  <div class="dest-pillar">
-    <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=1400&auto=format&fit=crop');"></div>
-    <div class="dest-content">
-      <div class="dest-title">PS5 Lounge</div>
-      <div class="dest-desc">Relax. Play. Enjoy the wait.</div>
+  
+  <div class="dest-container reveal">
+    <!-- Card 1: Valet -->
+    <div class="dest-card">
+      <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1616422285623-aa30eb0709bc?q=80&w=800&auto=format&fit=crop');"></div>
+      <div class="dest-content">
+        <h3>Valet Drop-off</h3>
+        <p>Your car, our responsibility.</p>
+      </div>
     </div>
-  </div>
-  <!-- Pillar 3 -->
-  <div class="dest-pillar">
-    <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=1400&auto=format&fit=crop');"></div>
-    <div class="dest-content">
-      <div class="dest-title">Café Bar</div>
-      <div class="dest-desc">Premium Snacks & Beverages on us.</div>
+    
+    <!-- Card 2: PS5 Lounge -->
+    <div class="dest-card">
+      <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop');"></div>
+      <div class="dest-content">
+        <h3>PS5 Lounge</h3>
+        <p>Relax. Play. Enjoy the wait.</p>
+      </div>
     </div>
-  </div>
-  <!-- Pillar 4 -->
-  <div class="dest-pillar">
-    <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1400&auto=format&fit=crop');"></div>
-    <div class="dest-content">
-      <div class="dest-title">6000 Sq Ft Studio</div>
-      <div class="dest-desc">Space. Precision. Perfection.</div>
+    
+    <!-- Card 3: Cafe -->
+    <div class="dest-card">
+      <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop');"></div>
+      <div class="dest-content">
+        <h3>Café Bar</h3>
+        <p>Premium snacks & beverages.</p>
+      </div>
+    </div>
+    
+    <!-- Card 4: Studio -->
+    <div class="dest-card">
+      <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop');"></div>
+      <div class="dest-content">
+        <h3>6000 Sq Ft Bay</h3>
+        <p>Space. Precision. Perfection.</p>
+      </div>
+    </div>
+    
+    <!-- Card 5: Guarantee -->
+    <div class="dest-card">
+      <div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=800&auto=format&fit=crop');"></div>
+      <div class="dest-content">
+        <h3>Detail Perfected</h3>
+        <p>We build right, not fast.</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- WHAT WE DO (Strict 50/50 Split) -->
+<!-- WHAT WE DO (Strict 50/50 Split Fixed) -->
 <section id="services">
   <div class="container services-layout">
     <div class="service-list-wrap">
@@ -552,7 +608,7 @@ footer { background: var(--void); border-top: 1px solid var(--line); padding: 10
               <p>Want your build featured in this gallery?</p>
             </div>
             <!-- SATISFYING LIQUID BUTTON -->
-            <a href="#booking" class="btn btn-liquid magnetic">
+            <a href="#booking" class="btn btn-liquid ignite magnetic">
               <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
               <span class="txt">Book a Build</span>
             </a>
@@ -771,7 +827,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   }
 
   if(!isMobile) {
-    document.querySelectorAll('.ptab, .btn, a, button, .dest-pillar, .service-item').forEach(el => {
+    document.querySelectorAll('.ptab, .btn, a, button, .dest-pillar, .service-item, .dest-card').forEach(el => {
       el.addEventListener('mouseenter', () => {
         if(audioEnabled) {
           let tickClone = uiTick.cloneNode(); 
@@ -975,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', async function(){
       renderTestiGrid();
     }
     
-    // Fallback timer to clear preloader if no db connection
+    // Fallback timer to clear preloader if no db connection or heavy assets
     setTimeout(() => { 
       if(loadedAssets < assetsToLoad.length || assetsToLoad.length === 0) {
         loadedAssets = Math.max(loadedAssets, assetsToLoad.length); 
