@@ -16,41 +16,37 @@
 
 <style>
 /* ============================================================
-   REV NATION JAIPUR — Premium Design Tokens
+   REV NATION JAIPUR — Premium Master CSS
    ============================================================ */
 :root{
   --void:#0a0a0b; --graphite:#131315; --surface:#1a1a1d; --surface-raised:#212124;
   --line:rgba(242,241,238,0.08); --line-strong:rgba(242,241,238,0.16);
   --ink:#f2f1ee; --ink-dim:#9a9a9f; --ink-faint:#5c5c60;
-  --accent:#c17f3e; --accent-bright:#e0a565; --accent-dim:rgba(193,127,62,0.12); --accent-line:rgba(193,127,62,0.35);
-  --ignition:#e8462a; --ignition-bright:#ff7350; --ignition-dim:rgba(232,70,42,0.12); --ignition-line:rgba(232,70,42,0.4);
+  --accent:#c17f3e; --accent-bright:#e0a565; 
+  --ignition:#e8462a; --ignition-bright:#ff7350; 
   --display:'Clash Display','Space Grotesk',sans-serif; --body:'General Sans','Inter',sans-serif; --mono:'JetBrains Mono',monospace;
-  --ease:cubic-bezier(.65,0,.35,1); --ease-out:cubic-bezier(.16,1,.3,1);
+  --ease:cubic-bezier(.7,0,.3,1); --ease-out:cubic-bezier(.16,1,.3,1);
 }
 
 *{margin:0;padding:0;box-sizing:border-box;cursor:none !important;} 
 html{scroll-behavior:auto;}
 
-/* ZERO-LATENCY PREMIUM CURSOR (Fixed for Text Inputs & Mobile) */
+/* ZERO-LATENCY MINIMALIST CURSOR */
 .custom-cursor {
-  position:fixed; top:0; left:0; width:12px; height:12px;
-  background-color:#ffffff; border-radius:50%;
+  position:fixed; top:0; left:0; width:8px; height:8px;
+  background-color:var(--accent-bright); border-radius:50%;
   pointer-events:none; z-index:99999;
-  mix-blend-mode:difference; 
   transform:translate(-50%, -50%);
-  transition:width 0.3s var(--ease), height 0.3s var(--ease), border-radius 0.3s var(--ease);
+  transition:width 0.3s var(--ease), height 0.3s var(--ease), background-color 0.3s var(--ease);
   will-change:transform; 
 }
-.custom-cursor.hovered { width:48px; height:48px; }
-.custom-cursor.drag-mode { width:64px; height:64px; }
-.custom-cursor.drag-mode::after {
-  content:'DRAG'; position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);
-  color:#000; font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:0.1em;
-}
-input, textarea { cursor: text !important; } /* Fix 1: Restore text caret */
+.custom-cursor.hovered { width:12px; height:12px; background-color:var(--ink); }
+.custom-cursor.drag-mode { width:64px; height:64px; background-color:var(--surface); color:var(--ink); display:flex; align-items:center; justify-content:center; border:1px solid var(--line-strong); }
+.custom-cursor.drag-mode::after { content:'DRAG'; font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:0.1em; }
+input, textarea { cursor: text !important; } 
 @media (pointer: coarse) { 
   .custom-cursor { display: none !important; } 
-  *, a, button, input { cursor: auto !important; } /* Fix 2: Remove custom cursor entirely on phones */
+  *, a, button, input { cursor: auto !important; } 
 }
 
 /* PORSCHE DYNAMIC THEME FINISH */
@@ -60,15 +56,9 @@ body{
   transition: background-color 0.8s var(--ease), color 0.8s var(--ease);
 }
 body.theme-light {
-  --void: #f9f9fb;          
-  --graphite: #ffffff;      
-  --surface: #ffffff;       
-  --surface-raised: #f0f0f4;
-  --ink: #0a0a0b;           
-  --ink-dim: #5c5c60;       
-  --ink-faint: #9a9a9f;
-  --line: rgba(10, 10, 11, 0.08); 
-  --line-strong: rgba(10, 10, 11, 0.16);
+  --void: #f9f9fb; --graphite: #ffffff; --surface: #ffffff; --surface-raised: #f0f0f4;
+  --ink: #0a0a0b; --ink-dim: #5c5c60; --ink-faint: #9a9a9f;
+  --line: rgba(10, 10, 11, 0.08); --line-strong: rgba(10, 10, 11, 0.16);
 }
 
 img,video{display:block;max-width:100%;}
@@ -89,7 +79,7 @@ html.lenis, html.lenis body{height:auto;}
 .eyebrow.ignite{color:var(--ignition-bright);}
 .eyebrow.ignite::before{background:var(--ignition-bright);}
 
-/* Premium Typography Adjustments */
+/* Typography & Layout */
 h1,h2,h3,h4{font-family:var(--display);font-weight:600;line-height:1.05;letter-spacing:-0.03em;}
 .section-head{max-width:680px;margin-bottom:64px;}
 .section-head h2{font-size:clamp(36px,5vw,64px);margin-top:16px;}
@@ -101,29 +91,33 @@ section{position:relative;}
 .reveal{opacity:0;transform:translateY(40px);filter:blur(8px);}
 .reveal.in{opacity:1;transform:translateY(0);filter:blur(0);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out),filter 1s var(--ease-out);}
 
-/* --- Liquid Buttons --- */
-.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:16px 32px;border-radius:100px;font-family:var(--body);font-weight:600;font-size:14px;letter-spacing:0.01em;border:1px solid var(--line-strong);color:var(--ink);transition:all .4s var(--ease);}
+/* --- ELEGANT BUTTONS (Slide & Fill, No Glitches) --- */
+.btn{
+  position:relative;display:inline-flex;align-items:center;gap:10px;padding:16px 32px;
+  border-radius:100px;font-family:var(--body);font-weight:600;font-size:14px;letter-spacing:0.01em;
+  border:1px solid var(--line-strong);color:var(--ink);transition:border-color .4s var(--ease);
+  overflow:hidden;
+}
 .magnetic { will-change: transform; }
-.btn-liquid{overflow:hidden;isolation:isolate;border:1px solid var(--accent-line);background:var(--accent-dim);}
-.btn-liquid.ignite{border-color:var(--ignition-line);background:var(--ignition-dim);}
-.goo-layer{position:absolute;inset:-40% -10% -10% -10%;z-index:1;pointer-events:none;filter:url(#liquid-goo);}
-.blob{position:absolute;bottom:0;width:46%;height:100%;border-radius:50%;background:var(--accent);transform:translateY(120%);transition:transform .7s var(--ease);}
-.btn-liquid.ignite .blob{background:var(--ignition);}
-.blob.b1{left:-8%;transition-delay:.02s;} .blob.b2{left:18%;transition-delay:.08s;} .blob.b3{left:44%;transition-delay:0s;} .blob.b4{left:70%;transition-delay:.1s;}
-.btn-liquid:hover .blob{transform:translateY(0%);}
-.btn-liquid .txt{position:relative;z-index:2;color:var(--accent-bright);transition:color .5s var(--ease) .05s;}
-.btn-liquid.ignite .txt{color:var(--ignition-bright);}
-.btn-liquid .txt-fill{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:10px;padding:16px 32px;z-index:3;color:var(--void);clip-path:inset(100% 0 0 0);transition:clip-path .7s var(--ease);pointer-events:none;font-weight:600;font-size:14px;}
-.btn-liquid:hover .txt-fill{clip-path:inset(-30% 0 0 0);}
-.btn-liquid:hover .txt{color:var(--void);}
-.btn-ghost{border-color:var(--line);background:rgba(255,255,255,0.02);backdrop-filter:blur(12px);}
-.btn-ghost:hover{background:var(--surface-raised);border-color:var(--accent-line);color:var(--accent-bright);}
+.btn-liquid { border-color:var(--accent); background:transparent; }
+.btn-liquid::before {
+  content:''; position:absolute; bottom:0; left:0; width:100%; height:0%;
+  background:var(--accent); transition:height 0.5s var(--ease); z-index:0;
+}
+.btn-liquid:hover::before { height:100%; }
+.btn-liquid.ignite { border-color:var(--ignition); }
+.btn-liquid.ignite::before { background:var(--ignition); }
+.btn-liquid .txt { position:relative; z-index:1; color:var(--accent-bright); transition:color 0.4s var(--ease); }
+.btn-liquid.ignite .txt { color:var(--ignition-bright); }
+.btn-liquid:hover .txt { color:var(--void); }
 
-body.theme-light .btn-liquid { border-color: var(--accent); }
-body.theme-light .btn-liquid .txt { color: var(--accent); }
-body.theme-light .btn-liquid:hover .txt { color: #ffffff; }
-body.theme-light .btn-ghost { color: var(--ink); border-color: var(--line-strong); background: transparent; }
-body.theme-light .btn-ghost:hover { background: rgba(0,0,0,0.04); }
+.btn-ghost{border-color:var(--line);background:rgba(255,255,255,0.02);backdrop-filter:blur(12px);}
+.btn-ghost:hover{background:var(--surface-raised);border-color:var(--accent);color:var(--accent-bright);}
+
+body.theme-light .btn-liquid .txt { color:var(--accent); }
+body.theme-light .btn-liquid:hover .txt { color:#fff; }
+body.theme-light .btn-ghost { color:var(--ink); border-color:var(--line-strong); background:transparent; }
+body.theme-light .btn-ghost:hover { background:rgba(0,0,0,0.04); }
 
 /* --- LONG, SYMMETRICAL GLASSMORPHISM NAVBAR --- */
 header{
@@ -144,13 +138,15 @@ header.scrolled{
 .header-logo{font-family:var(--display);font-weight:700;font-size:18px;display:flex;align-items:center;gap:12px;color:var(--ink);}
 .header-logo .mark{width:24px;height:24px;flex-shrink:0;}
 .header-links{display:flex;gap:40px; position:absolute; left:50%; transform:translateX(-50%);}
-.header-links a{font-size:13px;font-weight:500;color:var(--ink-dim);position:relative;padding-bottom:4px;transition:color .3s;}
-.header-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--accent);transition:width .35s var(--ease);}
+.header-links a { font-size:13px; font-weight:500; color:var(--ink-dim); position:relative; padding-bottom:4px; transition:color .3s; text-decoration:none !important; }
+.header-links a::after {
+  content:''; position:absolute; left:0; bottom:0; width:100%; height:1px; background:var(--accent);
+  transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease);
+}
 .header-links a:hover{color:var(--ink);}
-.header-links a:hover::after{width:100%;}
+.header-links a:hover::after{ transform: scaleX(1); transform-origin: left; width:100%; }
 .header-actions{display:flex;align-items:center;gap:16px;}
 
-/* PREMIUM AUDIO EQUALIZER BUTTON */
 .audio-toggle { width:40px; height:40px; display:flex; align-items:center; justify-content:center; gap:4px; border-radius:50%; border:1px solid var(--line-strong); transition:border-color .3s; background:transparent;}
 .audio-toggle:hover { border-color:var(--accent-bright); }
 .audio-toggle span { width:2px; background:var(--ink-dim); border-radius:2px; transition:height 0.2s; }
@@ -232,10 +228,12 @@ body.menu-open{overflow:hidden;}
 #ppfCanvas { position:relative; width:min(90vw,1200px); height:min(50vw,700px); object-fit:contain; z-index:2; display:none; }
 #ppfSvgFallback { position:relative; width:min(90vw,1200px); height:min(50vw,700px); z-index:2; }
 
-/* --- Services (Fix 3: Flush, Edge-to-Edge Image) --- */
-#services{background:var(--void);}
-.services-layout{display:grid;grid-template-columns:0.85fr 1.15fr; gap:0; align-items:stretch;}
-.service-list-wrap{padding-right:80px;}
+/* --- SERVICES (True 50/50 Flush Split Screen) --- */
+#services{background:var(--void); padding:0; position:relative;}
+.services-layout{display:flex; width:100%;}
+.service-list-wrap{width:50%; padding:160px 60px 160px 60px;} 
+.service-media-wrap{width:50%; position:sticky; top:0; height:100vh; overflow:hidden;} 
+
 .service-list{border-top:1px solid var(--line);}
 .service-item{border-bottom:1px solid var(--line);padding:36px 0;display:flex;align-items:center;gap:24px;transition:all .4s var(--ease);}
 .service-item .idx{font-family:var(--mono);font-size:12px;color:var(--ink-faint);width:32px;flex-shrink:0;}
@@ -247,25 +245,22 @@ body.menu-open{overflow:hidden;}
 .service-desc{max-height:0;overflow:hidden;font-size:15px;color:var(--ink-dim);transition:all .5s var(--ease); opacity:0;}
 .service-item.active .service-desc{max-height:80px;margin-top:16px;opacity:1;transform:translateX(8px);}
 
-.service-media-wrap{position:sticky;top:0;height:100vh;display:flex;align-items:center;}
-/* Removed border-radius, shadows, and margins to make the image flush and edge-to-edge like the reference */
-.service-media{width:100%;height:100%;overflow:hidden;background:var(--surface);position:absolute;right:0;}
-.service-media .panel{position:absolute;inset:0;opacity:0;transition:opacity .8s var(--ease);background:radial-gradient(ellipse at 50% 30%, var(--surface-raised) 0%, var(--void) 100%);}
+.service-media{width:100%; height:100%; position:relative; background:var(--surface);}
+.service-media .panel{position:absolute;inset:0;opacity:0;transition:opacity .8s var(--ease);background:var(--surface-raised);}
 .service-media .panel.active{opacity:1; z-index:2;}
 .service-media .panel img {width:100%; height:100%; object-fit:cover; transform:scale(1.1); transition:transform 1.6s cubic-bezier(0.16, 1, 0.3, 1);}
 .service-media .panel.active img {transform:scale(1);}
 @media(max-width:900px){ 
-  .services-layout{grid-template-columns:1fr;} 
-  .service-list-wrap{padding-right:0;}
-  .service-media-wrap{position:relative;height:auto;top:0; padding-top:40px;} 
-  .service-media{position:relative; aspect-ratio:1/1; border-radius:12px;}
+  .services-layout{flex-direction:column;} 
+  .service-list-wrap{width:100%; padding:100px 24px 60px 24px;}
+  .service-media-wrap{width:100%; position:relative; height:100vw;} 
 }
 
-/* --- PREMIUM BUILDS GALLERY (Fix 4: Offset Design & Mobile Swipe) --- */
+/* --- PREMIUM BUILDS GALLERY --- */
 #builds{background:var(--graphite);overflow:hidden;}
 .builds-layout{display:flex; flex-direction:column; gap:60px;}
-.builds-header{max-width:480px;} /* Text stays on the left */
-.builds-viewport{width:90vw; max-width:1300px; align-self:flex-end; padding-left:40px; overflow:hidden;} /* Gallery shifts right and below */
+.builds-header{max-width:480px;} 
+.builds-viewport{width:90vw; max-width:1300px; align-self:flex-end; padding-left:40px; overflow:hidden;} 
 .builds-track{display:flex;gap:40px;width:max-content;padding-bottom:40px;will-change:transform;}
 .build-card{width:480px;flex-shrink:0;border-radius:16px;overflow:hidden;border:1px solid var(--line);background:var(--surface);transition:all 0.5s var(--ease);display:flex;flex-direction:column;}
 .build-card:hover{border-color:var(--line-strong);}
@@ -276,8 +271,6 @@ body.menu-open{overflow:hidden;}
 .build-card h4{font-size:26px;color:var(--ink);margin-bottom:8px;}
 .build-card p{font-size:15px;color:var(--ink-faint);font-family:var(--mono);}
 .build-card.build-end{justify-content:center;gap:20px;padding:48px;background:transparent;border-style:dashed;box-shadow:none;cursor:default;}
-
-/* Mobile Swipe Snapping - Native App Feel */
 @media(max-width:900px){ 
   .builds-layout{gap:32px;} 
   .builds-viewport{width:100vw; padding-left:24px; overflow-x:auto; -webkit-overflow-scrolling:touch; scroll-snap-type:x mandatory; padding-bottom:20px;} 
@@ -298,7 +291,7 @@ body.theme-light #compare { background: var(--surface-raised); }
 .compare-handle .grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:64px;height:64px;border-radius:50%;background:var(--void);border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,0.5);}
 .compare-handle .grip svg{width:16px;height:16px;color:var(--accent);}
 
-/* --- Interactive Process Tabs (Mobile Swipe added) --- */
+/* --- Interactive Process Tabs --- */
 #process{background:var(--graphite);}
 .process-tabs{display:flex;border-bottom:1px solid var(--line);position:relative;margin-bottom:80px;}
 .ptab{flex:1;padding:28px 0;text-align:center;font-family:var(--display);font-size:24px;color:var(--ink-dim);transition:all .3s var(--ease);}
@@ -314,7 +307,6 @@ body.theme-light #compare { background: var(--surface-raised); }
 .p-text.active{display:block;}
 .p-text h4{font-size:40px;margin-bottom:20px;color:var(--ink);}
 .p-text p{color:var(--ink-dim);font-size:18px;}
-/* Native swiping for tabs on mobile */
 @media(max-width:900px){ 
   .process-tabs{overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:10px; white-space:nowrap;} 
   .ptab{flex:0 0 75%; scroll-snap-align:start; padding:16px 0; font-size:18px;}
@@ -351,23 +343,38 @@ body.theme-light #compare { background: var(--surface-raised); }
 .confirm-card.show{opacity:1;transform:scale(1);pointer-events:auto;}
 .confirm-card svg{width:42px;height:42px;color:var(--accent);margin-bottom:20px;}
 @media(max-width:900px){ .booking-grid{grid-template-columns:1fr;gap:56px;} .field-row{grid-template-columns:1fr;} }
+
+/* --- FIX: FOOTER & PERFECT WHATSAPP BUTTON --- */
+footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 40px;}
+body.theme-light footer { background:var(--surface-raised); border-color:var(--line-strong); }
+.foot-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:60px;padding-bottom:70px;border-bottom:1px solid var(--line);}
+.foot-word{font-family:var(--display);font-size:clamp(44px,8vw,110px);font-weight:700;letter-spacing:-0.03em;line-height:1;color:var(--ink);opacity:.94;}
+.foot-cols{display:flex;gap:80px;flex-wrap:wrap;}
+.foot-col h5{font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:20px;}
+.foot-col a,.foot-col p{display:block;font-size:15px;color:var(--ink-dim);margin-bottom:12px;transition:color .3s; text-decoration:none !important;}
+.foot-col a:hover{color:var(--accent-bright);}
+.foot-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:30px;flex-wrap:wrap;gap:16px;}
+.foot-bottom p{font-size:13px;color:var(--ink-faint);font-family:var(--mono);}
+.back-top{width:48px;height:48px;border-radius:50%;border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;opacity:0;transform:translateY(10px);transition:all .4s var(--ease);}
+.back-top.show{opacity:1;transform:translateY(0);}
+.back-top:hover{border-color:var(--accent);color:var(--accent-bright);}
+
+#wa-float {
+  position: fixed; bottom: 32px; right: 32px; z-index: 90;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: #25D366; color: #ffffff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 12px 32px rgba(37,211,102,0.3);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+#wa-float:hover { transform: translateY(-6px) scale(1.05); box-shadow: 0 16px 40px rgba(37,211,102,0.4); }
+#wa-float svg { width: 28px; height: 28px; }
 </style>
 </head>
 <body>
 
-<!-- PREMIUM CUSTOM CURSOR -->
+<!-- PREMIUM CUSTOM CURSOR (Zero Latency Dot) -->
 <div class="custom-cursor" id="customCursor"></div>
-
-<!-- Shared SVG Filter for Liquid animations -->
-<svg width="0" height="0" style="position:absolute;">
-  <defs>
-    <filter id="liquid-goo">
-      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
-      <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -8" result="goo"/>
-      <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
-    </filter>
-  </defs>
-</svg>
 
 <!-- TRUE PRELOADER -->
 <div id="preloader" role="status" aria-label="Loading">
@@ -439,10 +446,9 @@ body.theme-light #compare { background: var(--surface-raised); }
     </h1>
     <p class="sub">Custom modifications, precision PPF, ceramic coatings and studio-grade detailing — engineered and installed in-house, to one uncompromising standard.</p>
     <div class="hero-actions">
+      <!-- FIXED BUTTON (No double text, clean slide fill) -->
       <a href="#builds" class="btn btn-liquid ignite magnetic hover-target">
-        <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
         <span class="txt">Explore Builds</span>
-        <span class="txt-fill"><span>Explore Builds</span></span>
       </a>
       <a href="#booking" class="btn btn-ghost magnetic hover-target">
         Book an Inspection
@@ -490,68 +496,61 @@ body.theme-light #compare { background: var(--surface-raised); }
         <g id="carBody" fill="#141416" stroke="rgba(242,241,238,0.14)" stroke-width="1.2">
           <path d="M90 300 C90 260 130 250 170 246 L215 178 C226 160 250 148 276 148 L470 148 C500 148 524 160 540 182 L580 244 C630 248 668 262 672 300 Z"/>
         </g>
-        <g id="carDetail" fill="none" stroke="rgba(242,241,238,0.18)" stroke-width="1">
-          <path d="M235 246 L560 246"/> <path d="M280 150 L316 150 L300 246"/> <path d="M410 150 L450 150 L470 246"/>
-          <circle cx="200" cy="300" r="30" fill="#0d0d0e" stroke="rgba(242,241,238,0.2)"/>
-          <circle cx="560" cy="300" r="30" fill="#0d0d0e" stroke="rgba(242,241,238,0.2)"/>
-        </g>
       </svg>
     </div>
   </div>
 </section>
 
-<!-- WHAT WE DO (Flush, Edge-to-Edge Image Layout) -->
-<section id="services" class="pad">
-  <div class="container" style="max-width:100%; padding-right:0;">
-    <div class="section-head reveal" style="padding-left:60px;">
-      <div class="eyebrow ignite">What we do</div>
-      <h2>One studio. Every layer of the build.</h2>
-      <p>From wraps and wheels to optically clear film and ceramic gloss — each service is engineered to work together, not sold in isolation.</p>
-    </div>
-    <div class="services-layout">
-      <div class="service-list-wrap reveal" style="padding-left:60px;">
-        <div class="service-list">
-          <div class="service-item active hover-target" data-panel="0">
-            <span class="idx">01</span>
-            <div><h4>Custom Modifications</h4><div class="service-desc">Wraps, alloy wheels, lighting, exhaust and interior builds.</div></div>
-            <div class="lottie-icon" id="lottie-mod"></div>
-          </div>
-          <div class="service-item hover-target" data-panel="1">
-            <span class="idx">02</span>
-            <div><h4>Paint Protection Film</h4><div class="service-desc">Self-healing, optically clear film against stone chips and scratches.</div></div>
-            <div class="lottie-icon" id="lottie-ppf"></div>
-          </div>
-          <div class="service-item hover-target" data-panel="2">
-            <span class="idx">03</span>
-            <div><h4>Ceramic Coating</h4><div class="service-desc">Chemical-resistant gloss that keeps paint clean for longer.</div></div>
-            <div class="lottie-icon" id="lottie-ceramic"></div>
-          </div>
-          <div class="service-item hover-target" data-panel="3">
-            <span class="idx">04</span>
-            <div><h4>Premium Detailing</h4><div class="service-desc">Multi-stage correction that restores true paint depth.</div></div>
-            <div class="lottie-icon" id="lottie-detail"></div>
-          </div>
-          <div class="service-item hover-target" data-panel="4">
-            <span class="idx">05</span>
-            <div><h4>Windshield Protection</h4><div class="service-desc">Impact-rated film engineered for clarity and visibility.</div></div>
-            <div class="lottie-icon" id="lottie-glass"></div>
-          </div>
-          <div class="service-item hover-target" data-panel="5">
-            <span class="idx">06</span>
-            <div><h4>Interior Protection</h4><div class="service-desc">Leather, fabric and trim treatments built for daily use.</div></div>
-            <div class="lottie-icon" id="lottie-interior"></div>
-          </div>
+<!-- WHAT WE DO (TRUE 50/50 SPLIT SCREEN) -->
+<section id="services">
+  <div class="services-layout">
+    <div class="service-list-wrap">
+      <div class="section-head reveal" style="padding-bottom:32px;">
+        <div class="eyebrow ignite">What we do</div>
+        <h2>One studio. Every layer.</h2>
+        <p>From wraps and wheels to optically clear film and ceramic gloss — each service is engineered to work together.</p>
+      </div>
+      <div class="service-list reveal">
+        <div class="service-item active hover-target" data-panel="0">
+          <span class="idx">01</span>
+          <div><h4>Custom Modifications</h4><div class="service-desc">Wraps, alloy wheels, lighting, exhaust and interior builds.</div></div>
+          <div class="lottie-icon" id="lottie-mod"></div>
+        </div>
+        <div class="service-item hover-target" data-panel="1">
+          <span class="idx">02</span>
+          <div><h4>Paint Protection Film</h4><div class="service-desc">Self-healing, optically clear film against stone chips and scratches.</div></div>
+          <div class="lottie-icon" id="lottie-ppf"></div>
+        </div>
+        <div class="service-item hover-target" data-panel="2">
+          <span class="idx">03</span>
+          <div><h4>Ceramic Coating</h4><div class="service-desc">Chemical-resistant gloss that keeps paint clean for longer.</div></div>
+          <div class="lottie-icon" id="lottie-ceramic"></div>
+        </div>
+        <div class="service-item hover-target" data-panel="3">
+          <span class="idx">04</span>
+          <div><h4>Premium Detailing</h4><div class="service-desc">Multi-stage correction that restores true paint depth.</div></div>
+          <div class="lottie-icon" id="lottie-detail"></div>
+        </div>
+        <div class="service-item hover-target" data-panel="4">
+          <span class="idx">05</span>
+          <div><h4>Windshield Protection</h4><div class="service-desc">Impact-rated film engineered for clarity and visibility.</div></div>
+          <div class="lottie-icon" id="lottie-glass"></div>
+        </div>
+        <div class="service-item hover-target" data-panel="5">
+          <span class="idx">06</span>
+          <div><h4>Interior Protection</h4><div class="service-desc">Leather, fabric and trim treatments built for daily use.</div></div>
+          <div class="lottie-icon" id="lottie-interior"></div>
         </div>
       </div>
-      <div class="service-media-wrap reveal">
-        <div class="service-media">
-          <div class="panel active" data-panel="0" id="media-service_1"><svg viewBox="0 0 100 100"><circle cx="50" cy="60" r="16" fill="none" stroke="#e8462a" stroke-width="1"/><path d="M20 30 L80 30 L74 55 L26 55 Z" fill="none" stroke="#ff7350" stroke-width="0.7" stroke-dasharray="3 2"/></svg></div>
-          <div class="panel" data-panel="1" id="media-service_2"><svg viewBox="0 0 100 100"><rect x="15" y="20" width="70" height="55" rx="3" fill="none" stroke="#c17f3e" stroke-width="1"/><rect x="22" y="27" width="56" height="41" rx="2" fill="rgba(193,127,62,0.08)" stroke="#e0a565" stroke-width="0.6" stroke-dasharray="2 2"/></svg></div>
-          <div class="panel" data-panel="2" id="media-service_3"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="#c17f3e" stroke-width="1"/><circle cx="50" cy="50" r="20" fill="none" stroke="#e0a565" stroke-width="0.6"/><circle cx="50" cy="50" r="12" fill="rgba(193,127,62,0.1)"/></svg></div>
-          <div class="panel" data-panel="3" id="media-service_4"><svg viewBox="0 0 100 100"><path d="M20 60 Q50 20 80 60" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M20 68 Q50 34 80 68" fill="none" stroke="#e0a565" stroke-width="0.6"/></svg></div>
-          <div class="panel" data-panel="4" id="media-service_5"><svg viewBox="0 0 100 100"><path d="M15 30 L85 30 L78 75 L22 75 Z" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M50 30 L50 75 M30 45 L70 45" stroke="#e0a565" stroke-width="0.5"/></svg></div>
-          <div class="panel" data-panel="5" id="media-service_6"><svg viewBox="0 0 100 100"><rect x="20" y="25" width="60" height="50" rx="6" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M20 45 L80 45" stroke="#e0a565" stroke-width="0.5"/></svg></div>
-        </div>
+    </div>
+    <div class="service-media-wrap">
+      <div class="service-media">
+        <div class="panel active" data-panel="0" id="media-service_1"><svg viewBox="0 0 100 100"><circle cx="50" cy="60" r="16" fill="none" stroke="#e8462a" stroke-width="1"/><path d="M20 30 L80 30 L74 55 L26 55 Z" fill="none" stroke="#ff7350" stroke-width="0.7" stroke-dasharray="3 2"/></svg></div>
+        <div class="panel" data-panel="1" id="media-service_2"><svg viewBox="0 0 100 100"><rect x="15" y="20" width="70" height="55" rx="3" fill="none" stroke="#c17f3e" stroke-width="1"/><rect x="22" y="27" width="56" height="41" rx="2" fill="rgba(193,127,62,0.08)" stroke="#e0a565" stroke-width="0.6" stroke-dasharray="2 2"/></svg></div>
+        <div class="panel" data-panel="2" id="media-service_3"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="#c17f3e" stroke-width="1"/><circle cx="50" cy="50" r="20" fill="none" stroke="#e0a565" stroke-width="0.6"/><circle cx="50" cy="50" r="12" fill="rgba(193,127,62,0.1)"/></svg></div>
+        <div class="panel" data-panel="3" id="media-service_4"><svg viewBox="0 0 100 100"><path d="M20 60 Q50 20 80 60" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M20 68 Q50 34 80 68" fill="none" stroke="#e0a565" stroke-width="0.6"/></svg></div>
+        <div class="panel" data-panel="4" id="media-service_5"><svg viewBox="0 0 100 100"><path d="M15 30 L85 30 L78 75 L22 75 Z" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M50 30 L50 75 M30 45 L70 45" stroke="#e0a565" stroke-width="0.5"/></svg></div>
+        <div class="panel" data-panel="5" id="media-service_6"><svg viewBox="0 0 100 100"><rect x="20" y="25" width="60" height="50" rx="6" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M20 45 L80 45" stroke="#e0a565" stroke-width="0.5"/></svg></div>
       </div>
     </div>
   </div>
@@ -571,10 +570,9 @@ body.theme-light #compare { background: var(--surface-raised); }
           <!-- Cards injected via JS -->
           <div class="build-card build-end hover-target">
             <div><div class="eyebrow ignite" style="margin-bottom:14px;">Yours next?</div><p>Want your build featured in this gallery?</p></div>
+            <!-- FIXED BUTTON (No double text) -->
             <a href="#booking" class="btn btn-liquid magnetic">
-              <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
               <span class="txt">Book a Build</span>
-              <span class="txt-fill"><span>Book a Build</span></span>
             </a>
           </div>
         </div>
@@ -591,14 +589,8 @@ body.theme-light #compare { background: var(--surface-raised); }
       <h2>Drag to reveal the result.</h2>
     </div>
     <div class="compare-frame reveal drag-target" id="compareFrame">
-      <div class="compare-layer compare-after" id="media-after_img">
-        <svg class="compare-set-icon" viewBox="0 0 100 100" fill="none" stroke="#e0a565" stroke-width="0.8" style="width:80px;height:80px;opacity:0.5;"><path d="M15 60 C15 45 30 40 45 38 L55 22 C60 16 68 12 76 12 L84 12 C90 20 92 30 92 40 L92 60 Z"/><circle cx="30" cy="60" r="8"/><circle cx="80" cy="60" r="8"/></svg>
-      </div>
-      
-      <div class="compare-layer compare-before" id="media-before_img">
-        <svg class="compare-set-icon" viewBox="0 0 100 100" fill="none" stroke="rgba(242,241,238,0.35)" stroke-width="0.8" style="width:80px;height:80px;opacity:0.5;"><path d="M15 60 C15 45 30 40 45 38 L55 22 C60 16 68 12 76 12 L84 12 C90 20 92 30 92 40 L92 60 Z"/><circle cx="30" cy="60" r="8"/><circle cx="80" cy="60" r="8"/></svg>
-      </div>
-      
+      <div class="compare-layer compare-after" id="media-after_img"></div>
+      <div class="compare-layer compare-before" id="media-before_img"></div>
       <div class="compare-label l-before">Before</div>
       <div class="compare-label l-after">After Rev Nation</div>
       <div class="compare-handle" id="compareHandle"><div class="grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 8L4 12L8 16M16 8L20 12L16 16"/></svg></div></div>
@@ -606,7 +598,7 @@ body.theme-light #compare { background: var(--surface-raised); }
   </div>
 </section>
 
-<!-- INTERACTIVE PROCESS TABS (With Native Mobile Swipe Snapping) -->
+<!-- INTERACTIVE PROCESS TABS -->
 <section id="process" class="pad">
   <div class="container">
     <div class="section-head reveal" style="text-align:center; margin:0 auto 64px auto;">
@@ -641,12 +633,11 @@ body.theme-light #compare { background: var(--surface-raised); }
           <p>A rigorous panel-by-panel review under specialized studio lighting. Your handover includes complete care guidance and formal warranty registration.</p>
         </div>
       </div>
-
       <div class="p-media">
-        <div class="p-panel active" id="media-process_1"><svg viewBox="0 0 100 100" style="width:100%;height:100%;background:var(--surface-raised);"></svg></div>
-        <div class="p-panel" id="media-process_2"><svg viewBox="0 0 100 100" style="width:100%;height:100%;background:var(--surface-raised);"></svg></div>
-        <div class="p-panel" id="media-process_3"><svg viewBox="0 0 100 100" style="width:100%;height:100%;background:var(--surface-raised);"></svg></div>
-        <div class="p-panel" id="media-process_4"><svg viewBox="0 0 100 100" style="width:100%;height:100%;background:var(--surface-raised);"></svg></div>
+        <div class="p-panel active" id="media-process_1"></div>
+        <div class="p-panel" id="media-process_2"></div>
+        <div class="p-panel" id="media-process_3"></div>
+        <div class="p-panel" id="media-process_4"></div>
       </div>
     </div>
   </div>
@@ -659,10 +650,7 @@ body.theme-light #compare { background: var(--surface-raised); }
       <div class="eyebrow" style="justify-content: center;">In their words</div>
       <h2>Unmatched quality and service.</h2>
     </div>
-    
-    <div class="testi-grid" id="testiGrid">
-      <!-- Filled dynamically by JS -->
-    </div>
+    <div class="testi-grid" id="testiGrid"></div>
   </div>
 </section>
 
@@ -692,10 +680,9 @@ body.theme-light #compare { background: var(--surface-raised); }
           <label class="filled">Service required</label>
         </div>
         <div class="field"><textarea name="message" placeholder=" " class="hover-target"></textarea><label>Message (optional)</label></div>
+        <!-- FIXED BUTTON (No double text, clean slide fill) -->
         <button type="submit" class="btn btn-liquid magnetic hover-target" style="width:100%;justify-content:center;margin-top:12px;">
-          <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
           <span class="txt">Request Inspection</span>
-          <span class="txt-fill"><span>Request Inspection</span></span>
         </button>
       </form>
       <div class="confirm-card" id="confirmCard">
@@ -727,9 +714,8 @@ body.theme-light #compare { background: var(--surface-raised); }
   </div>
 </footer>
 
+<!-- PROPERLY SIZED WHATSAPP BUTTON (No Glitches) -->
 <a href="https://wa.me/910000000000" target="_blank" id="wa-float" aria-label="Chat on WhatsApp" class="hover-target">
-  <span class="pulse"></span>
-  <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.35 5.08L2 22l5.2-1.36c1.45.79 3.11 1.24 4.84 1.24 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.78 14.02c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.16-4.94-4.35-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.58-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.3.37-.43.5-.14.14-.29.29-.13.57.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.95.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg>
 </a>
 
@@ -760,11 +746,10 @@ document.addEventListener('DOMContentLoaded', async function(){
   if(window.gsap && window.ScrollTrigger){ gsap.registerPlugin(ScrollTrigger); }
 
   /* ---------- AUDIO ENGINEERING ---------- */
-  // Using lightweight, high-quality royalty-free sound assets
   const uiTick = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
   const ambientDrone = new Audio('https://assets.mixkit.co/active_storage/sfx/238/238-preview.mp3');
   ambientDrone.loop = true;
-  ambientDrone.volume = 0.25;
+  ambientDrone.volume = 0.15;
   
   let audioEnabled = false;
   const audioBtn = document.getElementById('audioToggle');
@@ -774,19 +759,18 @@ document.addEventListener('DOMContentLoaded', async function(){
       audioEnabled = !audioEnabled;
       audioBtn.classList.toggle('playing', audioEnabled);
       if(audioEnabled) {
-        ambientDrone.play().catch(e => console.log('Audio blocked by browser.'));
+        ambientDrone.play().catch(e => console.log('Audio playback requires user interaction first.'));
       } else {
         ambientDrone.pause();
       }
     });
   }
 
-  // Attach tactile hover sounds
   if(!isMobile) {
     document.querySelectorAll('.hover-target, .ptab, .btn').forEach(el => {
       el.addEventListener('mouseenter', () => {
         if(audioEnabled) {
-          let tickClone = uiTick.cloneNode(); // Clone node allows rapid overlapping ticks
+          let tickClone = uiTick.cloneNode(); 
           tickClone.volume = 0.15;
           tickClone.play().catch(e => {});
         }
@@ -798,18 +782,15 @@ document.addEventListener('DOMContentLoaded', async function(){
   if(!reduceMotion && !isMobile && window.innerWidth > 900) {
     const cursor = document.getElementById('customCursor');
     
-    // Hardware-accelerated cursor following
     document.addEventListener('mousemove', e => {
       cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`;
     });
 
-    // Hover states (Buttons, Nav links)
     document.querySelectorAll('.hover-target, .btn, .ptab').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('hovered'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('hovered'));
     });
 
-    // Drag states (Before/After Slider, Horizontal Gallery)
     document.querySelectorAll('.drag-target').forEach(el => {
       el.addEventListener('mouseenter', () => cursor.classList.add('drag-mode'));
       el.addEventListener('mouseleave', () => cursor.classList.remove('drag-mode'));
@@ -844,7 +825,6 @@ document.addEventListener('DOMContentLoaded', async function(){
   }
 
   /* ---------- LOTTIE ANIMATIONS (Services) ---------- */
-  // Placeholder elegant vector animations. Replace 'path' with your IconScout URLs.
   var lottieOptions = { renderer: 'svg', loop: true, autoplay: false, path: 'https://lottie.host/8b51d8b7-8798-466c-94cc-19d26ce3ba22/dFqH3nU8rD.json' };
   
   var lotties = {
@@ -930,7 +910,6 @@ document.addEventListener('DOMContentLoaded', async function(){
 
   async function preloadSiteData() {
     if(db) {
-      // 1. Fetch PPF Frames
       try {
         var { data: ppfSeq } = await db.from('frame_sequences').select('*').eq('section_key', 'ppf').order('created_at', {ascending:false}).limit(1);
         if (ppfSeq && ppfSeq.length > 0) {
@@ -954,13 +933,15 @@ document.addEventListener('DOMContentLoaded', async function(){
         }
       } catch(e) {}
 
-      // 2. Load General Media
       try {
         var { data: media } = await db.from('site_media').select('*');
         if(media) {
           media.forEach(m => {
             if(m.id === 'hero_video') document.getElementById('heroVideo').src = m.media_url;
-            else if(m.id === 'before_img' || m.id === 'after_img') document.getElementById('media-' + m.id).innerHTML = '<img src="' + m.media_url + '" style="width:100%;height:100%;object-fit:cover;">';
+            else if(m.id === 'before_img' || m.id === 'after_img') {
+                let el = document.getElementById('media-' + m.id);
+                if(el) el.style.backgroundImage = 'url(' + m.media_url + ')';
+            }
             else if(m.id.startsWith('service_') || m.id.startsWith('process_')) {
               var panel = document.getElementById('media-' + m.id);
               if(panel) panel.innerHTML = '<img src="' + m.media_url + '">';
@@ -969,7 +950,6 @@ document.addEventListener('DOMContentLoaded', async function(){
         }
       } catch(e) {}
       
-      // 3. Load Stats
       try {
         var { data: stats } = await db.from('stats').select('*').order('sort_order');
         if(stats) {
@@ -984,7 +964,6 @@ document.addEventListener('DOMContentLoaded', async function(){
         }
       } catch(e) {}
       
-      // 4. Load Projects
       try {
         var { data: projects } = await db.from('projects').select('*').eq('published', true).order('sort_order');
         if(projects && projects.length) {
@@ -997,7 +976,6 @@ document.addEventListener('DOMContentLoaded', async function(){
               (p.cover_image ? '<img src="'+p.cover_image+'">' : '') +
               '</div><div class="bc-body"><h4>'+p.title+'</h4><p>'+[p.car_make,p.car_model].filter(Boolean).join(' ')+'</p></div>';
             
-            // Re-apply cursor events to dynamic elements
             if(!isMobile) {
               card.addEventListener('mouseenter', () => document.getElementById('customCursor').classList.add('hovered', 'drag-mode'));
               card.addEventListener('mouseleave', () => document.getElementById('customCursor').classList.remove('hovered', 'drag-mode'));
@@ -1011,7 +989,6 @@ document.addEventListener('DOMContentLoaded', async function(){
       renderTestiGrid();
     }
     
-    // Failsafe 
     setTimeout(() => { 
       if(loadedAssets < assetsToLoad.length || assetsToLoad.length === 0) {
         loadedAssets = Math.max(loadedAssets, assetsToLoad.length); 
@@ -1025,6 +1002,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   /* ---------- Odometer Animation ---------- */
   function buildOdometer(el){
     var target = el.getAttribute('data-count');
+    if(!target) return [];
     el.innerHTML = '';
     var cols = [];
     target.split('').forEach(d => {
@@ -1051,7 +1029,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   }, {threshold:0.3});
   if(authSec) cIo.observe(authSec);
 
-  /* ---------- PPF Canvas Scroll Scene (Perfectly Pinned) ---------- */
+  /* ---------- PPF Canvas Scroll Scene ---------- */
   function initPPFCanvas() {
     if (!reduceMotion && window.innerWidth > 768 && frameUrlsToPlay.length > 0) {
         var canvas = document.getElementById('ppfCanvas');
@@ -1119,7 +1097,6 @@ document.addEventListener('DOMContentLoaded', async function(){
       pPanels.forEach(p => p.classList.remove('active'));
       document.getElementById(`media-process_${index + 1}`).classList.add('active');
       
-      // Native scroll snap alignment for mobile tap
       if(isMobile) tab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
     });
   });
@@ -1152,25 +1129,24 @@ document.addEventListener('DOMContentLoaded', async function(){
   }
   function posFromEvent(e){ var rect = compareFrame.getBoundingClientRect(); var x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left; return (x/rect.width)*100; }
   
-  handle.addEventListener('mousedown', () => dragging = true);
-  window.addEventListener('mouseup', () => dragging = false);
-  window.addEventListener('mousemove', e => { if(dragging) setSplit(posFromEvent(e)); });
-  handle.addEventListener('touchstart', () => dragging = true, {passive:true});
-  window.addEventListener('touchend', () => dragging = false);
-  window.addEventListener('touchmove', e => { if(dragging) setSplit(posFromEvent(e)); }, {passive:true});
-  
-  document.getElementById('showBefore').addEventListener('click', function(){ setSplit(100); this.classList.add('active'); document.getElementById('showAfter').classList.remove('active'); });
-  document.getElementById('showAfter').addEventListener('click', function(){ setSplit(0); this.classList.add('active'); document.getElementById('showBefore').classList.remove('active'); });
-  
-  var compareIo = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if(e.isIntersecting){
-        setSplit(50); setTimeout(() => setSplit(65), 350); setTimeout(() => setSplit(50), 850);
-        compareIo.unobserve(compareFrame);
-      }
-    });
-  }, {threshold:0.4});
-  compareIo.observe(compareFrame);
+  if(handle && compareFrame) {
+      handle.addEventListener('mousedown', () => dragging = true);
+      window.addEventListener('mouseup', () => dragging = false);
+      window.addEventListener('mousemove', e => { if(dragging) setSplit(posFromEvent(e)); });
+      handle.addEventListener('touchstart', () => dragging = true, {passive:true});
+      window.addEventListener('touchend', () => dragging = false);
+      window.addEventListener('touchmove', e => { if(dragging) setSplit(posFromEvent(e)); }, {passive:true});
+      
+      var compareIo = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if(e.isIntersecting){
+            setSplit(50); setTimeout(() => setSplit(65), 350); setTimeout(() => setSplit(50), 850);
+            compareIo.unobserve(compareFrame);
+          }
+        });
+      }, {threshold:0.4});
+      compareIo.observe(compareFrame);
+  }
 
   /* ---------- PREMIUM MASONRY REVIEW GRID ---------- */
   var testiGrid = document.getElementById('testiGrid');
@@ -1225,7 +1201,10 @@ document.addEventListener('DOMContentLoaded', async function(){
     document.getElementById('confirmCard').classList.add('show');
   });
 
-  backTop.addEventListener('click', () => { if(lenis) lenis.scrollTo(0); else window.scrollTo({top:0, behavior:'smooth'}); });
+  var bt = document.getElementById('backTop');
+  if(bt) {
+    bt.addEventListener('click', () => { if(lenis) lenis.scrollTo(0); else window.scrollTo({top:0, behavior:'smooth'}); });
+  }
   window.addEventListener('load', () => { if(window.ScrollTrigger) ScrollTrigger.refresh(); });
 });
 </script>
