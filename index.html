@@ -26,9 +26,31 @@
   --display:'Clash Display','Space Grotesk',sans-serif; --body:'General Sans','Inter',sans-serif; --mono:'JetBrains Mono',monospace;
   --ease:cubic-bezier(.65,0,.35,1); --ease-out:cubic-bezier(.16,1,.3,1);
 }
+
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:auto;}
-body{background:var(--void);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+
+/* STEP 1: PORSCHE DYNAMIC THEME FINISH 
+   Body transitions smoothly when scrolled into Light Theme sections */
+body{
+  background:var(--void);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+  transition: background-color 0.8s var(--ease), color 0.8s var(--ease);
+}
+
+/* Light Theme Overrides */
+body.theme-light {
+  --void: #f4f4f6;          /* Clean, clinical silver-white */
+  --graphite: #ffffff;      /* Pure white for panels */
+  --surface: #ffffff;       
+  --surface-raised: #fbfbfc;
+  --ink: #0a0a0b;           /* Deep black text */
+  --ink-dim: #5c5c60;       
+  --ink-faint: #9a9a9f;
+  --line: rgba(10, 10, 11, 0.1); 
+  --line-strong: rgba(10, 10, 11, 0.22);
+}
+
 img,video{display:block;max-width:100%;}
 a{color:inherit;text-decoration:none;}
 button{font-family:inherit;cursor:pointer;background:none;border:none;}
@@ -60,11 +82,9 @@ section{position:relative;}
 .reveal{opacity:0;transform:translateY(40px);filter:blur(8px);}
 .reveal.in{opacity:1;transform:translateY(0);filter:blur(0);transition:opacity 1s var(--ease-out),transform 1s var(--ease-out),filter 1s var(--ease-out);}
 
-/* --- Liquid Buttons --- */
-.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:100px;font-family:var(--body);font-weight:600;font-size:14px;letter-spacing:0.01em;border:1px solid var(--line-strong);color:var(--ink);transition:all .3s var(--ease);}
-.btn:hover{border-color:var(--ink-dim); transform:translateY(-2px);}
-.btn svg{width:14px;height:14px;transition:transform .3s var(--ease);}
-.btn:hover svg{transform:translate(3px,-3px);}
+/* --- Magnetic Liquid Buttons --- */
+.btn{position:relative;display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:100px;font-family:var(--body);font-weight:600;font-size:14px;letter-spacing:0.01em;border:1px solid var(--line-strong);color:var(--ink);transition:border-color .3s var(--ease);}
+.magnetic { will-change: transform; } /* Performance prep for JS magnetic effect */
 .btn-liquid{overflow:hidden;isolation:isolate;border:1px solid var(--accent-line);background:var(--accent-dim);}
 .btn-liquid.ignite{border-color:var(--ignition-line);background:var(--ignition-dim);}
 .goo-layer{position:absolute;inset:-40% -10% -10% -10%;z-index:1;pointer-events:none;filter:url(#liquid-goo);}
@@ -80,29 +100,46 @@ section{position:relative;}
 .btn-ghost{border-color:var(--line);background:rgba(255,255,255,0.03);backdrop-filter:blur(10px);}
 .btn-ghost:hover{background:var(--surface-raised);border-color:var(--accent-line);color:var(--accent-bright);}
 
-/* --- Floating Pill Navbar (NEW) --- */
+/* Theme-light Button Adjustments */
+body.theme-light .btn-liquid { border-color: var(--accent); }
+body.theme-light .btn-liquid .txt { color: var(--accent); }
+body.theme-light .btn-liquid:hover .txt { color: #ffffff; }
+body.theme-light .btn-ghost { color: var(--ink); border-color: var(--line-strong); background: transparent; }
+body.theme-light .btn-ghost:hover { background: rgba(0,0,0,0.04); }
+
+/* --- LONG, SYMMETRICAL GLASSMORPHISM NAVBAR --- */
 header{
   position:fixed;top:24px;left:50%;transform:translateX(-50%);
-  width:calc(100% - 48px);max-width:1100px;z-index:100;
-  padding:12px 12px 12px 28px;border-radius:100px;
-  background:rgba(18, 18, 20, 0.65);backdrop-filter:blur(24px);
-  border:1px solid rgba(255,255,255,0.08);
+  width:calc(100% - 48px);max-width:1280px; /* Made wider for symmetry */
+  z-index:100;
+  padding:14px 32px;border-radius:100px;
+  background:rgba(18, 18, 20, 0.45);backdrop-filter:blur(32px); /* Deep premium glass */
+  border:1px solid rgba(255,255,255,0.06);
   display:flex;align-items:center;justify-content:space-between;
-  transition:all 0.5s var(--ease);
+  transition:all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow:0 12px 40px rgba(0,0,0,0.25);
 }
 header.scrolled{
-  top:16px;background:rgba(12, 12, 14, 0.85);
-  box-shadow:0 16px 40px rgba(0,0,0,0.5);border-color:rgba(255,255,255,0.12);
+  top:16px;width:calc(100% - 32px);
+  background:rgba(10, 10, 12, 0.8);
+  border-color:rgba(255,255,255,0.12);
+  box-shadow:0 16px 48px rgba(0,0,0,0.5);
 }
 .header-logo{font-family:var(--display);font-weight:700;font-size:18px;display:flex;align-items:center;gap:12px;color:var(--ink);}
 .header-logo .mark{width:24px;height:24px;flex-shrink:0;}
-.header-links{display:flex;gap:36px;}
-.header-links a{font-size:13px;font-weight:500;color:var(--ink-dim);transition:color .3s;}
+.header-links{display:flex;gap:40px; position:absolute; left:50%; transform:translateX(-50%);} /* Perfectly centered links */
+.header-links a{font-size:13px;font-weight:500;color:var(--ink-dim);position:relative;padding-bottom:4px;transition:color .3s;}
+.header-links a::after{content:'';position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--accent);transition:width .35s var(--ease);}
 .header-links a:hover{color:var(--ink);}
+.header-links a:hover::after{width:100%;}
 .header-actions{display:flex;align-items:center;gap:12px;}
 .menu-trigger{display:none;flex-direction:column;gap:5px;width:28px;padding:4px;}
 .menu-trigger span{display:block;height:1.5px;background:var(--ink);}
 @media(max-width:900px){ .header-links{display:none;} .header-actions .btn{display:none;} .menu-trigger{display:flex;} header{top:16px;padding:16px 24px;width:calc(100% - 32px);} }
+
+/* Light theme header adaptation */
+body.theme-light header { background:rgba(255,255,255,0.7); border-color:rgba(0,0,0,0.08); box-shadow:0 12px 40px rgba(0,0,0,0.08); }
+body.theme-light header.scrolled { background:rgba(255,255,255,0.9); }
 
 /* --- Mobile Drawer --- */
 #mobile-drawer{position:fixed;inset:0;z-index:99;background:rgba(10,10,11,0.98);display:flex;flex-direction:column;justify-content:center;padding:0 32px;transform:translateY(-100%);transition:transform .5s var(--ease);}
@@ -117,8 +154,8 @@ body.menu-open{overflow:hidden;}
 .pl-dial{width:110px;height:110px;position:relative;}
 .pl-dial svg{width:100%;height:100%;overflow:visible;}
 .pl-ring-bg{fill:none;stroke:var(--line-strong);stroke-width:3;}
-.pl-ring{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:402;stroke-dashoffset:402;filter:drop-shadow(0 0 6px var(--accent));transition:stroke .3s;}
-.pl-needle{stroke:var(--ignition);stroke-width:3;stroke-linecap:round;transform-origin:80px 80px;transform:rotate(-110deg);transition:transform .12s linear;}
+.pl-ring{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-dasharray:402;stroke-dashoffset:402;filter:drop-shadow(0 0 6px var(--accent));transition:stroke .2s ease-out;}
+.pl-needle{stroke:var(--ignition);stroke-width:3;stroke-linecap:round;transform-origin:80px 80px;transform:rotate(-110deg);transition:transform .2s ease-out;}
 .pl-pct{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--ink-faint);}
 .pl-pct span{color:var(--accent);}
 
@@ -167,9 +204,9 @@ body.menu-open{overflow:hidden;}
 .stat-label{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:.04em;margin-top:10px;text-transform:uppercase;}
 @media(max-width:900px){.authority-grid{grid-template-columns:1fr;gap:48px;} .stat-grid{grid-template-columns:1fr 1fr;}}
 
-/* --- PPF SCROLL SCENE (Fixed: No Duplicates, Pure Canvas) --- */
+/* --- PPF SCROLL SCENE --- */
 #ppf-scene{height:100vh;position:relative;background:var(--void);overflow:hidden;}
-.ppf-sticky{position:absolute;inset:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:var(--void);}
+.ppf-sticky{position:absolute;inset:0;width:100%;height:100%;display:flex;justify-content:center;align-items:center;background:transparent;}
 .ppf-bg-grid{position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px, transparent 1px),linear-gradient(90deg, var(--line) 1px, transparent 1px);background-size:80px 80px;opacity:0.25;mask-image:radial-gradient(ellipse at 50% 50%, black 0%, transparent 75%);z-index:1;}
 #ppfCanvas { position:relative; width:min(90vw,1200px); height:min(50vw,700px); object-fit:contain; z-index:2; display:none; }
 #ppfSvgFallback { position:relative; width:min(90vw,1200px); height:min(50vw,700px); z-index:2; }
@@ -189,6 +226,7 @@ body.menu-open{overflow:hidden;}
 .service-desc{max-height:0;overflow:hidden;font-size:15px;color:var(--ink-dim);transition:all .5s var(--ease); opacity:0;}
 .service-item.active .service-desc{max-height:80px;margin-top:12px;opacity:1;}
 .service-media{aspect-ratio:4/5;border-radius:16px;overflow:hidden;background:var(--surface);border:1px solid var(--line);box-shadow:0 24px 48px rgba(0,0,0,0.4);position:relative;}
+body.theme-light .service-media{box-shadow:0 24px 48px rgba(0,0,0,0.08);}
 .service-media .panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .7s var(--ease);background:radial-gradient(ellipse at 50% 30%, var(--surface-raised) 0%, var(--void) 100%);}
 .service-media .panel.active{opacity:1; z-index:2;}
 .service-media .panel img {width:100%; height:100%; object-fit:cover; transform:scale(1.08); transition:transform 1.4s var(--ease-out);}
@@ -196,7 +234,7 @@ body.menu-open{overflow:hidden;}
 .service-media .panel svg{width:52%;opacity:.9;}
 @media(max-width:900px){ .services-layout{grid-template-columns:1fr;} .service-media{position:relative;top:0;order:-1;aspect-ratio:1/1;} }
 
-/* --- PREMIUM BUILDS GALLERY (Redesigned matching image 2) --- */
+/* --- PREMIUM BUILDS GALLERY --- */
 #builds{background:var(--graphite);overflow:hidden;}
 .builds-viewport{overflow:hidden;}
 .builds-track{display:flex;gap:32px;width:max-content;padding:0 40px 40px;will-change:transform;}
@@ -216,12 +254,13 @@ body.menu-open{overflow:hidden;}
 
 /* --- Before / After --- */
 #compare{background:var(--void);}
+body.theme-light #compare { background: var(--surface-raised); }
 .compare-frame{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;border:1px solid var(--line);user-select:none;background:var(--void);box-shadow:0 24px 48px rgba(0,0,0,0.4);}
 .compare-layer{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background-size:cover;background-position:center;}
 .compare-after{background-color:#1c1c1f;}
 .compare-before{background-color:#232019; clip-path: inset(0 50% 0 0); width:100%;}
 .compare-before::before{content:'';position:absolute;inset:0;background-image:repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 26px);}
-.compare-label{position:absolute;top:24px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:8px 16px;background:rgba(10,10,11,.75);border:1px solid var(--line);border-radius:100px;text-transform:uppercase;backdrop-filter:blur(8px);}
+.compare-label{position:absolute;top:24px;font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:8px 16px;background:rgba(10,10,11,.75);color:#fff;border:1px solid rgba(255,255,255,0.1);border-radius:100px;text-transform:uppercase;backdrop-filter:blur(8px);}
 .compare-label.l-before{left:24px;} .compare-label.l-after{right:24px;}
 .compare-handle{position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--accent);transform:translateX(-50%);cursor:ew-resize;box-shadow:0 0 16px rgba(193,127,62,.7);}
 .compare-handle .grip{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56px;height:56px;border-radius:50%;background:var(--void);border:1px solid var(--accent-line);display:flex;align-items:center;justify-content:center;gap:4px;box-shadow:0 8px 16px rgba(0,0,0,0.4);}
@@ -239,6 +278,7 @@ body.menu-open{overflow:hidden;}
 .ptab-indicator{position:absolute;bottom:-1px;left:0;height:2px;background:var(--accent-bright);width:25%;transition:transform .5s var(--ease-out);box-shadow:0 0 12px var(--accent);}
 .process-content{display:grid;grid-template-columns:1fr 380px;gap:80px;align-items:center;}
 .p-media{aspect-ratio:16/9;border-radius:16px;overflow:hidden;position:relative;background:var(--surface);box-shadow:0 24px 48px rgba(0,0,0,0.3);}
+body.theme-light .p-media{box-shadow:0 24px 48px rgba(0,0,0,0.08);}
 .p-panel{position:absolute;inset:0;opacity:0;transition:opacity .7s var(--ease);}
 .p-panel.active{opacity:1; z-index:2;}
 .p-panel img{width:100%;height:100%;object-fit:cover;transform:scale(1.05);transition:transform 1.4s var(--ease-out);}
@@ -250,7 +290,7 @@ body.menu-open{overflow:hidden;}
 @keyframes fadeInUp{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
 @media(max-width:900px){ .process-content{grid-template-columns:1fr;} .p-media{order:-1;} .ptab{font-size:16px;padding:16px 0;} }
 
-/* --- PREMIUM REVIEW GRID (Redesigned matching image 1) --- */
+/* --- PREMIUM REVIEW GRID --- */
 #testimonials{background:var(--void);}
 .testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;margin-top:48px;}
 .testi-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:40px;display:flex;flex-direction:column;gap:24px;transition:all 0.4s var(--ease);}
@@ -315,6 +355,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
 </head>
 <body>
 
+<!-- Shared SVG Filter for Liquid animations -->
 <svg width="0" height="0" style="position:absolute;">
   <defs>
     <filter id="liquid-goo">
@@ -325,6 +366,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
   </defs>
 </svg>
 
+<!-- TRUE PRELOADER -->
 <div id="preloader" role="status" aria-label="Loading">
   <div class="pl-dial">
     <svg viewBox="0 0 160 160">
@@ -337,7 +379,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
   <div class="pl-pct"><span id="plPct">0</span>%</div>
 </div>
 
-<!-- FLOATING PILL NAVBAR (Inspired by Image 3) -->
+<!-- FLOATING PILL NAVBAR -->
 <header id="siteHeader">
   <div class="header-logo">
     <span class="mark">
@@ -358,7 +400,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
     <a href="#testimonials">Reviews</a>
   </nav>
   <div class="header-actions">
-    <a href="#booking" class="btn btn-ghost">Book an Inspection</a>
+    <a href="#booking" class="btn btn-ghost magnetic">Book an Inspection</a>
     <button class="menu-trigger" id="menuTrigger" aria-label="Open menu"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -374,6 +416,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
 
 <main>
 
+<!-- HERO SECTION -->
 <section id="hero">
   <div class="hero-media">
     <video autoplay muted loop playsinline poster="assets/hero-poster.jpg" id="heroVideo">
@@ -403,6 +446,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
   <div class="scroll-cue"><div class="track"></div>Scroll</div>
 </section>
 
+<!-- MARQUEE -->
 <div class="marquee">
   <div class="marquee-track">
     <span>BMW</span><span>Audi</span><span>Mercedes-Benz</span><span>Range Rover</span><span>Porsche</span><span>Jaguar</span><span>Volvo</span><span>MINI</span><span>Mahindra</span><span>Tata</span>
@@ -410,11 +454,12 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
   </div>
 </div>
 
+<!-- AUTHORITY STATS -->
 <section id="authority" class="pad">
   <div class="container authority-grid">
     <div class="reveal">
       <div class="eyebrow">Built on proof</div>
-      <p class="authority-statement">Every claim of scale is backed by <span class="accent">builds completed</span>, certified installers, and a studio built to run at volume — not by marketing alone.</p>
+      <p class="authority-statement">Every claim of scale is backed by <span class="accent">builds completed</span>, certified installers, and a studio built to run at volume.</p>
     </div>
     <div class="stat-grid reveal">
       <div class="stat"><div class="stat-num"><span class="odo" data-count="4200"></span><span class="suffix">+</span></div><div class="stat-label">Vehicles Serviced</div></div>
@@ -427,7 +472,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
   </div>
 </section>
 
-<!-- PPF SIGNATURE SCENE (PERFECTLY PINNED, NO LABELS) -->
+<!-- PPF SIGNATURE SCENE (PERFECTLY PINNED, PURE CANVAS) -->
 <section id="ppf-scene">
   <div class="ppf-sticky" id="ppfStickyWrap">
     <div class="ppf-bg-grid"></div>
@@ -504,7 +549,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
   </div>
 </section>
 
-<!-- PREMIUM BUILDS GALLERY (Redesigned matching image 2) -->
+<!-- PREMIUM BUILDS GALLERY -->
 <section id="builds" class="pad">
   <div class="container">
     <div class="section-head reveal">
@@ -603,7 +648,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
   </div>
 </section>
 
-<!-- PREMIUM REVIEW GRID (Redesigned matching image 1) -->
+<!-- PREMIUM MASONRY REVIEW GRID -->
 <section id="testimonials" class="pad">
   <div class="container reveal">
     <div class="section-head" style="margin: 0 auto; text-align: center;">
@@ -612,11 +657,12 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
     </div>
     
     <div class="testi-grid" id="testiGrid">
-      <!-- Filled by JS -->
+      <!-- Filled dynamically by JS -->
     </div>
   </div>
 </section>
 
+<!-- BOOKING FORM -->
 <section id="booking" class="pad">
   <div class="booking-glow"></div>
   <div class="container booking-grid">
@@ -649,7 +695,7 @@ footer{background:var(--void);border-top:1px solid var(--line);padding:100px 0 4
           <label class="filled">Service required</label>
         </div>
         <div class="field"><textarea name="message" placeholder=" "></textarea><label>Message (optional)</label></div>
-        <button type="submit" class="btn btn-liquid" style="width:100%;justify-content:center;margin-top:12px;">
+        <button type="submit" class="btn btn-liquid magnetic" style="width:100%;justify-content:center;margin-top:12px;">
           <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
           <span class="txt">Request Inspection</span>
           <span class="txt-fill"><span>Request Inspection</span></span>
@@ -723,25 +769,22 @@ document.addEventListener('DOMContentLoaded', async function(){
     gsap.ticker.lagSmoothing(0);
   }
 
-  /* ---------- Preloader ---------- */
-  var ring = document.getElementById('plRing');
-  var needle = document.getElementById('plNeedle');
-  var pctEl = document.getElementById('plPct');
-  var preloader = document.getElementById('preloader');
-  var CIRC = 402; 
-  var progress = 0;
-  var loadTimer = setInterval(function(){
-    progress += Math.random()*14 + 6;
-    if(progress >= 100){ progress = 100; clearInterval(loadTimer); finishLoad(); }
-    pctEl.textContent = Math.floor(progress);
-    ring.style.strokeDashoffset = CIRC - (CIRC*progress/100);
-    var deg = -110 + (progress/100)*220; 
-    needle.style.transform = 'rotate(' + deg + 'deg)';
-  }, 140);
-  function finishLoad(){ setTimeout(function(){ preloader.classList.add('done'); document.getElementById('hero').classList.add('revealed'); }, 280); }
-  setTimeout(function(){ if(!preloader.classList.contains('done')){ progress=100; clearInterval(loadTimer); finishLoad(); } }, 3200);
+  /* ---------- Magnetic Hover Effect ---------- */
+  if(!reduceMotion && window.innerWidth > 900) {
+    document.querySelectorAll('.magnetic').forEach(function(btn){
+      btn.addEventListener('mousemove', function(e){
+        var r = btn.getBoundingClientRect();
+        var x = e.clientX - r.left - r.width/2;
+        var y = e.clientY - r.top - r.height/2;
+        gsap.to(btn, {x: x*0.3, y: y*0.3, duration: 0.4, ease: 'power3.out'});
+      });
+      btn.addEventListener('mouseleave', function(){
+        gsap.to(btn, {x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.5)'});
+      });
+    });
+  }
 
-  /* ---------- Nav State & Mobile Menu (Pill Design Update) ---------- */
+  /* ---------- Nav State & Mobile Menu ---------- */
   var header = document.getElementById('siteHeader');
   var backTop = document.getElementById('backTop');
   window.addEventListener('scroll', function(){
@@ -766,52 +809,136 @@ document.addEventListener('DOMContentLoaded', async function(){
   }, {threshold:0.15});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  /* ---------- Load Dynamic Data from Supabase ---------- */
-  if(db) {
-    try {
-      var { data: media } = await db.from('site_media').select('*');
-      if(media) {
-        media.forEach(m => {
-          if(m.id === 'hero_video') document.getElementById('heroVideo').src = m.media_url;
-          else if(m.id === 'before_img' || m.id === 'after_img') document.getElementById('media-' + m.id).innerHTML = '<img src="' + m.media_url + '" style="width:100%;height:100%;object-fit:cover;">';
-          else if(m.id.startsWith('service_') || m.id.startsWith('process_')) {
-            var panel = document.getElementById('media-' + m.id);
-            if(panel) panel.innerHTML = '<img src="' + m.media_url + '">';
-          }
-        });
-      }
-    } catch(e) {}
-    
-    try {
-      var { data: stats } = await db.from('stats').select('*').order('sort_order');
-      if(stats) {
-        var nodes = document.querySelectorAll('.stat');
-        stats.forEach((s, i) => {
-          if(!nodes[i]) return;
-          var odo = nodes[i].querySelector('.odo');
-          if(odo) odo.setAttribute('data-count', String(s.value));
-          nodes[i].querySelector('.suffix').textContent = s.suffix || '';
-          nodes[i].querySelector('.stat-label').textContent = s.label;
-        });
-      }
-    } catch(e) {}
-    
-    try {
-      var { data: projects } = await db.from('projects').select('*').eq('published', true).order('sort_order');
-      if(projects && projects.length) {
-        var track = document.getElementById('buildsTrack');
-        var endCard = track.querySelector('.build-end');
-        track.querySelectorAll('.build-card:not(.build-end)').forEach(c => c.remove());
-        projects.forEach(p => {
-          var card = document.createElement('div'); card.className = 'build-card';
-          card.innerHTML = '<div class="bc-media"><span class="bc-tag">'+(p.service_type||'')+'</span>' +
-            (p.cover_image ? '<img src="'+p.cover_image+'" style="width:100%;height:100%;object-fit:cover;">' : '') +
-            '</div><div class="bc-body"><h4>'+p.title+'</h4><p>'+[p.car_make,p.car_model].filter(Boolean).join(' ')+'</p></div>';
-          track.insertBefore(card, endCard);
-        });
-      }
-    } catch(e) {}
+  /* ---------- PORSCHE DYNAMIC THEME (Light Mode Toggle) ---------- */
+  if(window.gsap && window.ScrollTrigger && !reduceMotion) {
+    ScrollTrigger.create({
+      trigger: "#services",
+      start: "top 40%",       
+      endTrigger: "#process", 
+      end: "bottom 60%",
+      onEnter: () => document.body.classList.add("theme-light"),
+      onLeaveBack: () => document.body.classList.remove("theme-light"),
+      onEnterBack: () => document.body.classList.add("theme-light"),
+      onLeave: () => document.body.classList.remove("theme-light")
+    });
   }
+
+  /* ---------- TRUE PRELOADER (Loads PPF Frames) ---------- */
+  var ring = document.getElementById('plRing');
+  var needle = document.getElementById('plNeedle');
+  var pctEl = document.getElementById('plPct');
+  var preloader = document.getElementById('preloader');
+  var CIRC = 402; 
+  var assetsToLoad = [];
+  var loadedAssets = 0;
+  var frameUrlsToPlay = []; // We save them here to use in the Canvas scroll later
+
+  function updateDial() {
+    var progress = assetsToLoad.length === 0 ? 100 : (loadedAssets / assetsToLoad.length) * 100;
+    if(progress > 100) progress = 100;
+    pctEl.textContent = Math.floor(progress);
+    ring.style.strokeDashoffset = CIRC - (CIRC * progress / 100);
+    var deg = -110 + (progress / 100) * 220; 
+    needle.style.transform = 'rotate(' + deg + 'deg)';
+
+    if(progress >= 100) {
+      setTimeout(() => {
+        preloader.classList.add('done'); 
+        document.getElementById('hero').classList.add('revealed'); 
+        initPPFCanvas(); // Initialize the scroll animation now that images are cached
+      }, 400);
+    }
+  }
+
+  // Pre-load frames and general data
+  async function preloadSiteData() {
+    if(db) {
+      // 1. Fetch PPF Frames for the Preloader
+      try {
+        var { data: ppfSeq } = await db.from('frame_sequences').select('*').eq('section_key', 'ppf').order('created_at', {ascending:false}).limit(1);
+        if (ppfSeq && ppfSeq.length > 0) {
+          var folder = ppfSeq[0].folder_path; 
+          var { data: files } = await db.storage.from('frame-sequences').list(folder.replace(/\/$/, ''));
+          if(files && files.length > 0) {
+            files = files.filter(f => f.name.includes('frame'));
+            files.sort((a,b) => a.name.localeCompare(b.name, undefined, {numeric:true}));
+            
+            assetsToLoad = new Array(files.length).fill(0);
+            
+            files.forEach(f => {
+              var url = window.REV_NATION_CONFIG.SUPABASE_URL + '/storage/v1/object/public/frame-sequences/' + folder + f.name;
+              frameUrlsToPlay.push(url);
+              var img = new Image();
+              img.src = url;
+              img.onload = () => { loadedAssets++; updateDial(); };
+              img.onerror = () => { loadedAssets++; updateDial(); }; 
+            });
+          }
+        }
+      } catch(e) {}
+
+      // 2. Load General Media
+      try {
+        var { data: media } = await db.from('site_media').select('*');
+        if(media) {
+          media.forEach(m => {
+            if(m.id === 'hero_video') document.getElementById('heroVideo').src = m.media_url;
+            else if(m.id === 'before_img' || m.id === 'after_img') document.getElementById('media-' + m.id).innerHTML = '<img src="' + m.media_url + '" style="width:100%;height:100%;object-fit:cover;">';
+            else if(m.id.startsWith('service_') || m.id.startsWith('process_')) {
+              var panel = document.getElementById('media-' + m.id);
+              if(panel) panel.innerHTML = '<img src="' + m.media_url + '">';
+            }
+          });
+        }
+      } catch(e) {}
+      
+      // 3. Load Stats
+      try {
+        var { data: stats } = await db.from('stats').select('*').order('sort_order');
+        if(stats) {
+          var nodes = document.querySelectorAll('.stat');
+          stats.forEach((s, i) => {
+            if(!nodes[i]) return;
+            var odo = nodes[i].querySelector('.odo');
+            if(odo) odo.setAttribute('data-count', String(s.value));
+            nodes[i].querySelector('.suffix').textContent = s.suffix || '';
+            nodes[i].querySelector('.stat-label').textContent = s.label;
+          });
+        }
+      } catch(e) {}
+      
+      // 4. Load Projects
+      try {
+        var { data: projects } = await db.from('projects').select('*').eq('published', true).order('sort_order');
+        if(projects && projects.length) {
+          var track = document.getElementById('buildsTrack');
+          var endCard = track.querySelector('.build-end');
+          track.querySelectorAll('.build-card:not(.build-end)').forEach(c => c.remove());
+          projects.forEach(p => {
+            var card = document.createElement('div'); card.className = 'build-card';
+            card.innerHTML = '<div class="bc-media"><span class="bc-tag">'+(p.service_type||'')+'</span>' +
+              (p.cover_image ? '<img src="'+p.cover_image+'" style="width:100%;height:100%;object-fit:cover;">' : '') +
+              '</div><div class="bc-body"><h4>'+p.title+'</h4><p>'+[p.car_make,p.car_model].filter(Boolean).join(' ')+'</p></div>';
+            track.insertBefore(card, endCard);
+          });
+        }
+      } catch(e) {}
+      
+      // 5. Load Testimonials
+      renderTestiGrid();
+    }
+    
+    // Failsafe in case DB is empty or takes too long (3.5 seconds max)
+    setTimeout(() => { 
+      if(loadedAssets < assetsToLoad.length || assetsToLoad.length === 0) {
+        loadedAssets = Math.max(loadedAssets, assetsToLoad.length); 
+        updateDial(); 
+      }
+    }, 3500);
+  }
+  
+  // Start the preloading sequence
+  preloadSiteData();
 
   /* ---------- Odometer Animation ---------- */
   function buildOdometer(el){
@@ -827,15 +954,15 @@ document.addEventListener('DOMContentLoaded', async function(){
     });
     return cols;
   }
-  var odoEls = document.querySelectorAll('.odo');
-  var odoData = Array.from(odoEls).map(el => buildOdometer(el));
-
+  
   var counted = false;
   var authSec = document.getElementById('authority');
   var cIo = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if(e.isIntersecting && !counted){
         counted = true;
+        var odoEls = document.querySelectorAll('.odo');
+        var odoData = Array.from(odoEls).map(el => buildOdometer(el));
         odoData.forEach(cols => cols.forEach((c, i) => gsap.to(c.strip, {yPercent: -(c.digit*10), duration:1.3+i*0.12, ease:'power3.out', delay:i*0.05})));
       }
     });
@@ -843,73 +970,46 @@ document.addEventListener('DOMContentLoaded', async function(){
   if(authSec) cIo.observe(authSec);
 
   /* ---------- PPF Canvas Scroll Scene (Perfectly Pinned) ---------- */
-  if (db && !reduceMotion && window.innerWidth > 768) {
-    try {
-      var { data: ppfSeq } = await db.from('frame_sequences').select('*').eq('section_key', 'ppf').order('created_at', {ascending:false}).limit(1);
-      
-      if (ppfSeq && ppfSeq.length > 0) {
-          var folder = ppfSeq[0].folder_path; 
-          var { data: files } = await db.storage.from('frame-sequences').list(folder.replace(/\/$/, ''));
-          
-          if(files && files.length > 0) {
-              files = files.filter(f => f.name.includes('frame'));
-              files.sort((a,b) => a.name.localeCompare(b.name, undefined, {numeric:true}));
-              
-              var frameUrls = files.map(f => window.REV_NATION_CONFIG.SUPABASE_URL + '/storage/v1/object/public/frame-sequences/' + folder + f.name);
-              
-              var canvas = document.getElementById('ppfCanvas');
-              document.getElementById('ppfSvgFallback').style.display = 'none';
-              canvas.style.display = 'block';
-              
-              var ctx = canvas.getContext('2d');
-              var images = [];
-              var seq = { frame: 0 };
-              
-              frameUrls.forEach((url, i) => {
-                  var img = new Image();
-                  img.src = url;
-                  img.onload = () => { if(i === 0) ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
-                  images.push(img);
-              });
+  function initPPFCanvas() {
+    if (!reduceMotion && window.innerWidth > 768 && frameUrlsToPlay.length > 0) {
+        var canvas = document.getElementById('ppfCanvas');
+        document.getElementById('ppfSvgFallback').style.display = 'none';
+        canvas.style.display = 'block';
+        
+        var ctx = canvas.getContext('2d');
+        var images = [];
+        var seq = { frame: 0 };
+        
+        frameUrlsToPlay.forEach((url, i) => {
+            var img = new Image();
+            img.src = url;
+            img.onload = () => { if(i === 0) ctx.drawImage(img, 0, 0, canvas.width, canvas.height); };
+            images.push(img);
+        });
 
-              // Pin the section securely so it doesn't overlap or double-play
-              ScrollTrigger.create({
-                  trigger: '#ppf-scene',
-                  start: 'top top',
-                  end: '+=300%', 
-                  pin: true,
-                  animation: gsap.to(seq, {
-                      frame: frameUrls.length - 1,
-                      snap: "frame",
-                      ease: "none",
-                      onUpdate: function() {
-                          if (images[seq.frame]) {
-                              ctx.clearRect(0, 0, canvas.width, canvas.height);
-                              ctx.drawImage(images[seq.frame], 0, 0, canvas.width, canvas.height);
-                          }
-                      }
-                  }),
-                  scrub: 0.5
-              });
-          }
-      }
-    } catch(e) {}
+        // Pin the section securely so it doesn't overlap or double-play
+        ScrollTrigger.create({
+            trigger: '#ppf-scene',
+            start: 'top top',
+            end: '+=300%', 
+            pin: true,
+            animation: gsap.to(seq, {
+                frame: frameUrlsToPlay.length - 1,
+                snap: "frame",
+                ease: "none",
+                onUpdate: function() {
+                    if (images[seq.frame]) {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        ctx.drawImage(images[seq.frame], 0, 0, canvas.width, canvas.height);
+                    }
+                }
+            }),
+            scrub: 0.5
+        });
+    }
   }
 
-  /* ---------- Services Panel Switching ---------- */
-  var serviceItems = document.querySelectorAll('.service-item');
-  var panels = document.querySelectorAll('.service-media .panel');
-  serviceItems.forEach(item => {
-    item.addEventListener('click', () => {
-      serviceItems.forEach(i => i.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
-      item.classList.add('active');
-      document.querySelector('.panel[data-panel="'+item.dataset.panel+'"]').classList.add('active');
-    });
-    item.addEventListener('mouseenter', () => { if(window.innerWidth>900) item.click(); });
-  });
-
-  /* ---------- NEW: Interactive Process Tabs ---------- */
+  /* ---------- Interactive Process Tabs ---------- */
   var pTabs = document.querySelectorAll('.ptab');
   var pIndicator = document.querySelector('.ptab-indicator');
   var pTexts = document.querySelectorAll('.p-text');
@@ -975,15 +1075,15 @@ document.addEventListener('DOMContentLoaded', async function(){
   }, {threshold:0.4});
   compareIo.observe(compareFrame);
 
-  /* ---------- NEW: Masonry Grid Testimonials ---------- */
+  /* ---------- PREMIUM MASONRY REVIEW GRID ---------- */
   var testiGrid = document.getElementById('testiGrid');
   var testimonials = [
-    {q:"\"The wrap and wheel swap turned heads I didn't expect. Cleanest install I've seen in Jaipur.\"", name:'Aditya R.', sub:'Mahindra Thar · Wrap + Alloys · Jaipur'},
-    {q:'"Booked an inspection expecting a week-long wait. Was in the bay in three days, and the edge work is cleaner than the factory finish."', name:'Meher K.', sub:'Audi Q8 · PPF + Ceramic · Udaipur'},
-    {q:'"Two years in Rajasthan heat and dust, and the coating still beads water like day one. Worth every rupee."', name:'Karan V.', sub:'Mercedes GLE · Detailing + Coating · Jodhpur'},
-    {q:'"Initially, we had our doubts, but this team ensured a smooth integration that exceeded expectations. The results speak for themselves."', name:'Priya M.', sub:'Porsche 911 · Full PPF · C-Scheme'},
-    {q:'"Their attention to detail is unmatched. Transformed my car in just a few days. Highly recommended!"', name:'Vikram S.', sub:'BMW M340i · Mods + Ceramic · Vaishali Nagar'},
-    {q:'"Exceptional service and premium quality. Highly recommend for any high-end vehicle enthusiast."', name:'Neha T.', sub:'Range Rover Velar · Interior + PPF · Jagatpura'}
+    {q:"\"The wrap and wheel swap turned heads I didn't expect. Cleanest install I've seen in Jaipur.\"", name:'Aditya R.', sub:'Mahindra Thar · Wrap + Alloys'},
+    {q:'"Booked an inspection expecting a week-long wait. Was in the bay in three days, and the edge work is cleaner than the factory finish."', name:'Meher K.', sub:'Audi Q8 · PPF + Ceramic'},
+    {q:'"Two years in Rajasthan heat and dust, and the coating still beads water like day one. Worth every rupee."', name:'Karan V.', sub:'Mercedes GLE · Detailing + Coating'},
+    {q:'"Initially, we had our doubts, but this team ensured a smooth integration that exceeded expectations. The results speak for themselves."', name:'Priya M.', sub:'Porsche 911 · Full PPF'},
+    {q:'"Their attention to detail is unmatched. Transformed my car in just a few days. Highly recommended!"', name:'Vikram S.', sub:'BMW M340i · Mods + Ceramic'},
+    {q:'"Exceptional service and premium quality. Highly recommend for any high-end vehicle enthusiast."', name:'Neha T.', sub:'Range Rover Velar · Interior + PPF'}
   ];
   
   async function renderTestiGrid() {
@@ -1009,11 +1109,9 @@ document.addEventListener('DOMContentLoaded', async function(){
             </div>
           `).join('');
           
-          // Apply reveal observer to new dynamic cards
           document.querySelectorAll('#testiGrid .reveal').forEach(el => io.observe(el));
       }
   }
-  renderTestiGrid();
 
   /* ---------- Booking Form ---------- */
   document.getElementById('bookingForm').addEventListener('submit', function(e){
