@@ -24,6 +24,7 @@ h1,h2,h3{font-family:var(--display);font-weight:600;}
 input,select,textarea,button{font-family:var(--body);}
 a{color:var(--accent-bright);}
 
+/* -------- login / gate -------- */
 #gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
 .gate-card{width:100%;max-width:380px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:36px;}
 .gate-card h1{font-size:22px;margin-bottom:6px;}
@@ -35,15 +36,20 @@ a{color:var(--accent-bright);}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 20px;border-radius:6px;border:1px solid var(--accent);background:var(--accent-dim);color:var(--accent-bright);font-weight:600;font-size:13.5px;cursor:pointer;transition:.2s;}
 .btn:hover{background:var(--accent);color:var(--void);}
 .btn.ghost{background:transparent;border-color:var(--line-strong);color:var(--ink-dim);}
+.btn.ghost:hover{background:var(--surface-raised);color:var(--ink);}
 .btn.danger{border-color:var(--bad);color:var(--ignition-bright);background:transparent;}
 .btn.danger:hover{background:var(--bad);color:var(--ink);}
 .btn.block{width:100%;}
 .err{color:var(--ignition-bright);font-size:13px;margin-top:10px;min-height:16px;}
+.notice{background:var(--surface);border:1px solid var(--line-strong);border-radius:6px;padding:16px 18px;font-size:13.5px;color:var(--ink-dim);line-height:1.6;}
+.notice code{background:var(--void);padding:1px 6px;border-radius:3px;font-family:var(--mono);font-size:12.5px;color:var(--accent-bright);}
 
+/* -------- app shell -------- */
 #app{display:none;min-height:100vh;}
 #app.show{display:flex;}
-.sidebar{width:240px;flex-shrink:0;background:var(--graphite);border-right:1px solid var(--line);padding:24px 0;display:flex;flex-direction:column;}
+.sidebar{width:220px;flex-shrink:0;background:var(--graphite);border-right:1px solid var(--line);padding:24px 0;display:flex;flex-direction:column;}
 .sidebar .brand{padding:0 22px 22px;font-family:var(--display);font-weight:700;font-size:16px;border-bottom:1px solid var(--line);margin-bottom:14px;}
+.sidebar .brand span{display:block;font-family:var(--mono);font-weight:400;font-size:10px;color:var(--ink-faint);letter-spacing:.1em;margin-top:3px;}
 .sidebar nav{flex:1;}
 .sidebar button.tab{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:none;color:var(--ink-dim);padding:11px 22px;font-size:13.5px;cursor:pointer;border-left:2px solid transparent;transition:.2s;}
 .sidebar button.tab:hover{color:var(--ink);background:rgba(255,255,255,.02);}
@@ -56,23 +62,45 @@ a{color:var(--accent-bright);}
 .main .lede{color:var(--ink-dim);font-size:13.5px;margin-bottom:28px;}
 .panel{display:none;}
 .panel.active{display:block;}
+
 .card{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:22px;margin-bottom:20px;}
 .card h3{font-size:15px;margin-bottom:16px;}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+
 table{width:100%;border-collapse:collapse;font-size:13.5px;}
 th{text-align:left;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);padding:10px 12px;border-bottom:1px solid var(--line-strong);}
 td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+td select, td input{background:var(--void);border:1px solid var(--line-strong);border-radius:4px;color:var(--ink);padding:6px 8px;font-size:13px;}
+.tag{display:inline-block;padding:3px 9px;border-radius:100px;font-family:var(--mono);font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;}
+.tag.new{background:rgba(232,70,42,.15);color:var(--ignition-bright);}
+.tag.contacted{background:rgba(193,127,62,.15);color:var(--accent-bright);}
+.tag.closed{background:rgba(255,255,255,.06);color:var(--ink-faint);}
+
+.stat-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+.stat-cards .sc{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;}
+.stat-cards .sc .n{font-family:var(--display);font-size:30px;}
+.stat-cards .sc .l{font-family:var(--mono);font-size:11px;color:var(--ink-faint);text-transform:uppercase;margin-top:4px;}
+
 .progress-line{font-family:var(--mono);font-size:12.5px;color:var(--accent-bright);margin-top:12px;}
+.thumb{width:44px;height:44px;object-fit:cover;border-radius:4px;background:var(--void);}
 .muted{color:var(--ink-faint);font-size:12.5px;}
+@media(max-width:800px){ .sidebar{display:none;} .grid2,.grid3{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
 
+<!-- GATE -->
 <div id="gate">
   <div class="gate-card">
-    <div id="gateLogin">
+    <div id="gateNotConfigured" style="display:none;">
+      <h1>Admin not connected yet</h1>
+      <p class="sub">This panel needs a Supabase project before it can do anything.</p>
+    </div>
+    <div id="gateLogin" style="display:none;">
       <h1>Studio Admin</h1>
+      <p class="sub">Rev Nation Jaipur — sign in to manage the site.</p>
       <form id="loginForm">
         <div class="field"><label>Email</label><input type="email" id="loginEmail" required></div>
         <div class="field"><label>Password</label><input type="password" id="loginPassword" required></div>
@@ -83,16 +111,17 @@ td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle;}
   </div>
 </div>
 
+<!-- APP SHELL -->
 <div id="app">
   <aside class="sidebar">
-    <div class="brand">REV NATION</div>
+    <div class="brand">REV NATION<span>Studio Admin</span></div>
     <nav>
       <button class="tab active" data-tab="overview">Overview</button>
       <button class="tab" data-tab="leads">Leads</button>
       <button class="tab" data-tab="projects">Projects / Builds</button>
       <button class="tab" data-tab="testimonials">Testimonials</button>
       <button class="tab" data-tab="stats">Stats</button>
-      <button class="tab" data-tab="media" style="color:var(--accent-bright);">Site Media & Content</button>
+      <button class="tab" data-tab="media">Site Media & Video</button>
       <button class="tab" data-tab="frames">Frame Sequences</button>
     </nav>
     <div class="foot">
@@ -102,101 +131,203 @@ td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle;}
   </aside>
 
   <main class="main">
-    <!-- OVERVIEW / LEADS / PROJECTS / TESTIMONIALS / STATS / FRAMES PANELS (Same as before, hidden for brevity in logic but included here) -->
-    <section class="panel active" id="panel-overview"><h2>Overview</h2><p class="lede">System snapshot.</p><div class="card"><table id="overviewLeadsTable"><thead><tr><th>Name</th><th>Service</th><th>Status</th></tr></thead><tbody></tbody></table></div></section>
-    
-    <section class="panel" id="panel-leads"><h2>Leads</h2><div class="card"><table><thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>Car</th><th>Service</th><th>Status</th></tr></thead><tbody id="leadsTable"></tbody></table></div></section>
-    
-    <section class="panel" id="panel-projects"><h2>Projects</h2><div class="card"><h3>Add a project</h3><div class="grid3"><div class="field"><label>Title</label><input id="pTitle"></div><div class="field"><label>Make</label><input id="pMake"></div><div class="field"><label>Model</label><input id="pModel"></div></div><div class="grid2"><div class="field"><label>Service</label><input id="pService"></div><div class="field"><label>Cover</label><input id="pCoverFile" type="file"></div></div><button class="btn" id="addProjectBtn">Add Project</button><div class="progress-line" id="projectUploadStatus"></div></div><div class="card"><table><tbody id="projectsTable"></tbody></table></div></section>
+    <!-- OVERVIEW -->
+    <section class="panel active" id="panel-overview">
+      <h2>Overview</h2>
+      <p class="lede">A snapshot of what's in the system right now.</p>
+      <div class="stat-cards" id="overviewCards"></div>
+      <div class="card">
+        <h3>Newest leads</h3>
+        <table id="overviewLeadsTable"><thead><tr><th>Name</th><th>Car</th><th>Service</th><th>Status</th></tr></thead><tbody></tbody></table>
+      </div>
+    </section>
 
-    <section class="panel" id="panel-testimonials"><h2>Testimonials</h2><div class="card"><div class="grid3"><div class="field"><label>Name</label><input id="tName"></div><div class="field"><label>City</label><input id="tCity"></div><div class="field"><label>Car</label><input id="tCar"></div></div><div class="field"><label>Quote</label><textarea id="tQuote"></textarea></div><button class="btn" id="addTestiBtn">Add Testimonial</button></div></section>
+    <!-- LEADS -->
+    <section class="panel" id="panel-leads">
+      <h2>Leads</h2>
+      <p class="lede">Booking form submissions from the live site.</p>
+      <div class="card">
+        <table>
+          <thead><tr><th>Date</th><th>Name</th><th>Phone</th><th>City</th><th>Car</th><th>Service</th><th>Message</th><th>Status</th></tr></thead>
+          <tbody id="leadsTable"></tbody>
+        </table>
+      </div>
+    </section>
 
-    <section class="panel" id="panel-stats"><h2>Authority Stats</h2><div class="card"><table><thead><tr><th>Label</th><th>Value</th><th>Suffix</th><th></th></tr></thead><tbody id="statsTable"></tbody></table></div></section>
+    <!-- PROJECTS -->
+    <section class="panel" id="panel-projects">
+      <h2>Projects / Builds</h2>
+      <p class="lede">These populate the "Recent Builds" horizontal gallery on the site.</p>
+      <div class="card">
+        <h3>Add a project</h3>
+        <div class="grid3">
+          <div class="field"><label>Title</label><input id="pTitle" placeholder="Satin Wrap + Alloys"></div>
+          <div class="field"><label>Car make</label><input id="pMake" placeholder="Mahindra"></div>
+          <div class="field"><label>Car model</label><input id="pModel" placeholder="Thar"></div>
+        </div>
+        <div class="grid2">
+          <div class="field"><label>Service tag</label><input id="pService" placeholder="Full Wrap"></div>
+          <div class="field"><label>Cover image</label><input id="pCoverFile" type="file" accept="image/*"></div>
+        </div>
+        <div class="field"><label><input type="checkbox" id="pPublished" checked style="width:auto;margin-right:6px;">Published (visible on live site)</label></div>
+        <button class="btn" id="addProjectBtn">Add Project</button>
+        <div class="progress-line" id="projectUploadStatus"></div>
+      </div>
+      <div class="card">
+        <h3>Existing projects</h3>
+        <table>
+          <thead><tr><th>Cover</th><th>Title</th><th>Car</th><th>Service</th><th>Published</th><th></th></tr></thead>
+          <tbody id="projectsTable"></tbody>
+        </table>
+      </div>
+    </section>
 
+    <!-- TESTIMONIALS -->
+    <section class="panel" id="panel-testimonials">
+      <h2>Testimonials</h2>
+      <p class="lede">Feeds the review carousel on the live site.</p>
+      <div class="card">
+        <h3>Add a testimonial</h3>
+        <div class="grid3">
+          <div class="field"><label>Name</label><input id="tName" placeholder="Aditya R."></div>
+          <div class="field"><label>City</label><input id="tCity" placeholder="Jaipur"></div>
+          <div class="field"><label>Car</label><input id="tCar" placeholder="Mahindra Thar"></div>
+        </div>
+        <div class="field"><label>Quote</label><textarea id="tQuote" rows="3" placeholder="What they said, no quotation marks needed."></textarea></div>
+        <button class="btn" id="addTestiBtn">Add Testimonial</button>
+      </div>
+      <div class="card">
+        <h3>Existing testimonials</h3>
+        <table>
+          <thead><tr><th>Name</th><th>Car</th><th>Quote</th><th>Published</th><th></th></tr></thead>
+          <tbody id="testiTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="panel" id="panel-stats">
+      <h2>Authority Stats</h2>
+      <p class="lede">The odometer counters on the live site. Edit values and save.</p>
+      <div class="card">
+        <table>
+          <thead><tr><th>Label</th><th>Value</th><th>Suffix</th><th></th></tr></thead>
+          <tbody id="statsTable"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- NEW: SITE MEDIA & VIDEO -->
+    <section class="panel" id="panel-media">
+      <h2>Site Media & Video</h2>
+      <p class="lede">Manage universal assets like the Hero video, Before/After sliders, and Services imagery.</p>
+      
+      <div class="card">
+        <h3>Hero Video</h3>
+        <p class="muted" style="margin-bottom:12px;">Upload a compressed MP4 video.</p>
+        <div class="field"><input type="file" id="heroVideoFile" accept="video/mp4,video/webm"></div>
+        <button class="btn" onclick="uploadMedia('hero_video', 'heroVideoFile', 'heroStatus')">Upload Video</button>
+        <div class="progress-line" id="heroStatus"></div>
+      </div>
+      
+      <div class="card">
+        <h3>Before & After Slider</h3>
+        <div class="grid2">
+          <div>
+            <div class="field"><label>Before Image</label><input type="file" id="beforeImgFile" accept="image/*"></div>
+            <button class="btn ghost" onclick="uploadMedia('before_img', 'beforeImgFile', 'baStatus1')">Upload Before</button>
+            <div class="progress-line" id="baStatus1"></div>
+          </div>
+          <div>
+            <div class="field"><label>After Image</label><input type="file" id="afterImgFile" accept="image/*"></div>
+            <button class="btn ghost" onclick="uploadMedia('after_img', 'afterImgFile', 'baStatus2')">Upload After</button>
+            <div class="progress-line" id="baStatus2"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <h3>Services / What We Do Images</h3>
+        <div class="grid3">
+          <div><div class="field"><label>1. Custom Mods</label><input type="file" id="s1"></div><button class="btn ghost" style="padding:6px 12px;font-size:12px;" onclick="uploadMedia('service_1', 's1', 's1Stat')">Upload</button><div class="progress-line" id="s1Stat"></div></div>
+          <div><div class="field"><label>2. PPF</label><input type="file" id="s2"></div><button class="btn ghost" style="padding:6px 12px;font-size:12px;" onclick="uploadMedia('service_2', 's2', 's2Stat')">Upload</button><div class="progress-line" id="s2Stat"></div></div>
+          <div><div class="field"><label>3. Ceramic</label><input type="file" id="s3"></div><button class="btn ghost" style="padding:6px 12px;font-size:12px;" onclick="uploadMedia('service_3', 's3', 's3Stat')">Upload</button><div class="progress-line" id="s3Stat"></div></div>
+          <div><div class="field"><label>4. Detailing</label><input type="file" id="s4"></div><button class="btn ghost" style="padding:6px 12px;font-size:12px;" onclick="uploadMedia('service_4', 's4', 's4Stat')">Upload</button><div class="progress-line" id="s4Stat"></div></div>
+          <div><div class="field"><label>5. Windshield</label><input type="file" id="s5"></div><button class="btn ghost" style="padding:6px 12px;font-size:12px;" onclick="uploadMedia('service_5', 's5', 's5Stat')">Upload</button><div class="progress-line" id="s5Stat"></div></div>
+          <div><div class="field"><label>6. Interior</label><input type="file" id="s6"></div><button class="btn ghost" style="padding:6px 12px;font-size:12px;" onclick="uploadMedia('service_6', 's6', 's6Stat')">Upload</button><div class="progress-line" id="s6Stat"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FRAME SEQUENCES -->
     <section class="panel" id="panel-frames">
       <h2>Frame Sequences</h2>
+      <p class="lede">Upload a numbered image sequence for a canvas scroll-scrub scene. Select files in order.</p>
       <div class="card">
-        <div class="grid2">
-          <div class="field"><label>Section</label><select id="fSection"><option value="ppf">PPF Signature Scene</option><option value="hero">Hero</option></select></div>
-          <div class="field"><label>Frames (multi-select 27+ images)</label><input type="file" id="fFiles" accept="image/*" multiple></div>
+        <div class="grid3">
+          <div class="field"><label>Project (optional)</label><select id="fProject"><option value="">— General / not tied to a project —</option></select></div>
+          <div class="field"><label>Section</label><select id="fSection"><option value="ppf">PPF Signature Scene</option><option value="hero">Hero</option><option value="mods">Mods Scene</option></select></div>
+          <div class="field"><label>Frames (multi-select 27+)</label><input type="file" id="fFiles" accept="image/*" multiple></div>
         </div>
         <button class="btn" id="uploadFramesBtn">Upload Sequence</button>
         <div class="progress-line" id="frameUploadStatus"></div>
       </div>
-    </section>
-
-    <!-- NEW MEDIA PANEL -->
-    <section class="panel" id="panel-media">
-      <h2>Site Media & Content</h2>
-      <p class="lede">Upload videos and imagery for the main sections of the website.</p>
-      
       <div class="card">
-        <h3>Hero Video</h3>
-        <p class="muted mb-4">Upload a compressed MP4 video for the top of the site.</p>
-        <input type="file" id="heroVideoFile" accept="video/mp4,video/webm" class="mb-2">
-        <button class="btn" onclick="uploadMedia('hero_video', 'heroVideoFile', 'heroStatus')">Upload Video</button>
-        <div class="progress-line" id="heroStatus"></div>
-      </div>
-
-      <div class="card">
-        <h3>Before & After Slider</h3>
-        <p class="muted mb-4">Upload the two images used in the drag comparison slider.</p>
-        <div class="grid2">
-            <div>
-                <label style="font-size:12px;color:var(--ink-faint);">Before Image</label><br>
-                <input type="file" id="beforeImgFile" accept="image/*" class="mb-2"><br>
-                <button class="btn" onclick="uploadMedia('before_img', 'beforeImgFile', 'baStatus1')">Upload Before</button>
-                <div class="progress-line" id="baStatus1"></div>
-            </div>
-            <div>
-                <label style="font-size:12px;color:var(--ink-faint);">After Image</label><br>
-                <input type="file" id="afterImgFile" accept="image/*" class="mb-2"><br>
-                <button class="btn" onclick="uploadMedia('after_img', 'afterImgFile', 'baStatus2')">Upload After</button>
-                <div class="progress-line" id="baStatus2"></div>
-            </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h3>What We Do (Services Panel Images)</h3>
-        <p class="muted mb-4">Replace the abstract icons with actual photos for the 6 services.</p>
-        <div class="grid3">
-            <div><label style="font-size:12px;color:var(--ink-faint);">1. Custom Mods</label><br><input type="file" id="s1" class="mb-2"><button class="btn" onclick="uploadMedia('service_1', 's1', 's1Stat')">Upload</button><div class="progress-line" id="s1Stat"></div></div>
-            <div><label style="font-size:12px;color:var(--ink-faint);">2. PPF</label><br><input type="file" id="s2" class="mb-2"><button class="btn" onclick="uploadMedia('service_2', 's2', 's2Stat')">Upload</button><div class="progress-line" id="s2Stat"></div></div>
-            <div><label style="font-size:12px;color:var(--ink-faint);">3. Ceramic</label><br><input type="file" id="s3" class="mb-2"><button class="btn" onclick="uploadMedia('service_3', 's3', 's3Stat')">Upload</button><div class="progress-line" id="s3Stat"></div></div>
-            <div><label style="font-size:12px;color:var(--ink-faint);">4. Detailing</label><br><input type="file" id="s4" class="mb-2"><button class="btn" onclick="uploadMedia('service_4', 's4', 's4Stat')">Upload</button><div class="progress-line" id="s4Stat"></div></div>
-            <div><label style="font-size:12px;color:var(--ink-faint);">5. Windshield</label><br><input type="file" id="s5" class="mb-2"><button class="btn" onclick="uploadMedia('service_5', 's5', 's5Stat')">Upload</button><div class="progress-line" id="s5Stat"></div></div>
-            <div><label style="font-size:12px;color:var(--ink-faint);">6. Interior</label><br><input type="file" id="s6" class="mb-2"><button class="btn" onclick="uploadMedia('service_6', 's6', 's6Stat')">Upload</button><div class="progress-line" id="s6Stat"></div></div>
-        </div>
+        <h3>Existing sequences</h3>
+        <table>
+          <thead><tr><th>Section</th><th>Folder</th><th>Frame Count</th><th>Project</th><th></th></tr></thead>
+          <tbody id="framesTable"></tbody>
+        </table>
       </div>
     </section>
-
   </main>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
-var db = supabase.createClient(window.REV_NATION_CONFIG.SUPABASE_URL, window.REV_NATION_CONFIG.SUPABASE_ANON_KEY);
+var db = null;
+var configured = false;
 
-db.auth.getSession().then(({ data }) => {
-  if(data && data.session){
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').classList.add('show');
-    loadLeads(); loadStats();
-  }
-});
+(function init(){
+  var cfg = window.REV_NATION_CONFIG;
+  configured = !!(cfg && cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && cfg.SUPABASE_URL.indexOf('YOUR_') === -1);
+  if(!configured){ document.getElementById('gateNotConfigured').style.display = 'block'; return; }
+  db = supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+  checkSession();
+})();
+
+async function checkSession(){
+  var { data } = await db.auth.getSession();
+  if(data && data.session){ showApp(data.session); } 
+  else { document.getElementById('gateLogin').style.display = 'block'; }
+}
 
 document.getElementById('loginForm').addEventListener('submit', async function(e){
   e.preventDefault();
-  var { error } = await db.auth.signInWithPassword({ 
+  var errEl = document.getElementById('loginErr');
+  errEl.textContent = '';
+  var { data, error } = await db.auth.signInWithPassword({ 
       email: document.getElementById('loginEmail').value, 
       password: document.getElementById('loginPassword').value 
   });
-  if(error) document.getElementById('loginErr').textContent = error.message;
-  else window.location.reload();
+  if(error){ errEl.textContent = error.message; return; }
+  showApp(data.session);
 });
 
+function showApp(session){
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('app').classList.add('show');
+  document.getElementById('sessionEmail').textContent = session.user.email;
+  loadAll();
+}
+
+document.getElementById('logoutBtn').addEventListener('click', async function(){
+  await db.auth.signOut();
+  window.location.reload();
+});
+
+/* -------- tabs -------- */
 document.querySelectorAll('.tab').forEach(function(btn){
   btn.addEventListener('click', function(){
     document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
@@ -206,7 +337,127 @@ document.querySelectorAll('.tab').forEach(function(btn){
   });
 });
 
-/* --- Universal Media Uploader for Hero, Before/After, Services --- */
+/* -------- data loading -------- */
+var cache = { leads:[], projects:[], testimonials:[], stats:[], frames:[] };
+
+async function loadAll(){
+  await Promise.all([loadLeads(), loadProjects(), loadTestimonials(), loadStats(), loadFrames()]);
+  renderOverview();
+}
+
+async function loadLeads(){
+  var { data } = await db.from('leads').select('*').order('created_at', {ascending:false});
+  cache.leads = data || []; renderLeads();
+}
+async function loadProjects(){
+  var { data } = await db.from('projects').select('*').order('sort_order');
+  cache.projects = data || []; renderProjects();
+}
+async function loadTestimonials(){
+  var { data } = await db.from('testimonials').select('*').order('sort_order');
+  cache.testimonials = data || []; renderTestimonials();
+}
+async function loadStats(){
+  var { data } = await db.from('stats').select('*').order('sort_order');
+  cache.stats = data || []; renderStats();
+}
+async function loadFrames(){
+  var { data } = await db.from('frame_sequences').select('*, projects(title)').order('created_at', {ascending:false});
+  cache.frames = data || []; renderFrames();
+}
+
+/* -------- overview -------- */
+function renderOverview(){
+  var newLeads = cache.leads.filter(l => l.status === 'new').length;
+  var cardsHtml = [
+    {n:cache.leads.length, l:'Total Leads'}, {n:newLeads, l:'New Leads'},
+    {n:cache.projects.length, l:'Projects'}, {n:cache.testimonials.length, l:'Testimonials'},
+    {n:cache.frames.length, l:'Frame Sequences'}
+  ].map(c => '<div class="sc"><div class="n">'+c.n+'</div><div class="l">'+c.l+'</div></div>').join('');
+  document.getElementById('overviewCards').innerHTML = cardsHtml;
+
+  document.querySelector('#overviewLeadsTable tbody').innerHTML = cache.leads.slice(0,6).map(l => 
+    '<tr><td>'+esc(l.name)+'</td><td>'+esc(l.car||'')+'</td><td>'+esc(l.service||'')+'</td><td><span class="tag '+l.status+'">'+l.status+'</span></td></tr>'
+  ).join('') || '<tr><td colspan="4" class="muted">No leads yet.</td></tr>';
+}
+
+/* -------- leads -------- */
+function renderLeads(){
+  var tbody = document.getElementById('leadsTable');
+  tbody.innerHTML = cache.leads.map(l => 
+    '<tr><td class="muted">'+new Date(l.created_at).toLocaleDateString()+'</td>' +
+    '<td>'+esc(l.name)+'</td><td>'+esc(l.phone)+'</td><td>'+esc(l.city||'')+'</td><td>'+esc(l.car||'')+'</td><td>'+esc(l.service||'')+'</td>' +
+    '<td class="muted">'+esc(l.message||'—')+'</td>' +
+    '<td><select data-id="'+l.id+'" class="leadStatus"><option value="new"'+(l.status==='new'?' selected':'')+'>New</option><option value="contacted"'+(l.status==='contacted'?' selected':'')+'>Contacted</option><option value="closed"'+(l.status==='closed'?' selected':'')+'>Closed</option></select></td></tr>'
+  ).join('') || '<tr><td colspan="8" class="muted">No leads yet.</td></tr>';
+
+  tbody.querySelectorAll('.leadStatus').forEach(sel => {
+    sel.addEventListener('change', async function(){
+      await db.from('leads').update({status:sel.value}).eq('id', sel.dataset.id);
+      await loadLeads(); renderOverview();
+    });
+  });
+}
+
+/* -------- projects -------- */
+function renderProjects(){
+  var tbody = document.getElementById('projectsTable');
+  tbody.innerHTML = cache.projects.map(p => 
+    '<tr><td>'+(p.cover_image ? '<img class="thumb" src="'+p.cover_image+'">' : '<span class="muted">—</span>')+'</td>' +
+    '<td>'+esc(p.title)+'</td><td>'+esc([p.car_make,p.car_model].filter(Boolean).join(' '))+'</td><td>'+esc(p.service_type||'')+'</td>' +
+    '<td>'+(p.published ? 'Yes' : 'No')+'</td>' +
+    '<td><button class="btn danger" data-id="'+p.id+'" style="padding:6px 12px;font-size:12px;">Delete</button></td></tr>'
+  ).join('') || '<tr><td colspan="6" class="muted">No projects yet.</td></tr>';
+
+  tbody.querySelectorAll('button.danger').forEach(btn => {
+    btn.addEventListener('click', async function(){
+      if(!confirm('Delete this project?')) return;
+      await db.from('projects').delete().eq('id', btn.dataset.id);
+      await loadProjects(); renderOverview();
+    });
+  });
+}
+
+/* -------- testimonials -------- */
+function renderTestimonials(){
+  var tbody = document.getElementById('testiTable');
+  tbody.innerHTML = cache.testimonials.map(t => 
+    '<tr><td>'+esc(t.name)+'</td><td>'+esc(t.car||'')+'</td><td class="muted" style="max-width:320px;">'+esc(t.quote)+'</td>' +
+    '<td>'+(t.published?'Yes':'No')+'</td><td><button class="btn danger" data-id="'+t.id+'" style="padding:6px 12px;font-size:12px;">Delete</button></td></tr>'
+  ).join('') || '<tr><td colspan="5" class="muted">No testimonials yet.</td></tr>';
+
+  tbody.querySelectorAll('button.danger').forEach(btn => {
+    btn.addEventListener('click', async function(){
+      if(!confirm('Delete this testimonial?')) return;
+      await db.from('testimonials').delete().eq('id', btn.dataset.id);
+      await loadTestimonials(); renderOverview();
+    });
+  });
+}
+
+/* -------- stats -------- */
+function renderStats(){
+  var tbody = document.getElementById('statsTable');
+  tbody.innerHTML = cache.stats.map(s => 
+    '<tr data-id="'+s.id+'"><td>'+esc(s.label)+'</td>' +
+    '<td><input type="number" class="statValue" value="'+s.value+'" style="width:100px;"></td>' +
+    '<td><input type="text" class="statSuffix" value="'+esc(s.suffix||'')+'" style="width:90px;"></td>' +
+    '<td><button class="btn" style="padding:6px 12px;font-size:12px;">Save</button></td></tr>'
+  ).join('') || '<tr><td colspan="4" class="muted">No stats yet.</td></tr>';
+
+  tbody.querySelectorAll('button.btn').forEach(btn => {
+    btn.addEventListener('click', async function(){
+      var row = btn.closest('tr');
+      await db.from('stats').update({
+        value: parseInt(row.querySelector('.statValue').value, 10), 
+        suffix: row.querySelector('.statSuffix').value
+      }).eq('id', row.dataset.id);
+      btn.textContent = 'Saved'; setTimeout(() => btn.textContent = 'Save', 1200);
+    });
+  });
+}
+
+/* -------- Universal Media Uploader (NEW) -------- */
 async function uploadMedia(dbId, fileInputId, statusId) {
     var file = document.getElementById(fileInputId).files[0];
     var status = document.getElementById(statusId);
@@ -216,24 +467,38 @@ async function uploadMedia(dbId, fileInputId, statusId) {
     var ext = file.name.split('.').pop();
     var path = dbId + '-' + Date.now() + '.' + ext;
     
-    // Upload to site-assets bucket
     var { error: upErr } = await db.storage.from('site-assets').upload(path, file);
     if(upErr) { status.textContent = "Upload failed: " + upErr.message; return; }
     
-    // Get public URL
     var pubUrl = db.storage.from('site-assets').getPublicUrl(path).data.publicUrl;
-    
-    // Save to site_media table
     var { error: dbErr } = await db.from('site_media').upsert({ id: dbId, media_url: pubUrl });
-    if(dbErr) { status.textContent = "Database save failed: " + dbErr.message; }
+    
+    if(dbErr) { status.textContent = "Save failed: " + dbErr.message; }
     else { status.textContent = "Uploaded and live!"; }
 }
 
-/* --- Frames Uploader (Preserved from original) --- */
+/* -------- frame sequences -------- */
+function renderFrames(){
+  var tbody = document.getElementById('framesTable');
+  tbody.innerHTML = cache.frames.map(f => 
+    '<tr><td>'+esc(f.section_key||'')+'</td><td class="muted">'+esc(f.folder_path)+'</td><td>'+f.frame_count+'</td>' +
+    '<td>'+esc((f.projects && f.projects.title) || '—')+'</td>' +
+    '<td><button class="btn danger" data-id="'+f.id+'" style="padding:6px 12px;font-size:12px;">Delete</button></td></tr>'
+  ).join('') || '<tr><td colspan="5" class="muted">No sequences uploaded yet.</td></tr>';
+
+  tbody.querySelectorAll('button.danger').forEach(btn => {
+    btn.addEventListener('click', async function(){
+      if(!confirm('Delete this sequence record?')) return;
+      await db.from('frame_sequences').delete().eq('id', btn.dataset.id);
+      await loadFrames(); renderOverview();
+    });
+  });
+}
+
 document.getElementById('uploadFramesBtn').addEventListener('click', async function(){
   var status = document.getElementById('frameUploadStatus');
   var files = Array.from(document.getElementById('fFiles').files);
-  if(!files.length) return;
+  if(!files.length){ alert('Select at least one image'); return; }
   files.sort((a,b) => a.name.localeCompare(b.name, undefined, {numeric:true}));
 
   var section = document.getElementById('fSection').value;
@@ -241,18 +506,19 @@ document.getElementById('uploadFramesBtn').addEventListener('click', async funct
 
   for(var i=0;i<files.length;i++){
     status.textContent = 'Uploading '+(i+1)+' / '+files.length+'…';
-    var path = folder + '/' + files[i].name;
-    var { error } = await db.storage.from('frame-sequences').upload(path, files[i], {upsert:true});
-    if(error){ status.textContent = 'Failed on frame '+(i+1); return; }
+    var { error } = await db.storage.from('frame-sequences').upload(folder + '/' + files[i].name, files[i], {upsert:true});
+    if(error){ status.textContent = 'Failed on frame '+(i+1)+': '+error.message; return; }
   }
 
-  await db.from('frame_sequences').insert([{ folder_path: folder + '/', frame_count: files.length, section_key: section }]);
-  status.textContent = 'Done — ' + files.length + ' frames uploaded to ' + folder;
+  var { error: insertErr } = await db.from('frame_sequences').insert([{ folder_path: folder + '/', frame_count: files.length, section_key: section }]);
+  if(insertErr){ status.textContent = 'Upload OK, but failed to save record: '+insertErr.message; return; }
+
+  status.textContent = 'Done — ' + files.length + ' frames uploaded to ' + folder + '/';
+  document.getElementById('fFiles').value = '';
+  await loadFrames(); renderOverview();
 });
 
-// Stubs for basic stats load so the dashboard doesn't error out
-async function loadLeads() {}
-async function loadStats() {}
+function esc(s){ var d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
 </script>
 </body>
 </html>
