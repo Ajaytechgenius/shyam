@@ -16,7 +16,7 @@
 
 <style>
 /* ============================================================
-   REV NATION JAIPUR — Master CSS (Bug-Free & Validated)
+   REV NATION JAIPUR — Master CSS (Refined & Validated)
    ============================================================ */
 :root {
   --void: #0a0a0b; --graphite: #131315; --surface: #1a1a1d; --surface-raised: #212124;
@@ -56,18 +56,15 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* Typography Constraints (Fixed "Too Big Text" bug) */
 .container { width: 100%; max-width: 1440px; margin: 0 auto; padding: 0 60px; }
 @media(max-width: 768px) { .container { padding: 0 24px; } }
 
-.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent); display: flex; align-items: center; gap: 12px; }
-.eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
-.eyebrow.ignite { color: var(--ignition-bright); }
-.eyebrow.ignite::before { background: var(--ignition-bright); }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-bright); display: flex; align-items: center; gap: 12px; }
+.eyebrow::before { content: ''; width: 20px; height: 1px; background: var(--accent-bright); }
 
 h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.1; letter-spacing: -0.03em; }
-h1 { font-size: clamp(40px, 6vw, 88px); } /* Reduced max size from 110px to 88px */
-h2 { font-size: clamp(32px, 4vw, 56px); margin-top: 16px; } /* Reduced max size from 64px to 56px */
+h1 { font-size: clamp(40px, 6vw, 88px); } 
+h2 { font-size: clamp(32px, 4vw, 56px); margin-top: 16px; } 
 
 .section-head { max-width: 680px; margin-bottom: 64px; }
 .section-head p { color: var(--ink-dim); margin-top: 20px; font-size: clamp(16px, 2vw, 18px); max-width: 560px; }
@@ -79,7 +76,7 @@ section { position: relative; }
 .reveal { opacity: 0; transform: translateY(40px); filter: blur(8px); }
 .reveal.in { opacity: 1; transform: translateY(0); filter: blur(0); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out), filter 1s var(--ease-out); }
 
-/* --- PREMIUM BUTTONS (Slide Fill, Zero Glitches) --- */
+/* --- PREMIUM BUTTONS (Straight Slide Fill) --- */
 .btn {
   position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px;
   padding: 16px 32px; border-radius: 100px; font-family: var(--body); font-weight: 600; font-size: 14px;
@@ -90,10 +87,10 @@ section { position: relative; }
 
 .btn-liquid { border-color: var(--accent); background: transparent; }
 .btn-liquid::before {
-  content: ''; position: absolute; inset: 0; background: var(--accent);
-  transform: scaleY(0); transform-origin: bottom; transition: transform 0.5s var(--ease); z-index: 0;
+  content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+  background: var(--accent); transform: translateX(-101%); transition: transform 0.4s var(--ease); z-index: 0;
 }
-.btn-liquid:hover::before { transform: scaleY(1); }
+.btn-liquid:hover::before { transform: translateX(0); }
 .btn-liquid.ignite { border-color: var(--ignition); }
 .btn-liquid.ignite::before { background: var(--ignition); }
 .btn-liquid span.txt { position: relative; z-index: 1; color: var(--accent-bright); transition: color 0.3s; }
@@ -109,20 +106,16 @@ body.theme-light .btn-liquid:hover span.txt { color: #fff; }
 body.theme-light .btn-ghost { color: var(--ink); border-color: var(--line-strong); background: transparent; }
 body.theme-light .btn-ghost:hover { background: rgba(0,0,0,0.04); }
 
-/* --- NAVBAR (Fixed Double Underline) --- */
+/* --- NAVBAR (Supaste Style Auto-Minimize) --- */
 header {
   position: fixed; top: 24px; left: 50%; transform: translateX(-50%); width: calc(100% - 48px); max-width: 1280px; z-index: 100;
-  padding: 14px 32px; border-radius: 100px; background: rgba(18, 18, 20, 0.45); backdrop-filter: blur(32px);
+  padding: 16px 32px; border-radius: 100px; background: rgba(18, 18, 20, 0.45); backdrop-filter: blur(32px);
   border: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: all 0.8s var(--ease-out); overflow: hidden;
 }
-header.scrolled {
-  top: 16px; width: calc(100% - 32px); background: rgba(10, 10, 12, 0.85);
-  border-color: rgba(255,255,255,0.12); box-shadow: 0 16px 48px rgba(0,0,0,0.4);
-}
-.header-logo { font-family: var(--display); font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 12px; color: var(--ink); }
-.header-logo .mark { width: 24px; height: 24px; flex-shrink: 0; }
-.header-links { display: flex; gap: 40px; position: absolute; left: 50%; transform: translateX(-50%); }
+.header-logo { font-family: var(--display); font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 12px; color: var(--ink); transition: all 0.6s var(--ease-out); }
+.header-logo .mark { width: 24px; height: 24px; flex-shrink: 0; transition: all 0.6s var(--ease-out); }
+.header-links { display: flex; gap: 40px; position: absolute; left: 50%; transform: translateX(-50%); transition: all 0.6s var(--ease-out); }
 .header-links a { font-size: 13px; font-weight: 500; color: var(--ink-dim); position: relative; padding-bottom: 4px; transition: color 0.3s; }
 .header-links a::after {
   content: ''; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--accent);
@@ -130,8 +123,21 @@ header.scrolled {
 }
 .header-links a:hover { color: var(--ink); }
 .header-links a:hover::after { transform: scaleX(1); transform-origin: left; }
-.header-actions { display: flex; align-items: center; gap: 16px; }
+.header-actions { display: flex; align-items: center; gap: 16px; transition: all 0.6s var(--ease-out); }
+.header-actions .btn { transition: all 0.6s var(--ease-out); }
 
+/* The Compact "Supaste" Scrolled/Minimized State */
+body.ui-minimized header {
+  width: max-content; gap: 40px; padding: 8px 12px 8px 24px; top: 20px;
+  background: rgba(0, 0, 0, 0.85); box-shadow: 0 16px 40px rgba(0,0,0,0.5); border-color: rgba(255,255,255,0.15);
+}
+body.ui-minimized .header-links { position: relative; left: auto; transform: none; gap: 24px; }
+body.ui-minimized .header-logo { font-size: 14px; gap: 8px; }
+body.ui-minimized .header-logo .mark { width: 18px; height: 18px; }
+body.ui-minimized .header-links a { font-size: 12px; }
+body.ui-minimized .header-actions .btn { padding: 10px 20px; font-size: 12px; background: #fff; color: #000; border-color: transparent; }
+
+/* Audio Equalizer */
 .audio-toggle { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; gap: 4px; border-radius: 50%; border: 1px solid var(--line-strong); transition: border-color 0.3s; background: transparent; }
 .audio-toggle:hover { border-color: var(--accent-bright); }
 .audio-toggle span { width: 2px; background: var(--ink-dim); border-radius: 2px; transition: height 0.2s; }
@@ -139,19 +145,7 @@ header.scrolled {
 .audio-toggle.playing span { background: var(--accent-bright); animation: eq 0.8s ease-in-out infinite alternate; }
 .audio-toggle.playing span:nth-child(2) { animation-delay: 0.2s; } .audio-toggle.playing span:nth-child(3) { animation-delay: 0.4s; }
 @keyframes eq { 0% { height: 6px; } 100% { height: 20px; } }
-
-.menu-trigger { display: none; flex-direction: column; gap: 5px; width: 28px; padding: 4px; }
-.menu-trigger span { display: block; height: 1.5px; background: var(--ink); }
-@media(max-width: 900px) { .header-links { display: none; } .header-actions .btn { display: none; } header { top: 16px; padding: 16px 24px; width: calc(100% - 32px); } }
-body.theme-light header { background: rgba(255,255,255,0.7); border-color: rgba(0,0,0,0.08); }
-body.theme-light header.scrolled { background: rgba(255,255,255,0.95); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
-
-/* Mobile Drawer */
-#mobile-drawer { position: fixed; inset: 0; z-index: 99; background: rgba(10,10,11,0.98); display: flex; flex-direction: column; justify-content: center; padding: 0 40px; transform: translateY(-100%); transition: transform 0.5s var(--ease); }
-#mobile-drawer.open { transform: translateY(0); }
-#mobile-drawer a { font-family: var(--display); font-size: 36px; font-weight: 600; padding: 16px 0; border-bottom: 1px solid var(--line); opacity: 0; transform: translateY(16px); transition: all 0.5s var(--ease-out); }
-#mobile-drawer.open a { opacity: 1; transform: translateY(0); }
-body.menu-open { overflow: hidden; }
+@media(max-width: 900px) { .header-links { display: none !important; } .header-actions .btn { display: none !important; } header { top: 16px; padding: 16px 24px; width: calc(100% - 32px); } body.ui-minimized header { width: calc(100% - 32px); justify-content: space-between; gap:0; } }
 
 /* Preloader */
 #preloader { position: fixed; inset: 0; z-index: 999; background: var(--void); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 0.9s var(--ease), visibility 0.9s; }
@@ -164,14 +158,18 @@ body.menu-open { overflow: hidden; }
 .pl-pct { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; color: var(--ink-faint); }
 .pl-pct span { color: var(--accent); }
 
-/* Hero */
+/* --- HERO (Scale Down to Reveal Video) --- */
 #hero { height: 100vh; min-height: 700px; position: relative; overflow: hidden; background: var(--void); }
 .hero-media { position: absolute; inset: 0; }
-.hero-media video, .hero-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.65; }
-.hero-scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(10,10,11,0) 0%, rgba(10,10,11,0.55) 62%, rgba(10,10,11,0.96) 100%), linear-gradient(180deg, rgba(10,10,11,0.3) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.7) 85%, var(--void) 100%); }
-.hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 120px; }
-.hero-eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.16em; color: var(--accent-bright); text-transform: uppercase; margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
-.hero-eyebrow::before { content: ''; width: 30px; height: 1px; background: var(--accent-bright); }
+.hero-media video, .hero-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 1s var(--ease); }
+.hero-scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(10,10,11,0) 0%, rgba(10,10,11,0.55) 62%, rgba(10,10,11,0.96) 100%), linear-gradient(180deg, rgba(10,10,11,0.4) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.8) 85%, var(--void) 100%); transition: opacity 1s var(--ease); }
+.hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 120px; transition: transform 1s var(--ease-out), opacity 1s var(--ease-out); transform-origin: bottom left; }
+
+/* The 5-Second Video Focus State */
+body.ui-minimized .hero-content { transform: scale(0.6) translateY(40px); opacity: 0.75; }
+body.ui-minimized .hero-scrim { opacity: 0.3; }
+
+.hero-eyebrow { margin-bottom: 24px; }
 .hero h1 .line { display: block; overflow: hidden; padding-bottom: 8px; }
 .hero h1 .line span { display: inline-block; transform: translateY(105%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
 .hero.revealed h1 .line:nth-child(1) span { transition-delay: 0.15s; }
@@ -181,67 +179,34 @@ body.menu-open { overflow: hidden; }
 .hero.revealed p.sub { opacity: 1; transform: translateY(0); }
 .hero-actions { margin-top: 48px; display: flex; gap: 20px; flex-wrap: wrap; opacity: 0; transform: translateY(20px); transition: all 0.8s var(--ease-out) 0.7s; }
 .hero.revealed .hero-actions { opacity: 1; transform: translateY(0); }
-
-/* Marquee */
-.marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--graphite); padding: 24px 0; }
-.marquee-track { display: flex; gap: 80px; width: max-content; animation: marquee-scroll 32s linear infinite; }
-.marquee-track span { font-family: var(--mono); font-size: 13px; letter-spacing: 0.12em; color: var(--ink-faint); text-transform: uppercase; white-space: nowrap; }
-@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-/* Stats */
-#authority { background: var(--void); border-bottom: 1px solid var(--line); }
-.authority-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
-.authority-statement { font-size: clamp(28px, 3vw, 42px); color: var(--ink); max-width: 520px; line-height: 1.15; }
-.authority-statement .accent { color: var(--accent-bright); }
-.stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 40px 0; }
-.stat { padding: 0 24px 24px 0; border-bottom: 1px solid var(--line-strong); }
-.stat:nth-child(n+4) { border-bottom: none; padding-bottom: 0; padding-top: 24px; }
-.stat-num { font-family: var(--display); font-size: clamp(36px, 4vw, 56px); font-weight: 700; display: flex; align-items: baseline; gap: 4px; }
+   /* --- ASYMMETRICAL AUTHORITY STATS (Image 2 Replica) --- */
+#authority { background: var(--void); }
+.authority-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+.authority-left h2 { font-family: var(--body); font-size: clamp(32px, 3.5vw, 48px); font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; margin-top: 16px; color: var(--ink); }
+.authority-left h2 .accent { color: var(--accent-bright); }
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px 20px; }
+.stat { position: relative; }
+/* Horizontal line under the first row */
+.stat:nth-child(-n+3)::after { content: ''; position: absolute; bottom: -30px; left: 0; width: 100%; height: 1px; background: var(--line-strong); }
+.stat-num { font-family: var(--display); font-size: clamp(40px, 4.5vw, 72px); font-weight: 700; display: flex; align-items: baseline; gap: 4px; line-height: 1; color: var(--ink); }
 .odo { display: inline-flex; }
-.odo-digit { display: inline-block; height: 1.18em; overflow: hidden; position: relative; width: 0.66em; vertical-align: top; }
+.odo-digit { display: inline-block; height: 1em; overflow: hidden; position: relative; width: 0.66em; vertical-align: top; }
 .odo-strip { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; }
-.odo-strip span { height: 1.18em; display: flex; align-items: center; justify-content: center; }
-.stat-num .suffix { font-size: 0.4em; color: var(--accent); margin-left: 4px; font-weight: 600; }
-.stat-label { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.08em; margin-top: 12px; text-transform: uppercase; }
-@media(max-width: 900px) { .authority-grid { grid-template-columns: 1fr; gap: 60px; } .stat-grid { grid-template-columns: 1fr 1fr; } }
+.odo-strip span { height: 1em; display: flex; align-items: center; justify-content: center; }
+.stat-num .suffix { font-size: 0.35em; color: var(--accent-bright); margin-left: 2px; font-weight: 600; font-family: var(--display); }
+.stat-label { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); letter-spacing: 0.15em; margin-top: 16px; text-transform: uppercase; }
+@media(max-width: 900px) { 
+  .authority-grid { grid-template-columns: 1fr; gap: 60px; } 
+  .stat-grid { gap: 40px 20px; }
+  .stat:nth-child(-n+3)::after { bottom: -20px; }
+}
 
-/* PPF Canvas */
-#ppf-scene { height: 100vh; position: relative; background: var(--void); overflow: hidden; }
+/* --- PPF CANVAS (True Black Background) --- */
+#ppf-scene { height: 100vh; position: relative; background: #000000; overflow: hidden; }
 .ppf-sticky { position: absolute; inset: 0; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; background: transparent; }
-.ppf-bg-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 80px 80px; opacity: 0.25; mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 75%); z-index: 1; }
+.ppf-bg-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at 50% 50%, black 0%, transparent 75%); z-index: 1; }
 #ppfCanvas { position: relative; width: min(90vw, 1200px); height: min(50vw, 700px); object-fit: contain; z-index: 2; display: none; }
 #ppfSvgFallback { position: relative; width: min(90vw, 1200px); height: min(50vw, 700px); z-index: 2; }
-
-/* --- SERVICES (50/50 Split & Boxed Framed Image Fix) --- */
-#services { padding: 140px 0; background: var(--void); position: relative; }
-.services-layout { display: flex; align-items: flex-start; gap: 80px; }
-.service-list-wrap { width: 50%; padding-right: 20px; }
-.service-media-wrap { width: 50%; position: sticky; top: 120px; height: calc(100vh - 180px); max-height: 720px; display: flex; align-items: center; }
-
-.service-list { border-top: 1px solid var(--line); }
-.service-item { border-bottom: 1px solid var(--line); padding: 36px 0; display: flex; align-items: center; gap: 24px; transition: all 0.4s var(--ease); cursor: pointer; }
-.service-item .idx { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); width: 32px; flex-shrink: 0; }
-.service-item h4 { font-size: clamp(20px, 2vw, 26px); color: var(--ink-dim); font-weight: 500; flex: 1; transition: all 0.4s var(--ease); }
-.service-item .lottie-icon { width: 24px; height: 24px; opacity: 0; transform: translateX(-8px); transition: all 0.4s var(--ease); flex-shrink: 0; }
-.service-item.active { padding: 48px 0; border-bottom-color: var(--accent-line); }
-.service-item.active h4 { color: var(--ink); transform: translateX(8px); }
-.service-item.active .lottie-icon { opacity: 1; transform: translateX(0); }
-.service-desc { max-height: 0; overflow: hidden; font-size: 15px; color: var(--ink-dim); transition: all 0.5s var(--ease); opacity: 0; }
-.service-item.active .service-desc { max-height: 80px; margin-top: 16px; opacity: 1; transform: translateX(8px); }
-
-/* The Framed Box */
-.service-media { width: 100%; height: 100%; border-radius: 24px; overflow: hidden; background: var(--surface); position: relative; box-shadow: 0 24px 64px rgba(0,0,0,0.4); }
-body.theme-light .service-media { box-shadow: 0 24px 64px rgba(0,0,0,0.06); }
-.service-media .panel { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s var(--ease); background: var(--surface-raised); }
-.service-media .panel.active { opacity: 1; z-index: 2; }
-.service-media .panel img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.1); transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.service-media .panel.active img { transform: scale(1); }
-@media(max-width: 900px) { 
-  .services-layout { flex-direction: column; gap: 60px; }
-  .service-list-wrap { width: 100%; padding-right: 0; }
-  .service-media-wrap { width: 100%; position: relative; height: auto; top: 0; }
-  .service-media { height: 60vw; min-height: 300px; }
-}
 
 /* Builds Gallery (Offset) */
 #builds { background: var(--graphite); overflow: hidden; }
@@ -333,7 +298,7 @@ body.theme-light #compare { background: var(--surface-raised); }
 .confirm-card svg { width: 42px; height: 42px; color: var(--accent); margin-bottom: 20px; }
 @media(max-width: 900px) { .booking-grid { grid-template-columns: 1fr; gap: 56px; } .field-row { grid-template-columns: 1fr; } }
 
-/* Footer */
+/* Footer (Updated with exact info) */
 footer { background: var(--void); border-top: 1px solid var(--line); padding: 100px 0 40px; }
 body.theme-light footer { background: var(--surface-raised); border-color: var(--line-strong); }
 .foot-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 60px; padding-bottom: 70px; border-bottom: 1px solid var(--line); }
@@ -347,18 +312,6 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
 .back-top { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(10px); transition: all 0.4s var(--ease); cursor: pointer; color: var(--ink); }
 .back-top.show { opacity: 1; transform: translateY(0); }
 .back-top:hover { border-color: var(--accent); color: var(--accent-bright); }
-
-/* PERFECT WHATSAPP BUTTON */
-#wa-float {
-  position: fixed; bottom: 32px; right: 32px; z-index: 90;
-  width: 56px; height: 56px; border-radius: 50%;
-  background: #25D366; color: #ffffff;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 12px 24px rgba(37,211,102,0.3);
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
-}
-#wa-float:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 32px rgba(37,211,102,0.4); }
-#wa-float svg { width: 28px; height: 28px; }
 </style>
 </head>
 <body>
@@ -376,7 +329,7 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
   <div class="pl-pct"><span id="plPct">0</span>%</div>
 </div>
 
-<!-- SYMMETRICAL FLOATING PILL NAVBAR -->
+<!-- SUPASTE-STYLE NAVBAR (Auto-minimizes into a pill) -->
 <header id="siteHeader">
   <div class="header-logo">
     <span class="mark">
@@ -417,7 +370,7 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
 
 <main>
 
-<!-- HERO SECTION -->
+<!-- HERO SECTION (Auto-Minimizes to reveal video) -->
 <section id="hero">
   <div class="hero-media">
     <video autoplay muted loop playsinline poster="assets/hero-poster.jpg" id="heroVideo">
@@ -433,13 +386,13 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
     </h1>
     <p class="sub">Custom modifications, precision PPF, ceramic coatings and studio-grade detailing — engineered and installed in-house, to one uncompromising standard.</p>
     <div class="hero-actions">
-      <!-- FIXED BUTTON (No double text, clean slide fill) -->
+      <!-- PREMIUM BUTTON (Straight Slide Fill) -->
       <a href="#builds" class="btn btn-liquid ignite magnetic">
         <span class="txt">Explore Builds</span>
       </a>
       <a href="#booking" class="btn btn-ghost magnetic">
         Book an Inspection
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:16px;height:16px;"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:16px;height:16px;margin-left:4px;"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
       </a>
     </div>
   </div>
@@ -453,12 +406,12 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
   </div>
 </div>
 
-<!-- AUTHORITY STATS -->
+<!-- ASYMMETRICAL AUTHORITY STATS (Perfect Image 2 Match) -->
 <section id="authority" class="pad">
   <div class="container authority-grid">
-    <div class="reveal">
+    <div class="authority-left reveal">
       <div class="eyebrow">Built on proof</div>
-      <p class="authority-statement">Every claim of scale is backed by <span class="accent">builds completed</span>, certified installers, and a studio built to run at volume.</p>
+      <h2>Every claim of scale is backed by <span class="accent">builds completed</span>, certified installers, and a studio built to run at volume.</h2>
     </div>
     <div class="stat-grid reveal">
       <div class="stat"><div class="stat-num"><span class="odo" data-count="4200"></span><span class="suffix">+</span></div><div class="stat-label">Vehicles Serviced</div></div>
@@ -471,15 +424,15 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
   </div>
 </section>
 
-<!-- PPF SIGNATURE SCENE -->
+<!-- PPF SIGNATURE SCENE (Pure Black Background) -->
 <section id="ppf-scene">
   <div class="ppf-sticky" id="ppfStickyWrap">
     <div class="ppf-bg-grid"></div>
     <div class="ppf-stage">
       <canvas id="ppfCanvas" width="1280" height="720"></canvas>
       <svg id="ppfSvgFallback" viewBox="0 0 760 420">
-        <ellipse cx="380" cy="330" rx="300" ry="18" fill="rgba(242,241,238,0.04)"/>
-        <g id="carBody" fill="#141416" stroke="rgba(242,241,238,0.14)" stroke-width="1.2">
+        <ellipse cx="380" cy="330" rx="300" ry="18" fill="rgba(255,255,255,0.03)"/>
+        <g id="carBody" fill="#080808" stroke="rgba(255,255,255,0.1)" stroke-width="1.2">
           <path d="M90 300 C90 260 130 250 170 246 L215 178 C226 160 250 148 276 148 L470 148 C500 148 524 160 540 182 L580 244 C630 248 668 262 672 300 Z"/>
         </g>
       </svg>
@@ -489,7 +442,7 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
 
 <!-- WHAT WE DO (50/50 Split with Boxed Card Image) -->
 <section id="services">
-  <div class="services-layout">
+  <div class="services-layout container">
     <div class="service-list-wrap">
       <div class="section-head reveal" style="padding-bottom:32px;">
         <div class="eyebrow ignite">What we do</div>
@@ -541,7 +494,6 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
     </div>
   </div>
 </section>
-
 <!-- PREMIUM BUILDS GALLERY (Offset Design) -->
 <section id="builds" class="pad">
   <div class="container">
@@ -555,7 +507,11 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
         <div class="builds-track" id="buildsTrack">
           <!-- Cards injected via JS -->
           <div class="build-card build-end">
-            <div><div class="eyebrow ignite" style="margin-bottom:14px; justify-content:center;">Yours next?</div><p>Want your build featured in this gallery?</p></div>
+            <div>
+              <div class="eyebrow ignite" style="margin-bottom:14px; justify-content:center;">Yours next?</div>
+              <p>Want your build featured in this gallery?</p>
+            </div>
+            <!-- STRAIGHT FILL BUTTON -->
             <a href="#booking" class="btn btn-liquid magnetic">
               <span class="txt">Book a Build</span>
             </a>
@@ -679,27 +635,46 @@ body.theme-light footer { background: var(--surface-raised); border-color: var(-
 </section>
 
 </main>
+
 <!-- FOOTER -->
 <footer id="siteFooter">
   <div class="container">
     <div class="foot-top">
       <div class="foot-word">REV NATION</div>
       <div class="foot-cols">
-        <div class="foot-col"><h5>Studio</h5><p>Vaishali Nagar, Jaipur</p><p>Rajasthan, India</p></div>
-        <div class="foot-col"><h5>Contact</h5><a href="tel:+910000000000">+91 00000 00000</a><a href="mailto:studio@revnation.example">studio@revnation.example</a></div>
-        <div class="foot-col"><h5>Studio Links</h5><a href="#services">Services</a><a href="#builds">Builds</a><a href="#booking">Booking</a></div>
-        <div class="foot-col"><h5>Follow</h5><a href="#">Instagram</a><a href="#">YouTube</a></div>
+        <div class="foot-col">
+          <h5>Studio</h5>
+          <p>Vaishali Nagar, Jaipur</p>
+          <p>Rajasthan, India</p>
+        </div>
+        <div class="foot-col">
+          <h5>Contact</h5>
+          <a href="tel:+917300049430">+91 73000 49430</a>
+          <a href="mailto:revnationjaipur@gmail.com">revnationjaipur@gmail.com</a>
+        </div>
+        <div class="foot-col">
+          <h5>Studio Links</h5>
+          <a href="#services">Services</a>
+          <a href="#builds">Builds</a>
+          <a href="#booking">Booking</a>
+        </div>
+        <div class="foot-col">
+          <h5>Follow</h5>
+          <a href="https://instagram.com/rev.nation.jaipur" target="_blank">@rev.nation.jaipur</a>
+        </div>
       </div>
     </div>
     <div class="foot-bottom">
       <p>© 2026 Rev Nation Jaipur. All rights reserved.</p>
-      <button class="back-top" id="backTop" aria-label="Back to top"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+      <button class="back-top" id="backTop" aria-label="Back to top">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+      </button>
     </div>
   </div>
 </footer>
 
-<!-- PROPERLY SIZED WHATSAPP BUTTON (No Glitches) -->
-<a href="https://wa.me/910000000000" target="_blank" id="wa-float" aria-label="Chat on WhatsApp">
+<!-- PROPERLY SIZED WHATSAPP BUTTON -->
+<a href="https://wa.me/917300049430" target="_blank" id="wa-float" aria-label="Chat on WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.35 5.08L2 22l5.2-1.36c1.45.79 3.11 1.24 4.84 1.24 5.46 0 9.91-4.45 9.91-9.91S17.5 2 12.04 2zm5.78 14.02c-.24.68-1.4 1.32-1.93 1.4-.5.08-1.13.11-1.82-.11-.42-.13-.96-.31-1.65-.6-2.9-1.25-4.8-4.16-4.94-4.35-.14-.19-1.18-1.57-1.18-3 0-1.42.75-2.12 1.02-2.41.27-.29.58-.36.78-.36.2 0 .39 0 .56.01.18.01.42-.07.66.5.24.58.82 2 .89 2.14.07.14.12.31.02.5-.1.19-.15.31-.29.48-.14.17-.3.37-.43.5-.14.14-.29.29-.13.57.17.29.75 1.24 1.61 2 1.11.99 2.04 1.3 2.33 1.44.29.14.46.12.63-.07.17-.19.72-.84.91-1.13.19-.29.39-.24.65-.14.27.1 1.7.8 1.99.95.29.14.48.22.55.34.07.13.07.72-.17 1.4z"/></svg>
 </a>
 
@@ -762,6 +737,29 @@ document.addEventListener('DOMContentLoaded', async function(){
     });
   }
 
+  /* ---------- SUPASTE-STYLE AUTO MINIMIZE LOGIC ---------- */
+  let idleTimer = setTimeout(() => { document.body.classList.add('ui-minimized'); }, 5000);
+  let lastScroll = window.pageYOffset || 0;
+
+  window.addEventListener('scroll', () => {
+    let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+    clearTimeout(idleTimer);
+    
+    if (currentScroll > 50) {
+      // If we scroll down, minimize the UI. If we scroll up, expand it.
+      if (currentScroll > lastScroll) {
+         document.body.classList.add('ui-minimized');
+      } else {
+         document.body.classList.remove('ui-minimized');
+      }
+    } else {
+      // At the absolute top, reset to expanded and restart the 5s timer
+      document.body.classList.remove('ui-minimized');
+      idleTimer = setTimeout(() => { document.body.classList.add('ui-minimized'); }, 5000);
+    }
+    lastScroll = currentScroll;
+  }, {passive: true});
+
   /* ---------- Lenis Smooth Scroll ---------- */
   var lenis = null;
   if(window.Lenis && !reduceMotion && !isMobile){
@@ -808,12 +806,7 @@ document.addEventListener('DOMContentLoaded', async function(){
   /* ---------- Nav State & Mobile Menu ---------- */
   var header = document.getElementById('siteHeader');
   var backTop = document.getElementById('backTop');
-  window.addEventListener('scroll', function(){
-    var y = window.scrollY;
-    if(header) header.classList.toggle('scrolled', y > 40);
-    if(backTop) backTop.classList.toggle('show', y > 900);
-  }, {passive:true});
-
+  
   var menuTrigger = document.getElementById('menuTrigger');
   var drawer = document.getElementById('mobile-drawer');
   if(menuTrigger && drawer) {
@@ -1178,9 +1171,8 @@ document.addEventListener('DOMContentLoaded', async function(){
       });
   }
 
-  var bt = document.getElementById('backTop');
-  if(bt) {
-    bt.addEventListener('click', () => { if(lenis) lenis.scrollTo(0); else window.scrollTo({top:0, behavior:'smooth'}); });
+  if(backTop) {
+    backTop.addEventListener('click', () => { if(lenis) lenis.scrollTo(0); else window.scrollTo({top:0, behavior:'smooth'}); });
   }
   window.addEventListener('load', () => { if(window.ScrollTrigger) ScrollTrigger.refresh(); });
 });
