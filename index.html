@@ -6,95 +6,106 @@
 <title>REV NATION JAIPUR | Custom Builds & Studio</title>
 <meta name="description" content="Custom modifications, precision PPF, ceramic coatings and studio-grade detailing in Jaipur.">
 
-<!-- Premium Typography: Clash Display (Headers) & General Sans (Body) -->
 <link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@300,400,500,600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.25/dist/lenis.css">
 
 <style>
 /* ============================================================
-   REV NATION - UNCOMPROMISED LUXURY (V7)
+   REV NATION - FINELY TUNED MAX LUXURY (V8)
    ============================================================ */
 :root {
-  /* Ultra-Premium Dark Mode Palette */
   --void: #030303; 
   --surface: #0a0a0a; 
   --surface-raised: #141414;
-  --line: rgba(255, 255, 255, 0.06); 
-  --line-strong: rgba(255, 255, 255, 0.15);
+  --line: rgba(255, 255, 255, 0.08); 
+  --line-strong: rgba(255, 255, 255, 0.16);
   --ink: #ffffff; 
-  --ink-dim: rgba(255, 255, 255, 0.6); 
-  --ink-faint: rgba(255, 255, 255, 0.3);
-  --accent: #ff5e00; /* Sharp, aggressive studio orange */
+  --ink-dim: rgba(255, 255, 255, 0.65); 
+  --ink-faint: rgba(255, 255, 255, 0.4);
+  --accent: #e8462a; /* Studio Orange */
   
-  /* Fonts matching the reference image perfectly */
   --display: 'Clash Display', sans-serif;
   --body: 'General Sans', sans-serif;
   --mono: 'JetBrains Mono', monospace;
-  
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; } 
 html { scroll-behavior: auto; background: var(--void); }
-body { background: var(--void); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+body { background: var(--void); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 img, video { display: block; max-width: 100%; }
 a, button, select, input, textarea { text-decoration: none !important; outline: none; cursor: pointer; color: inherit; }
 button { font-family: inherit; background: none; border: none; }
 ul { list-style: none; }
 ::selection { background: var(--ink); color: var(--void); }
 
-/* High-End Film Grain overlay */
-body::after { content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.04"/%3E%3C/svg%3E'); opacity: 0.9; }
+/* Cinematic Film Grain */
+body::after { content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.05"/%3E%3C/svg%3E'); opacity: 0.9; }
 
-/* Lenis Base */
+/* Lenis */
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-stopped { overflow: hidden; }
 
-/* Layout & Spacing */
+/* Layout */
 .container { width: 100%; max-width: 1600px; margin: 0 auto; padding: 0 5vw; }
 section { position: relative; }
-.pad { padding: 10vw 0; }
+.pad { padding: 160px 0; }
+@media(max-width: 900px) { .pad { padding: 100px 0; } }
 
-/* Global Cinematic Fade Elements */
-.cinema-drop { will-change: transform, opacity; }
+/* Fade Triggers */
+.cinema-drop { opacity: 0; transform: translateY(40px); will-change: transform, opacity; }
 
 /* Typography */
-.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); display: flex; align-items: center; gap: 16px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-faint); display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
 .eyebrow::before { content: ""; width: 24px; height: 1px; background: var(--ink-faint); }
 .eyebrow.accent { color: var(--accent); }
 .eyebrow.accent::before { background: var(--accent); }
 
-h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1; letter-spacing: -0.01em; }
-h1 { font-size: clamp(48px, 8vw, 120px); letter-spacing: -0.03em; font-weight: 700; }
-h2 { font-size: clamp(32px, 5vw, 72px); }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; }
+h1 { font-size: clamp(48px, 8vw, 110px); letter-spacing: -0.03em; font-weight: 700; }
+h2 { font-size: clamp(32px, 5vw, 64px); }
 
-/* Premium Global Arrow Transitions */
-.arrow { display: inline-block; transition: transform 0.4s var(--ease-out), opacity 0.4s; font-family: var(--mono); font-size: 14px; margin-left: 8px; font-weight: 400; }
+.section-head { max-width: 720px; margin-bottom: 64px; }
+.section-head p { color: var(--ink-dim); margin-top: 24px; font-size: clamp(16px, 2vw, 18px); max-width: 600px; font-weight: 400; }
+
+/* Arrows */
+.arrow { display: inline-block; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s; font-family: var(--mono); font-size: 14px; margin-left: 8px; font-weight: 400; }
 .arrow.hidden { opacity: 0; transform: translateX(-10px) scale(0.8); }
 a:hover .arrow.hidden, button:hover .arrow.hidden { opacity: 1; transform: translateX(0) scale(1); }
 a:hover .arrow:not(.hidden), button:hover .arrow:not(.hidden) { transform: translateX(6px); }
 
-/* Minimalist B&W Buttons */
-.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 16px 32px; border-radius: 100px; font-family: var(--body); font-weight: 500; font-size: 14px; letter-spacing: 0.02em; color: var(--void); background: var(--ink); border: 1px solid var(--ink); transition: all 0.4s var(--ease-out); overflow: hidden; isolation: isolate; }
+/* ============================================================
+   RESTORED LIQUID BUTTON (PREMIUM TUNED)
+   ============================================================ */
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; padding: 16px 36px; border-radius: 100px; font-family: var(--body); font-weight: 500; font-size: 15px; letter-spacing: 0.02em; border: 1px solid var(--line-strong); transition: all 0.4s ease; color: var(--ink); overflow: hidden; }
 .magnetic { will-change: transform; }
-.btn::before { content: ""; position: absolute; inset: 0; background: var(--void); transform: scaleY(0); transform-origin: bottom; transition: transform 0.4s cubic-bezier(0.7,0,0.3,1); z-index: -1; }
-.btn:hover::before { transform: scaleY(1); }
-.btn:hover { color: var(--ink); border-color: var(--line-strong); }
+.btn-ghost { background: transparent; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+.btn-ghost:hover { background: var(--ink); color: var(--void); border-color: var(--ink); }
 
-.btn-ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-.btn-ghost::before { background: var(--ink); }
-.btn-ghost:hover { color: var(--void); }
+/* The Liquid Fill Logic */
+.btn-liquid { border-color: var(--accent); background: rgba(232,70,42,0.05); isolation: isolate; }
+.goo-layer { position: absolute; inset: -50%; z-index: 0; pointer-events: none; filter: url(#liquid-goo); }
+.blob { position: absolute; bottom: -20px; width: 45%; height: 140%; border-radius: 50%; background: var(--accent); transform: translateY(100%); transition: transform 0.6s cubic-bezier(0.7,0,0.2,1); }
+.btn-liquid:hover .blob { transform: translateY(0); }
+.blob.b1 { left: -10%; transition-delay: 0s; } .blob.b2 { left: 20%; transition-delay: 0.04s; } .blob.b3 { left: 50%; transition-delay: 0.08s; } .blob.b4 { left: 80%; transition-delay: 0.12s; }
+.btn-liquid .txt { position: relative; z-index: 2; color: var(--accent); transition: color 0.3s ease; display: flex; align-items: center; }
+.btn-liquid:hover .txt { color: var(--ink); }
 </style>
 </head>
 <body>
 
+<svg width="0" height="0" style="position:absolute; pointer-events:none;">
+<defs>
+<filter id="liquid-goo">
+<feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"/>
+<feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+</filter>
+</defs>
+</svg>
 <style>
-/* ============================================================
-   PRELOADER (GARAGE DOOR SPLIT)
-   ============================================================ */
+/* PRELOADER */
 #preloader { position: fixed; inset: 0; z-index: 99999; display: flex; align-items: center; justify-content: center; pointer-events: none; }
 .pl-curtain { position: absolute; left: 0; width: 100%; height: 50.5vh; background: var(--void); transition: transform 1.2s cubic-bezier(0.7, 0, 0.2, 1); z-index: 1; border-bottom: 1px solid var(--line); }
 .pl-curtain.pl-top { top: 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
@@ -111,79 +122,67 @@ a:hover .arrow:not(.hidden), button:hover .arrow:not(.hidden) { transform: trans
 #preloader.done .pl-bottom { transform: translateY(100%); }
 #preloader.done .pl-content { opacity: 0; transform: scale(0.95); }
 
-/* ============================================================
-   TRANSPARENT NAVBAR & MENU ARROW ANIMATION
-   ============================================================ */
-header { position: fixed; top: 2vw; left: 5vw; width: 90vw; max-width: 1500px; z-index: 100; padding: 16px 32px; border-radius: 100px; background: rgba(5, 5, 5, 0.2); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; transition: all 0.8s var(--ease-out); overflow: hidden; }
+/* NAVBAR & MOBILE DRAWER */
+header { position: fixed; top: 2vw; left: 5vw; width: 90vw; max-width: 1500px; z-index: 100; padding: 16px 32px; border-radius: 100px; background: rgba(5, 5, 5, 0.4); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: space-between; transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); overflow: hidden; }
 .header-logo { font-family: var(--display); font-weight: 700; font-size: 18px; display: flex; align-items: center; gap: 10px; color: var(--ink); text-transform: uppercase; letter-spacing: 0.1em; }
 .header-logo .mark { width: 22px; height: 22px; flex-shrink: 0; }
 .header-links { display: flex; gap: 48px; position: absolute; left: 50%; transform: translateX(-50%); }
 .header-links a { font-family: var(--body); font-size: 14px; font-weight: 400; color: var(--ink-dim); position: relative; padding-bottom: 4px; transition: color 0.3s; }
-.header-links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease-out); }
+.header-links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
 .header-links a:hover { color: var(--ink); }
 .header-links a:hover::after { transform: scaleX(1); transform-origin: left; }
 .header-actions { display: flex; align-items: center; gap: 16px; }
 
-/* Dynamic Full-Video Idle Mode */
 body.ui-minimized header { opacity: 0; visibility: hidden; transform: translateY(-20px); pointer-events: none; }
-body.ui-minimized .hero-content { opacity: 0; visibility: hidden; transform: translateY(40px); pointer-events: none; }
-body.ui-minimized .hero-scrim { opacity: 0.1; }
 
-/* Hamburger to Arrow Trigger */
+/* The Arrow Trigger */
 .menu-trigger { display: none; width: 32px; height: 32px; position: relative; z-index: 101; cursor: pointer; align-items: center; justify-content: center; }
 .menu-trigger span { position: absolute; right: 4px; height: 1.5px; background: var(--ink); transition: all 0.4s cubic-bezier(0.7,0,0.3,1); border-radius: 2px; }
 .menu-trigger span:nth-child(1) { top: 10px; width: 24px; }
 .menu-trigger span:nth-child(2) { top: 16px; width: 24px; }
 .menu-trigger span:nth-child(3) { top: 22px; width: 24px; }
-
-/* The Exact Arrow Transformation */
 .menu-trigger.open span:nth-child(1) { transform: translate(-4px, 4px) rotate(-45deg); width: 12px; }
 .menu-trigger.open span:nth-child(2) { width: 24px; }
 .menu-trigger.open span:nth-child(3) { transform: translate(-4px, -4px) rotate(45deg); width: 12px; }
 
-#mobile-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 440px; height: 100vh; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(32px); -webkit-backdrop-filter: blur(32px); z-index: 99; padding: 140px 10vw 40px; display: flex; flex-direction: column; gap: 40px; transition: right 0.7s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid var(--line-strong); }
+#mobile-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 440px; height: 100vh; background: rgba(5, 5, 5, 0.98); backdrop-filter: blur(32px); z-index: 99; padding: 140px 10vw 40px; display: flex; flex-direction: column; gap: 40px; transition: right 0.7s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid var(--line-strong); }
 #mobile-drawer.open { right: 0; }
-#mobile-drawer a { font-size: 32px; color: var(--ink-dim); font-family: var(--display); font-weight: 500; letter-spacing: -0.02em; display: flex; align-items: center; justify-content: space-between; transition: color 0.3s; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
+#mobile-drawer a { font-size: 32px; color: var(--ink-dim); font-family: var(--display); font-weight: 500; display: flex; align-items: center; justify-content: space-between; transition: color 0.3s; border-bottom: 1px solid var(--line); padding-bottom: 24px; }
 #mobile-drawer a:hover { color: var(--ink); }
-#mobile-drawer a .arrow { font-size: 24px; opacity: 0; transform: translateX(-10px); transition: all 0.4s var(--ease-out); }
+#mobile-drawer a .arrow { font-size: 24px; opacity: 0; transform: translateX(-10px); transition: all 0.4s cubic-bezier(0.16,1,.3,1); }
 #mobile-drawer a:hover .arrow { opacity: 1; transform: translateX(0); }
 body.menu-open { overflow: hidden; }
 
 @media(max-width: 900px) { 
   .header-links, .header-actions .btn { display: none !important; } 
-  header { top: 16px; left: 24px; width: calc(100% - 48px); padding: 12px 24px; border-radius: 100px; background: rgba(10, 10, 10, 0.7); justify-content: space-between; }
+  header { top: 16px; left: 24px; width: calc(100% - 48px); padding: 12px 24px; background: rgba(10, 10, 10, 0.85); justify-content: space-between; }
   .menu-trigger { display: flex !important; } 
 }
 
-/* ============================================================
-   HERO SECTION
-   ============================================================ */
+/* HERO */
 #hero { height: 100vh; min-height: 700px; position: relative; overflow: hidden; background: var(--void); }
-.hero-media { position: absolute; inset: 0; filter: grayscale(100%) contrast(1.1); transition: filter 1s var(--ease-out); } 
-.hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: opacity 1s var(--ease-out); }
-.hero-scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(3,3,3,0) 0%, rgba(3,3,3,0.5) 62%, rgba(3,3,3,0.95) 100%), linear-gradient(180deg, rgba(3,3,3,0.3) 0%, rgba(3,3,3,0) 30%, rgba(3,3,3,0.9) 85%, var(--void) 100%); transition: opacity 1s var(--ease-out); pointer-events: none; }
-.hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 12vh; transition: transform 1s var(--ease-out), opacity 1s var(--ease-out); transform-origin: bottom left; }
+.hero-media { position: absolute; inset: 0; filter: grayscale(100%) contrast(1.1); } 
+.hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.6; transition: opacity 1s; }
+.hero-scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(3,3,3,0) 0%, rgba(3,3,3,0.5) 62%, rgba(3,3,3,0.95) 100%), linear-gradient(180deg, rgba(3,3,3,0.3) 0%, rgba(3,3,3,0) 30%, rgba(3,3,3,0.9) 85%, var(--void) 100%); transition: opacity 1s; pointer-events: none; }
+body.ui-minimized .hero-scrim { opacity: 0.2; }
+.hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 12vh; transition: transform 1s cubic-bezier(0.16,1,.3,1), opacity 1s; transform-origin: bottom left; }
 .hero h1 .line { display: block; overflow: hidden; padding-bottom: 8px; }
 .hero h1 .line span { display: inline-block; transform: translateY(105%); transition: transform 1s cubic-bezier(0.16, 1, 0.3, 1); }
-.hero.revealed h1 .line:nth-child(1) span { transition-delay: 0.15s; }
-.hero.revealed h1 .line:nth-child(2) span { transition-delay: 0.3s; }
+.hero.revealed h1 .line:nth-child(1) span { transition-delay: 0.1s; }
+.hero.revealed h1 .line:nth-child(2) span { transition-delay: 0.25s; }
 .hero.revealed h1 .line span { transform: translateY(0); }
-.hero p.sub { margin-top: 24px; max-width: 560px; color: var(--ink-dim); font-size: clamp(16px, 2vw, 18px); opacity: 0; transform: translateY(20px); transition: all 0.8s var(--ease-out) 0.55s; }
+.hero-content p.sub { opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.16,1,.3,1) 0.4s; }
 .hero.revealed p.sub { opacity: 1; transform: translateY(0); }
-.hero-actions { margin-top: 48px; display: flex; gap: 20px; flex-wrap: wrap; opacity: 0; transform: translateY(20px); transition: all 0.8s var(--ease-out) 0.7s; }
+.hero-actions { margin-top: 48px; display: flex; gap: 20px; flex-wrap: wrap; opacity: 0; transform: translateY(20px); transition: all 0.8s cubic-bezier(0.16,1,.3,1) 0.55s; }
 .hero.revealed .hero-actions { opacity: 1; transform: translateY(0); }
 </style>
 
-<!-- GARAGE DOOR PRELOADER -->
 <div id="preloader" role="status" aria-label="Loading Studio">
   <div class="pl-curtain pl-top"></div>
   <div class="pl-curtain pl-bottom"></div>
   <div class="pl-content">
     <div class="pl-brand">REV NATION</div>
-    <div class="pl-counter">
-      <span class="num" id="plPct">0</span>
-      <span class="unit">% LOADED</span>
-    </div>
+    <div class="pl-counter"><span class="num" id="plPct">0</span><span class="unit">% LOADED</span></div>
     <div class="pl-bar-wrap"><div class="pl-bar" id="plBar"></div></div>
   </div>
 </div>
@@ -200,10 +199,7 @@ REV NATION
 </nav>
 <div class="header-actions">
 <a href="#booking" class="btn btn-ghost magnetic">Initiate Project <span class="arrow hidden">→</span></a>
-<!-- The Hamburger -->
-<button class="menu-trigger" id="menuTrigger" aria-label="Open menu">
-<span></span><span></span><span></span>
-</button>
+<button class="menu-trigger" id="menuTrigger" aria-label="Open menu"><span></span><span></span><span></span></button>
 </div>
 </header>
 
@@ -215,43 +211,41 @@ REV NATION
 </div>
 
 <main>
-<!-- HERO -->
 <section id="hero">
-<div class="hero-media">
-<video autoplay muted loop playsinline poster="assets/hero-poster.jpg" id="heroVideo">
-<source src="assets/hero-reveal.mp4" type="video/mp4">
-</video>
-</div>
+<div class="hero-media"><video autoplay muted loop playsinline poster="assets/hero-poster.jpg" id="heroVideo"><source src="assets/hero-reveal.mp4" type="video/mp4"></video></div>
 <div class="hero-scrim"></div>
-<div class="container hero-content cinema-drop">
-<div class="hero-eyebrow cinema-drop eyebrow accent">Jaipur Custom Builds</div>
-<h1 class="cinema-drop">
+<div class="container hero-content">
+<div class="eyebrow accent">Jaipur Custom Builds</div>
+<h1>
 <span class="line"><span>One studio.</span></span>
 <span class="line"><span>Every layer.</span></span>
 </h1>
-<p class="sub cinema-drop">From wraps and wheels to optically clear film and ceramic gloss — each service is engineered to work together.</p>
-<div class="hero-actions cinema-drop">
-<a href="#services" class="btn magnetic">View Services <span class="arrow">→</span></a>
-<a href="#booking" class="btn btn-ghost magnetic">Book Inspection <span class="arrow hidden">→</span></a>
+<p class="sub">From wraps and wheels to optically clear film and ceramic gloss — each service is engineered to work together.</p>
+<div class="hero-actions">
+<a href="#services" class="btn btn-ghost magnetic">View Services <span class="arrow">→</span></a>
+<!-- The restored Liquid Button! -->
+<a href="#booking" class="btn btn-liquid magnetic">
+  <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
+  <span class="txt">Book Inspection <span class="arrow hidden">→</span></span>
+</a>
 </div>
 </div>
 </section>
 <style>
 /* ============================================================
-   THE UNIVERSAL HORIZONTAL SCROLL ENGINE
+   UNIVERSAL HORIZONTAL SCROLL ENGINE
    ============================================================ */
 .h-scroll-section { overflow: hidden; background: var(--void); padding: 160px 0; position: relative; border-bottom: 1px solid var(--line); }
 .h-scroll-layout { display: flex; flex-direction: column; gap: 80px; }
-.h-scroll-header { max-width: 600px; padding: 0 5vw; margin: 0; }
+.h-scroll-header { max-width: 720px; padding: 0 5vw; margin: 0; }
 .h-scroll-viewport { width: 100vw; overflow-x: auto; padding-left: 5vw; padding-right: 5vw; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .h-scroll-viewport::-webkit-scrollbar { display: none; }
 .h-scroll-track { display: flex; gap: 32px; width: max-content; padding-bottom: 40px; will-change: transform; }
 
-/* The Universal Luxury Card */
-.h-card { width: 440px; height: 600px; border-radius: 16px; overflow: hidden; position: relative; background: var(--surface); border: 1px solid var(--line); scroll-snap-align: start; flex-shrink: 0; box-shadow: 0 20px 40px rgba(0,0,0,0.4); display: flex; flex-direction: column; cursor: pointer; transition: border-color 0.4s; }
+.h-card { width: 460px; height: 620px; border-radius: 16px; overflow: hidden; position: relative; background: var(--surface); border: 1px solid var(--line); scroll-snap-align: start; flex-shrink: 0; box-shadow: 0 20px 40px rgba(0,0,0,0.5); display: flex; flex-direction: column; cursor: pointer; transition: border-color 0.4s; }
 .h-card:hover { border-color: var(--ink-faint); }
 .h-card-media { position: absolute; inset: 0; width: 100%; height: 100%; background: var(--surface-raised); overflow: hidden; }
-.h-card-media video, .h-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out), filter 0.8s; filter: grayscale(100%) contrast(1.1); }
+.h-card-media video, .h-card-media img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s; filter: grayscale(100%) contrast(1.1); }
 .h-card:hover .h-card-media video, .h-card:hover .h-card-media img { transform: scale(1.05); filter: grayscale(0%) contrast(1); }
 
 .h-card-scrim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,3,3,0) 0%, rgba(3,3,3,0.3) 40%, rgba(3,3,3,0.95) 100%); pointer-events: none; z-index: 1; transition: opacity 0.4s; }
@@ -260,16 +254,15 @@ REV NATION
 .h-card-tag { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--void); background: var(--ink); padding: 8px 16px; border-radius: 100px; width: max-content; margin-bottom: 24px; transition: transform 0.4s; font-weight: 500; }
 .h-card h4 { font-family: var(--display); font-size: 28px; color: var(--ink); margin-bottom: 12px; line-height: 1.1; display: flex; justify-content: space-between; align-items: flex-end;}
 .h-card p { font-size: 15px; color: var(--ink-dim); font-weight: 400; line-height: 1.6; }
-.h-card-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; transition: all 0.4s var(--ease-out); background: rgba(3,3,3,0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); font-family: var(--mono); font-size: 14px; }
+.h-card-arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); display: flex; align-items: center; justify-content: center; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); background: rgba(3,3,3,0.4); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); font-family: var(--mono); font-size: 14px; }
 .h-card:hover .h-card-arrow { background: var(--ink); color: var(--void); border-color: var(--ink); transform: scale(1.1) translateX(4px); }
 
-/* Authority Marquee */
+/* Authority Stats */
 .marquee { overflow: hidden; border-bottom: 1px solid var(--line); background: var(--void); padding: 32px 0; }
 .marquee-track { display: flex; gap: 120px; width: max-content; animation: marquee-scroll 35s linear infinite; }
 .marquee-track span { font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.2em; color: var(--ink-faint); text-transform: uppercase; white-space: nowrap; }
 @keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* Authority Grid */
 #authority { background: var(--void); border-bottom: 1px solid var(--line); }
 .authority-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
 .authority-left h2 { font-family: var(--display); font-size: clamp(32px, 3.5vw, 56px); font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; margin-top: 24px; color: var(--ink); }
@@ -297,12 +290,12 @@ REV NATION
 </div></div>
 
 <section id="authority" class="pad">
-<div class="container authority-grid">
-<div class="authority-left cinema-drop">
+<div class="container authority-grid cinema-drop">
+<div class="authority-left">
 <div class="eyebrow">Studio Infrastructure</div>
 <h2>Built to run at volume, engineered for <span style="color:var(--ink-faint);">perfection.</span></h2>
 </div>
-<div class="stat-grid cinema-drop">
+<div class="stat-grid">
 <div class="stat"><div class="stat-num"><span class="odo" data-count="4200"></span><span style="font-size: 0.4em; margin-bottom: 8px;">+</span></div><div class="stat-label">Vehicles Serviced</div></div>
 <div class="stat"><div class="stat-num"><span class="odo" data-count="28"></span><span style="font-size: 0.4em; margin-bottom: 8px;">k</span></div><div class="stat-label">Sq.Ft Facility</div></div>
 <div class="stat"><div class="stat-num"><span class="odo" data-count="12"></span></div><div class="stat-label">Install Bays</div></div>
@@ -311,11 +304,11 @@ REV NATION
 </div>
 </section>
 
-<!-- 1. WHAT WE DO (Premium Horizontal Gallery) -->
+<!-- WHAT WE DO -->
 <section id="services" class="h-scroll-section">
 <div class="h-scroll-layout">
 <div class="section-head h-scroll-header cinema-drop">
-<div class="eyebrow" style="margin-bottom: 24px;">What We Do</div>
+<div class="eyebrow">What We Do</div>
 <h2>One studio. Every layer.</h2>
 <p>From wraps to optically clear film—each service is engineered to work together under one roof.</p>
 </div>
@@ -367,11 +360,11 @@ REV NATION
 </div>
 </section>
 
-<!-- 2. PROCESS / HOW IT'S BUILT -->
+<!-- THE PROCESS -->
 <section id="process" class="h-scroll-section">
 <div class="h-scroll-layout">
 <div class="section-head h-scroll-header cinema-drop">
-<div class="eyebrow" style="margin-bottom: 24px;">The Process</div>
+<div class="eyebrow">The Process</div>
 <h2>Craftsmanship, made visible.</h2>
 <p>Swipe through our meticulous 4-step studio pipeline.</p>
 </div>
@@ -424,90 +417,87 @@ REV NATION
 </section>
 <style>
 /* ============================================================
-   COMPARE SLIDER (NATIVE MOBILE PAN-Y FIX)
+   BOTTOM HALF OVERHAUL (Compare, Reviews, Form, Footer)
    ============================================================ */
+/* Compare Slider */
 #compare { background: var(--void); border-bottom: 1px solid var(--line); }
 .compare-frame { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); user-select: none; background: var(--void); touch-action: pan-y; }
 .compare-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; pointer-events: none; filter: grayscale(100%); }
-.compare-after { background-color: #111; filter: grayscale(0%); } /* Full color reveal on 'After' */
+.compare-after { background-color: #111; filter: grayscale(0%); } 
 .compare-before { background-color: #222; clip-path: inset(0 50% 0 0); width: 100%; }
 .compare-label { position: absolute; top: 32px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; padding: 10px 20px; background: rgba(5,5,5,0.6); color: var(--ink); border: 1px solid rgba(255,255,255,0.2); border-radius: 100px; text-transform: uppercase; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 5; pointer-events: none; }
 .compare-label.l-before { left: 32px; } .compare-label.l-after { right: 32px; }
 .compare-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--ink); transform: translateX(-50%); z-index: 10; cursor: ew-resize; pointer-events: auto; }
-.compare-handle .grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 48px; height: 64px; border-radius: 100px; background: var(--ink); display: flex; align-items: center; justify-content: center; pointer-events: none; }
+.compare-handle .grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 48px; height: 64px; border-radius: 100px; background: var(--ink); display: flex; align-items: center; justify-content: center; pointer-events: none; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
 .compare-handle .grip::before, .compare-handle .grip::after { content: ""; width: 2px; height: 20px; background: var(--void); border-radius: 2px; margin: 0 2px; }
 @media(max-width: 900px) { .compare-frame { aspect-ratio: 4/5; } .compare-label { top: 16px; font-size: 10px; padding: 6px 12px; } .compare-label.l-before { left: 16px; } .compare-label.l-after { right: 16px; } }
 
-/* ============================================================
-   STARK WHITE REVIEWS (ULTRA HIGH CONTRAST)
-   ============================================================ */
-#testimonials { background: #ffffff; color: #000000; padding: 160px 0; border-bottom: 1px solid var(--line); }
-#testimonials .eyebrow { color: #666; }
-#testimonials .eyebrow::before { background: #666; }
-#testimonials h2 { color: #000; }
-.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 64px; }
-.testi-card { background: #f8f8f8; border: 1px solid #eaeaea; border-radius: 16px; padding: 40px; display: flex; flex-direction: column; gap: 24px; transition: all 0.4s var(--ease-out); }
-.testi-card:hover { transform: translateY(-8px); box-shadow: 0 24px 48px rgba(0,0,0,0.06); border-color: #d0d0d0; }
-.testi-card .stars { display: flex; gap: 4px; color: #000; }
+/* Deep Dark Premium Reviews */
+#testimonials { background: var(--void); border-bottom: 1px solid var(--line); }
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 32px; margin-top: 64px; }
+.testi-card { background: var(--surface); border: 1px solid var(--line); border-radius: 20px; padding: 48px; display: flex; flex-direction: column; gap: 24px; transition: all 0.4s cubic-bezier(0.16,1,.3,1); }
+.testi-card:hover { transform: translateY(-8px); border-color: var(--line-strong); background: var(--surface-raised); box-shadow: 0 24px 64px rgba(0,0,0,0.4); }
+.testi-card .stars { display: flex; gap: 4px; color: var(--accent); }
 .testi-card .stars svg { width: 16px; height: 16px; fill: currentColor; }
-.testi-card p.quote { font-family: var(--body); font-weight: 400; font-size: 15px; line-height: 1.6; color: #444; flex: 1; }
-.testi-card .author { margin-top: auto; border-top: 1px solid #eaeaea; padding-top: 20px; }
-.testi-card .author h5 { font-size: 18px; color: #000; margin-bottom: 4px; font-family: var(--display); font-weight: 700;}
-.testi-card .author span { font-size: 12px; color: #888; font-family: var(--mono); text-transform: uppercase;}
+.testi-card p.quote { font-family: var(--body); font-weight: 300; font-size: 16px; line-height: 1.6; color: var(--ink-dim); flex: 1; }
+.testi-card .author { margin-top: auto; border-top: 1px solid var(--line); padding-top: 24px; }
+.testi-card .author h5 { font-size: 18px; color: var(--ink); margin-bottom: 4px; font-family: var(--display); font-weight: 600;}
+.testi-card .author span { font-size: 12px; color: var(--ink-faint); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em;}
 
-/* ============================================================
-   BOOKING & FOOTER
-   ============================================================ */
-#booking { background: var(--void); border-top: 1px solid var(--line); }
-.booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+/* Ultra-Clean Booking Form */
+#booking { background: var(--surface); border-top: 1px solid var(--line); }
+.booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
 .field { margin-bottom: 32px; position: relative; }
-.field input, .field select, .field textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line-strong); padding: 14px 2px; color: var(--ink); font-family: var(--body); font-size: 16px; transition: border-color 0.3s; }
-.field textarea { resize: vertical; min-height: 80px; }
-.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--ink); }
-.field label { position: absolute; top: 14px; left: 2px; color: var(--ink-faint); font-size: 16px; pointer-events: none; transition: all 0.25s var(--ease-out); }
-.field input:focus + label, .field input:not(:placeholder-shown) + label, .field select:focus + label, .field select.filled + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label { transform: translateY(-24px); font-size: 11px; color: var(--ink); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em;}
+.field input, .field select, .field textarea { width: 100%; background: var(--void); border: 1px solid var(--line); border-radius: 12px; padding: 24px 20px 12px; color: var(--ink); font-family: var(--body); font-size: 16px; transition: all 0.3s; }
+.field textarea { resize: vertical; min-height: 120px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--ink-faint); background: var(--surface-raised); }
+.field label { position: absolute; top: 18px; left: 20px; color: var(--ink-faint); font-size: 16px; pointer-events: none; transition: all 0.3s cubic-bezier(0.16,1,.3,1); }
+.field input:focus + label, .field input:not(:placeholder-shown) + label, .field select:focus + label, .field select.filled + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label { transform: translateY(-10px); font-size: 11px; color: var(--ink-dim); font-family: var(--mono); text-transform: uppercase; letter-spacing: 0.05em;}
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-@media(max-width: 900px) { .booking-grid { grid-template-columns: 1fr; gap: 40px; } .field-row { grid-template-columns: 1fr; gap: 0; } }
+@media(max-width: 900px) { .booking-grid { grid-template-columns: 1fr; gap: 60px; } .field-row { grid-template-columns: 1fr; gap: 0; } }
 
-footer { background: var(--graphite); border-top: 1px solid var(--line); padding: 100px 0 40px; }
-.foot-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 60px; padding-bottom: 70px; border-bottom: 1px solid var(--line); }
-.foot-word { font-family: var(--display); font-size: clamp(40px, 6vw, 72px); font-weight: 800; letter-spacing: -0.04em; line-height: 1; color: var(--ink); }
-.foot-cols { display: flex; gap: 80px; flex-wrap: wrap; }
-.foot-col h5 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
-.foot-col a, .foot-col p { display: block; font-size: 14px; font-family: var(--body); font-weight: 400; color: var(--ink-dim); margin-bottom: 12px; transition: color 0.3s; }
+/* Massive Architectural Footer */
+footer { background: var(--void); border-top: 1px solid var(--line); padding: 120px 0 40px; }
+.foot-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 60px; padding-bottom: 80px; border-bottom: 1px solid var(--line); }
+.foot-word { font-family: var(--display); font-size: 11vw; font-weight: 800; letter-spacing: -0.04em; line-height: 0.85; color: var(--ink); margin-left: -5px; }
+.foot-cols { display: flex; gap: 100px; flex-wrap: wrap; margin-top: 20px; }
+.foot-col h5 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 24px; }
+.foot-col a, .foot-col p { display: block; font-size: 15px; font-family: var(--body); font-weight: 400; color: var(--ink-dim); margin-bottom: 16px; transition: color 0.3s; }
 .foot-col a:hover { color: var(--ink); }
-.foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 30px; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
+.foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 40px; flex-wrap: wrap; gap: 16px; font-family: var(--mono); font-size: 12px; color: var(--ink-faint); }
 </style>
 
-<!-- 3. RECENT BUILDS GALLERY -->
+<!-- RECENT BUILDS -->
 <section id="builds" class="h-scroll-section">
 <div class="h-scroll-layout">
 <div class="section-head h-scroll-header cinema-drop">
-<div class="eyebrow" style="margin-bottom: 24px;">Studio Log</div>
+<div class="eyebrow">Studio Log</div>
 <h2>Proof, not promises.</h2>
 <p>A running log of what's left the studio.</p>
 </div>
 <div class="h-scroll-viewport" id="buildsViewport">
 <div class="h-scroll-track cinema-drop" id="buildsTrack">
-<!-- Populated dynamically via JS -->
 <div class="h-card build-end" style="justify-content: center; align-items: center; text-align: center; border-style: dashed; background: transparent;">
-<div class="eyebrow" style="margin-bottom: 16px; justify-content:center; width: 100%;">Yours next?</div>
+<div class="eyebrow accent" style="margin-bottom: 16px; justify-content:center; width: 100%;">Yours next?</div>
 <p style="margin-bottom: 32px;">Want your build featured in this gallery?</p>
-<a href="#booking" class="btn magnetic">Book a Build <span class="arrow">→</span></a>
+<a href="#booking" class="btn btn-liquid magnetic">
+  <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
+  <span class="txt">Book a Build <span class="arrow hidden">→</span></span>
+</a>
 </div>
 </div>
 </div>
 </div>
 </section>
 
-<!-- BEFORE/AFTER -->
+<!-- COMPARE -->
 <section id="compare" class="pad">
-<div class="container">
-<div class="section-head cinema-drop" style="text-align:center; margin:0 auto 64px auto;">
+<div class="container cinema-drop">
+<div class="section-head" style="text-align:center; margin:0 auto 64px auto;">
 <div class="eyebrow" style="justify-content:center; margin-bottom: 16px;">See the difference</div>
 <h2>Drag to reveal the result.</h2>
 </div>
-<div class="compare-frame cinema-drop" id="compareFrame">
+<div class="compare-frame" id="compareFrame">
 <div class="compare-layer compare-after" id="media-after_img"></div>
 <div class="compare-layer compare-before" id="media-before_img"></div>
 <div class="compare-label l-before">Before</div>
@@ -517,8 +507,8 @@ footer { background: var(--graphite); border-top: 1px solid var(--line); padding
 </div>
 </section>
 
-<!-- REVIEWS -->
-<section id="testimonials">
+<!-- DARK REVIEWS -->
+<section id="testimonials" class="pad">
 <div class="container cinema-drop">
 <div class="section-head" style="margin: 0 auto; text-align: center;">
 <div class="eyebrow" style="justify-content: center; margin-bottom: 16px;">In their words</div>
@@ -528,11 +518,11 @@ footer { background: var(--graphite); border-top: 1px solid var(--line); padding
 </div>
 </section>
 
-<!-- BOOKING -->
+<!-- BOOKING FORM -->
 <section id="booking" class="pad">
 <div class="container booking-grid">
 <div class="cinema-drop">
-<div class="eyebrow" style="margin-bottom: 24px;">Initiate Project</div>
+<div class="eyebrow">Initiate Project</div>
 <h2>Secure a bay.</h2>
 <p>Tell us about your vehicle. Our team responds within one business day with availability and a technical plan.</p>
 </div>
@@ -551,14 +541,17 @@ footer { background: var(--graphite); border-top: 1px solid var(--line); padding
 <label class="filled">Service required</label>
 </div>
 <div class="field"><textarea name="message" placeholder=" "></textarea><label>Message (optional)</label></div>
-<button type="submit" class="btn magnetic" style="width: 100%;">Submit Request <span class="arrow hidden">→</span></button>
+<button type="submit" class="btn btn-liquid magnetic" style="width: 100%;">
+  <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
+  <span class="txt">Submit Request <span class="arrow hidden">→</span></span>
+</button>
 </form>
 </div>
 </div>
 </section>
 </main>
 
-<!-- FOOTER -->
+<!-- MASSIVE FOOTER -->
 <footer id="siteFooter">
 <div class="container cinema-drop">
 <div class="foot-top">
@@ -575,7 +568,7 @@ footer { background: var(--graphite); border-top: 1px solid var(--line); padding
 </div>
 </footer>
 <!-- ============================================================
-     THE MASTER JAVASCRIPT ENGINE
+     THE PERFECTED JAVASCRIPT ENGINE
      ============================================================ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -616,10 +609,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         if(preloader) preloader.classList.add('done');
         var hero = document.getElementById('hero');
         if(hero) hero.classList.add('revealed');
-      }, 500); // Hold at 100% for a split second for premium feel
+      }, 500); 
     }
   }
-  
   let fakeProgress = 0;
   let plInterval = setInterval(() => {
     fakeProgress += Math.random() * 12;
@@ -640,21 +632,21 @@ document.addEventListener('DOMContentLoaded', async function() {
   window.addEventListener('touchstart', resetIdle, {passive: true});
   resetIdle(); 
 
-  /* 3. CINEMATIC SCROLL FADES (Platform Optimized) */
+  /* 3. THE FIXED, PERFECTED GSAP FADES */
   if(window.gsap && window.ScrollTrigger && !reduceMotion) {
     gsap.utils.toArray('.cinema-drop').forEach(elem => {
-      if(isMobile) {
-        // Mobile gets pure, perfect fade-up without the scrub-out
-        gsap.fromTo(elem, 
-          { y: 30, opacity: 0 }, 
-          { y: 0, opacity: 1, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: elem, start: "top 85%" } }
-        );
-      } else {
-        // Desktop gets the immersive bi-directional scrub
-        let tl = gsap.timeline({ scrollTrigger: { trigger: elem, start: "top 95%", end: "bottom 5%", scrub: 1.5 } });
-        tl.fromTo(elem, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" })
-          .to(elem, { y: -60, opacity: 0, duration: 0.4, ease: "power2.in" }, "+=0.2");
-      }
+      // Replaced the cheap scrub with a highly tuned expo.out trigger
+      gsap.to(elem, {
+        y: 0, 
+        opacity: 1, 
+        duration: 1.2, 
+        ease: "expo.out",
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 85%", // Triggers exactly when it enters the viewport
+          toggleActions: "play none none reverse"
+        }
+      });
     });
   }
 
@@ -699,9 +691,7 @@ document.addEventListener('DOMContentLoaded', async function() {
       });
     });
   }
-
-  /* 7. GSAP HORIZONTAL SCROLL ENGINES (Desktop Only) */
-  // Forces vertical scroll to move the cards sideways, pinning the section in place.
+   /* 7. GSAP HORIZONTAL SCROLL ENGINES (Desktop Only) */
   function initHorizontalScroller(trackId, viewportId) {
     var track = document.getElementById(trackId);
     var viewport = document.getElementById(viewportId);
@@ -717,7 +707,6 @@ document.addEventListener('DOMContentLoaded', async function() {
       });
     }
   }
-  // Initialize all 3 horizontal galleries
   initHorizontalScroller('servicesTrack', 'servicesViewport');
   initHorizontalScroller('processTrack', 'processViewport');
   initHorizontalScroller('buildsTrack', 'buildsViewport');
@@ -739,7 +728,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     return (x / rect.width) * 100;
   }
   if(handle && compareFrame) {
-    // Only intercepts horizontal dragging, vertical scrolling passes through perfectly
     compareFrame.addEventListener('mousedown', () => dragging = true);
     window.addEventListener('mouseup', () => dragging = false);
     window.addEventListener('mousemove', e => { if(dragging) setSplit(posFromEvent(e)); });
@@ -765,7 +753,6 @@ document.addEventListener('DOMContentLoaded', async function() {
             } else if(m.id.startsWith('service_') || m.id.startsWith('process_')) {
               let panel = document.getElementById('media-' + m.id);
               if(panel) {
-                // If it's an MP4/WebM, inject a looping video. Otherwise, inject an image.
                 if(m.media_url.match(/\.(mp4|webm)$/i)) {
                   panel.innerHTML = '<video autoplay muted loop playsinline src="' + m.media_url + '"></video>';
                 } else {
@@ -818,7 +805,7 @@ document.addEventListener('DOMContentLoaded', async function() {
   
   if(db) preloadSiteData(); else { clearInterval(plInterval); updatePreloader(100); }
 
-  /* 10. ODOMETER (Rolling Number Animation) */
+  /* 10. ODOMETER */
   function buildOdometer(el) {
     var target = el.getAttribute('data-count');
     if(!target) return [];
@@ -866,20 +853,19 @@ document.addEventListener('DOMContentLoaded', async function() {
     if(testiGrid) {
       var svgStar = '<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
       testiGrid.innerHTML = testimonials.map((t, i) =>
-        '<div class="testi-card cinema-drop" style="transition-delay: ' + (isMobile ? 0 : ((i % 3) * 0.05)) + 's;">' +
+        '<div class="testi-card cinema-drop">' +
         '<div class="stars">' + svgStar + svgStar + svgStar + svgStar + svgStar + '</div>' +
         '<p class="quote">' + t.q + '</p>' +
         '<div class="author"><h5>' + t.name + '</h5><span>' + t.sub + '</span></div></div>'
       ).join('');
+      
+      // Apply the same buttery fade logic to dynamically injected cards
       if(window.gsap && window.ScrollTrigger && !reduceMotion) {
         gsap.utils.toArray('#testiGrid .cinema-drop').forEach(elem => {
-          if(isMobile) {
-            gsap.fromTo(elem, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, ease: "power2.out", scrollTrigger: { trigger: elem, start: "top 85%" } });
-          } else {
-            let tl = gsap.timeline({ scrollTrigger: { trigger: elem, start: "top 95%", end: "bottom 5%", scrub: 1.5 } });
-            tl.fromTo(elem, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" })
-              .to(elem, { y: -60, opacity: 0, duration: 0.4, ease: "power2.in" }, "+=0.2");
-          }
+          gsap.to(elem, {
+            y: 0, opacity: 1, duration: 1.2, ease: "expo.out",
+            scrollTrigger: { trigger: elem, start: "top 85%", toggleActions: "play none none reverse" }
+          });
         });
       }
     }
@@ -892,8 +878,8 @@ document.addEventListener('DOMContentLoaded', async function() {
       e.preventDefault();
       var fd = new FormData(this);
       submitLead({ name: fd.get('name'), phone: fd.get('phone'), city: fd.get('city'), car: fd.get('car'), service: fd.get('service'), message: fd.get('message') || null });
-      var confirmCard = document.getElementById('confirmCard');
-      if(confirmCard) confirmCard.classList.add('show');
+      alert("Request Sent Successfully. We will contact you shortly.");
+      bookingForm.reset();
     });
   }
   
