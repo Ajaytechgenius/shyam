@@ -91,7 +91,7 @@ header { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); wid
 .header-logo { font-family: var(--display); font-weight: 800; font-size: 18px; display: flex; align-items: center; gap: 10px; color: var(--ignition-bright); transition: all 0.6s var(--ease-out); text-transform: uppercase; letter-spacing: 1px; }
 .header-logo .mark { width: 24px; height: 24px; flex-shrink: 0; transition: all 0.6s var(--ease-out); }
 .header-links { display: flex; gap: 40px; position: absolute; left: 50%; transform: translateX(-50%); transition: all 0.6s var(--ease-out); }
-.header-links a { font-size: 13px; font-weight: 500; color: var(--ink); position: relative; padding-bottom: 4px; transition: color 0.3s; opacity: 0.8; }
+.header-links a { font-family: var(--body); font-size: 13px; font-weight: 500; color: var(--ink); position: relative; padding-bottom: 4px; transition: color 0.3s; opacity: 0.8; }
 .header-links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1.5px; background: var(--ignition-bright); transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease); }
 .header-links a:hover { opacity: 1; }
 .header-links a:hover::after { transform: scaleX(1); transform-origin: left; }
@@ -131,6 +131,17 @@ body.menu-open { overflow: hidden; }
   .audio-toggle { display: none !important; } /* Hidden on mobile per request */
 }
 
+/* Preloader */
+#preloader { position: fixed; inset: 0; z-index: 999; background: var(--void); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 0.9s var(--ease), visibility 0.9s; }
+#preloader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+.pl-dial { width: 110px; height: 110px; position: relative; }
+.pl-dial svg { width: 100%; height: 100%; overflow: visible; }
+.pl-ring-bg { fill: none; stroke: var(--line-strong); stroke-width: 3; }
+.pl-ring { fill: none; stroke: var(--ignition); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 402; stroke-dashoffset: 402; filter: drop-shadow(0 0 6px var(--ignition)); transition: stroke 0.2s ease-out; }
+.pl-needle { stroke: var(--accent); stroke-width: 3; stroke-linecap: round; transform-origin: 80px 80px; transform: rotate(-110deg); transition: transform 0.2s ease-out; }
+.pl-pct { font-family: var(--mono); font-size: 12px; letter-spacing: 0.12em; color: var(--ink-faint); }
+.pl-pct span { color: var(--ignition); }
+
 /* --- HERO --- */
 #hero { height: 100vh; min-height: 700px; position: relative; overflow: hidden; background: var(--void); }
 .hero-media { position: absolute; inset: 0; }
@@ -148,7 +159,100 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .hero.revealed p.sub { opacity: 1; transform: translateY(0); }
 .hero-actions { margin-top: 48px; display: flex; gap: 20px; flex-wrap: wrap; opacity: 0; transform: translateY(20px); transition: all 0.8s var(--ease-out) 0.7s; }
 .hero.revealed .hero-actions { opacity: 1; transform: translateY(0); }
-   /* MARQUEE */
+</style>
+</head>
+<body>
+
+<!-- Shared SVG Filter for Liquid Button -->
+<svg width="0" height="0" style="position:absolute; pointer-events:none;">
+<defs>
+<filter id="liquid-goo">
+<feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"/>
+<feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+</filter>
+</defs>
+</svg>
+
+<!-- TRUE PRELOADER -->
+<div id="preloader" role="status" aria-label="Loading">
+<div class="pl-dial">
+<svg viewBox="0 0 160 160">
+<circle class="pl-ring-bg" cx="80" cy="80" r="64"/>
+<circle class="pl-ring" id="plRing" cx="80" cy="80" r="64" transform="rotate(-90 80 80)"/>
+<line class="pl-needle" id="plNeedle" x1="80" y1="80" x2="80" y2="26"/>
+<circle cx="80" cy="80" r="4" fill="var(--ignition)"/>
+</svg>
+</div>
+<div class="pl-pct"><span id="plPct">0</span>%</div>
+</div>
+
+<!-- SUPASTE-STYLE NAVBAR -->
+<header id="siteHeader">
+<div class="header-logo">
+<span class="mark"><svg viewBox="0 0 40 40" fill="none"><path d="M6 30 A16 16 0 0 1 34 30" stroke="var(--line-strong)" stroke-width="2.4" stroke-linecap="round"/><path d="M6 30 A16 16 0 0 1 21 14.4" stroke="var(--ignition-bright)" stroke-width="2.4" stroke-linecap="round"/><line x1="20" y1="30" x2="27.5" y2="16" stroke="var(--ignition-bright)" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="30" r="2.6" fill="var(--ignition-bright)"/></svg></span>
+REV NATION
+</div>
+<nav class="header-links">
+<a href="#services">Modifications</a>
+<a href="#destination">Experience</a>
+<a href="#builds">Builds</a>
+<a href="#process">Process</a>
+<a href="#testimonials">Reviews</a>
+</nav>
+<div class="header-actions">
+<!-- Audio Toggle (Controls Video Audio directly now) -->
+<button class="audio-toggle" id="audioToggle" aria-label="Toggle Audio">
+<span></span><span></span><span></span>
+</button>
+<a href="#booking" class="btn btn-ghost magnetic">Book an Inspection</a>
+<!-- Hamburger Menu Trigger (Mobile Only) -->
+<button class="menu-trigger" id="menuTrigger" aria-label="Open menu">
+<span></span><span></span><span></span>
+</button>
+</div>
+</header>
+
+<div id="mobile-drawer">
+<a href="#services">Modifications</a>
+<a href="#destination">Experience</a>
+<a href="#builds">Builds</a>
+<a href="#process">Process</a>
+<a href="#testimonials">Reviews</a>
+<a href="#booking">Contact</a>
+</div>
+
+<main>
+<!-- HERO SECTION -->
+<section id="hero">
+<div class="hero-media">
+<!-- Must start muted for autoplay to work on browsers, user clicks toggle to unmute -->
+<video autoplay muted loop playsinline poster="assets/hero-poster.jpg" id="heroVideo">
+<source src="assets/hero-reveal.mp4" type="video/mp4">
+</video>
+</div>
+<div class="hero-scrim"></div>
+<div class="container hero-content">
+<div class="hero-eyebrow" style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-bright); display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">Jaipur Custom Builds &amp; Protection</div>
+<h1>
+<span class="line"><span>Where Jaipur's cars</span></span>
+<span class="line"><span>get built, not just washed.</span></span>
+</h1>
+<p class="sub">Custom modifications, precision PPF, ceramic coatings and studio-grade detailing - engineered and installed in-house, to one uncompromising standard.</p>
+<div class="hero-actions">
+<a href="#builds" class="btn btn-liquid ignite magnetic">
+<span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
+<span class="txt">Explore Builds</span>
+</a>
+<a href="#booking" class="btn btn-ghost magnetic">
+Book an Inspection
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:16px;height:16px;margin-left:4px;"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
+</a>
+</div>
+</div>
+</section>
+<style>
+/* MARQUEE */
 .marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--graphite); padding: 24px 0; }
 .marquee-track { display: flex; gap: 120px; width: max-content; animation: marquee-scroll 35s linear infinite; }
 .marquee-track span { font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.15em; color: var(--ink-faint); text-transform: uppercase; white-space: nowrap; }
@@ -195,7 +299,50 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .dest-card:hover .dest-content { opacity: 1; transform: translateY(0); }
 .dest-content h3 { font-family: var(--display); font-weight: 700; font-size: clamp(24px, 3vw, 40px); color: var(--ink); margin-bottom: 8px; white-space: nowrap; }
 .dest-content p { font-family: var(--body); font-weight: 400; font-size: 14px; color: var(--accent-bright); letter-spacing: 0.05em; white-space: nowrap; }
-   /* ============================================================
+</style>
+
+<!-- MARQUEE -->
+<div class="marquee">
+<div class="marquee-track">
+<span>BMW</span><span>Audi</span><span>Mercedes-Benz</span><span>Range Rover</span><span>Porsche</span><span>Jaguar</span><span>Volvo</span><span>MINI</span><span>Mahindra</span><span>Tata</span>
+<span>BMW</span><span>Audi</span><span>Mercedes-Benz</span><span>Range Rover</span><span>Porsche</span><span>Jaguar</span><span>Volvo</span><span>MINI</span><span>Mahindra</span><span>Tata</span>
+</div>
+</div>
+
+<!-- ASYMMETRICAL AUTHORITY STATS (Perfected Grid) -->
+<section id="authority" class="pad">
+<div class="container authority-grid">
+<div class="authority-left fade-up">
+<div class="eyebrow">Built on proof</div>
+<h2>Every claim of scale is backed by <span class="accent">builds completed</span>, certified installers, and a studio built to run at volume.</h2>
+</div>
+<div class="stat-grid fade-up">
+<div class="stat"><div class="stat-num"><span class="odo" data-count="4200"></span><span class="suffix">+</span></div><div class="stat-label">Vehicles Serviced</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="28"></span><span class="suffix">k sq.ft</span></div><div class="stat-label">Studio Area</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="12"></span></div><div class="stat-label">Installation Bays</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="24"></span></div><div class="stat-label">Certified Installers</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="9"></span></div><div class="stat-label">Cities Served</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="11"></span><span class="suffix">yrs</span></div><div class="stat-label">Experience</div></div>
+</div>
+</div>
+</section>
+
+<!-- LUXURY DESTINATION EXPERIENCE -->
+<section id="destination">
+<div class="section-head fade-up" style="text-align:center; margin: 0 auto 64px auto;">
+<div class="eyebrow ignite" style="justify-content:center;">Beyond the Build</div>
+<h2>Not just a studio. A destination.</h2>
+</div>
+<div class="dest-container fade-up">
+<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1616422285623-aa30eb0709bc?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Valet Drop-off</h3><p>Your car, our responsibility.</p></div></div>
+<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>PS5 Lounge</h3><p>Relax. Play. Enjoy the wait.</p></div></div>
+<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Café Bar</h3><p>Premium snacks & beverages.</p></div></div>
+<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>6000 Sq Ft Bay</h3><p>Space. Precision. Perfection.</p></div></div>
+<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Detail Perfected</h3><p>We build right, not fast.</p></div></div>
+</div>
+</section>
+<style>
+/* ============================================================
    WHAT WE DO (Perfect Alignment & Smooth Fade Transitions)
    ============================================================ */
 #services { padding: 140px 0; background: var(--void); position: relative; }
@@ -241,193 +388,7 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 .build-card h4 { font-family: var(--display); font-weight: 700; font-size: 26px; color: var(--ink); margin-bottom: 8px; }
 .build-card p { font-size: 15px; color: var(--ink-faint); font-family: var(--body); }
 .build-card.build-end { justify-content: center; gap: 20px; padding: 48px; background: transparent; border-style: dashed; box-shadow: none; align-items: center; text-align: center; }
-   /* Process, Compare, Reviews, Booking & Footer Styles */
-#compare { background: var(--void); }
-.compare-frame { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); user-select: none; background: var(--void); }
-.compare-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; }
-.compare-after { background-color: #1c1c1f; }
-.compare-before { background-color: #232019; clip-path: inset(0 50% 0 0); width: 100%; }
-.compare-before::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 26px); }
-.compare-label { position: absolute; top: 32px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; padding: 10px 20px; background: rgba(10,10,11,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; text-transform: uppercase; backdrop-filter: blur(12px); }
-.compare-label.l-before { left: 32px; } .compare-label.l-after { right: 32px; }
-.compare-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--accent); transform: translateX(-50%); cursor: ew-resize; }
-.compare-handle .grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 50%; background: var(--void); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0,0,0,0.5); pointer-events: none; }
-.compare-handle .grip svg { width: 16px; height: 16px; color: var(--accent); }
-
-#process { background: var(--graphite); }
-.process-tabs { display: flex; border-bottom: 1px solid var(--line); position: relative; margin-bottom: 80px; cursor: pointer; }
-.ptab { flex: 1; padding: 28px 0; text-align: center; font-family: var(--display); font-weight: 600; font-size: clamp(18px, 2vw, 24px); color: var(--ink-dim); transition: all 0.3s var(--ease); }
-.ptab.active { color: var(--accent-bright); }
-.ptab-indicator { position: absolute; bottom: -1px; left: 0; height: 2px; background: var(--accent-bright); width: 25%; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.process-content { display: grid; grid-template-columns: 1fr 480px; gap: 80px; align-items: center; }
-.p-media { aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; position: relative; background: var(--surface); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-.p-panel { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s var(--ease); }
-.p-panel.active { opacity: 1; z-index: 2; }
-.p-panel img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1); }
-.p-panel.active img { transform: scale(1); }
-.p-text { display: none; animation: fadeInUp 0.8s var(--ease-out) forwards; }
-.p-text.active { display: block; }
-.p-text h4 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 3vw, 40px); margin-bottom: 20px; color: var(--ink); }
-.p-text p { font-family: var(--body); color: var(--ink-dim); font-size: 16px; line-height: 1.6; font-weight: 300;}
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-#testimonials { background: var(--void); }
-.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 64px; }
-.testi-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; gap: 24px; transition: all 0.4s var(--ease); }
-.testi-card:hover { border-color: var(--line-strong); transform: translateY(-4px); }
-.testi-card .stars { display: flex; gap: 6px; color: #F59E0B; }
-.testi-card .stars svg { width: 20px; height: 20px; fill: currentColor; }
-.testi-card p.quote { font-family: var(--body); font-weight: 300; font-size: 15px; line-height: 1.6; color: var(--ink-dim); flex: 1; font-style: italic; }
-.testi-card .author { margin-top: auto; border-top: 1px solid var(--line); padding-top: 20px; }
-.testi-card .author h5 { font-size: 18px; color: var(--ink); margin-bottom: 6px; font-family: var(--display); font-weight: 700;}
-.testi-card .author span { font-size: 13px; color: var(--ink-faint); font-family: var(--mono); }
-
-#booking { background: var(--graphite); position: relative; overflow: hidden; }
-.booking-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 900px; height: 900px; background: radial-gradient(circle, rgba(193,127,62,0.06) 0%, transparent 65%); pointer-events: none; }
-.booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; position: relative; z-index: 1; }
-.field { margin-bottom: 32px; position: relative; }
-.field input, .field select, .field textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line-strong); padding: 14px 2px; color: var(--ink); font-family: var(--body); font-size: 16px; transition: border-color 0.3s var(--ease); }
-.field textarea { resize: vertical; min-height: 80px; }
-.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
-.field label { position: absolute; top: 14px; left: 2px; color: var(--ink-faint); font-size: 16px; pointer-events: none; transition: all 0.25s var(--ease); font-family: var(--body); font-weight: 300;}
-.field input:focus + label, .field input:not(:placeholder-shown) + label, .field select:focus + label, .field select.filled + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label { transform: translateY(-24px); font-size: 12px; color: var(--accent); }
-.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.confirm-card { position: absolute; inset: 0; background: var(--surface); border: 1px solid var(--accent); border-radius: 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 48px; opacity: 0; transform: scale(.97); pointer-events: none; transition: all 0.5s var(--ease); }
-.confirm-card.show { opacity: 1; transform: scale(1); pointer-events: auto; }
-.confirm-card svg { width: 42px; height: 42px; color: var(--accent); margin-bottom: 20px; }
-
-footer { background: var(--void); border-top: 1px solid var(--line); padding: 100px 0 40px; }
-.foot-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 60px; padding-bottom: 70px; border-bottom: 1px solid var(--line); }
-.foot-word { font-family: var(--display); font-size: clamp(44px, 8vw, 96px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--ink); opacity: .94; }
-.foot-cols { display: flex; gap: 80px; flex-wrap: wrap; }
-.foot-col h5 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
-.foot-col a, .foot-col p { display: block; font-size: 14px; font-family: var(--body); font-weight: 300; color: var(--ink-dim); margin-bottom: 12px; transition: color 0.3s; }
-.foot-col a:hover { color: var(--accent-bright); }
-.foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 30px; flex-wrap: wrap; gap: 16px; }
-.foot-bottom p { font-size: 13px; color: var(--ink-faint); font-family: var(--mono); }
-
-#wa-float { position: fixed; bottom: 32px; right: 32px; z-index: 90; width: 50px; height: 50px; border-radius: 50%; background: #25D366; color: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.3); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; }
-#wa-float:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 28px rgba(37,211,102,0.4); }
-#wa-float svg { width: 24px; height: 24px; }
 </style>
-</head>
-<body>
-<!-- Shared SVG Filter for Liquid Button -->
-<svg width="0" height="0" style="position:absolute; pointer-events:none;">
-<defs>
-<filter id="liquid-goo">
-<feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
-<feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9" result="goo"/>
-<feComposite in="SourceGraphic" in2="goo" operator="atop"/>
-</filter>
-</defs>
-</svg>
-
-<!-- SUPASTE-STYLE NAVBAR -->
-<header id="siteHeader">
-<div class="header-logo">
-<span class="mark"><svg viewBox="0 0 40 40" fill="none"><path d="M6 30 A16 16 0 0 1 34 30" stroke="var(--line-strong)" stroke-width="2.4" stroke-linecap="round"/><path d="M6 30 A16 16 0 0 1 21 14.4" stroke="var(--ignition-bright)" stroke-width="2.4" stroke-linecap="round"/><line x1="20" y1="30" x2="27.5" y2="16" stroke="var(--ignition-bright)" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="30" r="2.6" fill="var(--ignition-bright)"/></svg></span>
-REV NATION
-</div>
-<nav class="header-links">
-<a href="#services">Modifications</a>
-<a href="#destination">Experience</a>
-<a href="#builds">Builds</a>
-<a href="#process">Process</a>
-<a href="#testimonials">Reviews</a>
-</nav>
-<div class="header-actions">
-<!-- Audio Toggle (Controls Video Audio directly now) -->
-<button class="audio-toggle" id="audioToggle" aria-label="Toggle Audio">
-<span></span><span></span><span></span>
-</button>
-<a href="#booking" class="btn btn-ghost magnetic">Book an Inspection</a>
-<!-- Hamburger Menu Trigger (Mobile Only) -->
-<button class="menu-trigger" id="menuTrigger" aria-label="Open menu">
-<span></span><span></span><span></span>
-</button>
-</div>
-</header>
-
-<div id="mobile-drawer">
-<a href="#services">Modifications</a>
-<a href="#destination">Experience</a>
-<a href="#builds">Builds</a>
-<a href="#process">Process</a>
-<a href="#testimonials">Reviews</a>
-<a href="#booking">Contact</a>
-</div>
-
-<main>
-<!-- HERO SECTION -->
-<section id="hero">
-<div class="hero-media">
-<!-- Removed the muted attribute here, it will be controlled by JS initially if autoplay policy demands it -->
-<video autoplay muted loop playsinline poster="assets/hero-poster.jpg" id="heroVideo">
-<source src="assets/hero-reveal.mp4" type="video/mp4">
-</video>
-</div>
-<div class="hero-scrim"></div>
-<div class="container hero-content">
-<div class="hero-eyebrow" style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-bright); display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">Jaipur Custom Builds &amp; Protection</div>
-<h1>
-<span class="line"><span>Where Jaipur's cars</span></span>
-<span class="line"><span>get built, not just washed.</span></span>
-</h1>
-<p class="sub">Custom modifications, precision PPF, ceramic coatings and studio-grade detailing - engineered and installed in-house, to one uncompromising standard.</p>
-<div class="hero-actions">
-<a href="#builds" class="btn btn-liquid ignite magnetic">
-<span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
-<span class="txt">Explore Builds</span>
-</a>
-<a href="#booking" class="btn btn-ghost magnetic">
-Book an Inspection
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:16px;height:16px;margin-left:4px;"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
-</a>
-</div>
-</div>
-</section>
-
-<!-- MARQUEE -->
-<div class="marquee">
-<div class="marquee-track">
-<span>BMW</span><span>Audi</span><span>Mercedes-Benz</span><span>Range Rover</span><span>Porsche</span><span>Jaguar</span><span>Volvo</span><span>MINI</span><span>Mahindra</span><span>Tata</span>
-<span>BMW</span><span>Audi</span><span>Mercedes-Benz</span><span>Range Rover</span><span>Porsche</span><span>Jaguar</span><span>Volvo</span><span>MINI</span><span>Mahindra</span><span>Tata</span>
-</div>
-</div>
-
-<!-- ASYMMETRICAL AUTHORITY STATS (Perfected Grid) -->
-<section id="authority" class="pad">
-<div class="container authority-grid">
-<div class="authority-left fade-up">
-<div class="eyebrow">Built on proof</div>
-<h2>Every claim of scale is backed by <span class="accent">builds completed</span>, certified installers, and a studio built to run at volume.</h2>
-</div>
-<div class="stat-grid fade-up">
-<div class="stat"><div class="stat-num"><span class="odo" data-count="4200"></span><span class="suffix">+</span></div><div class="stat-label">Vehicles Serviced</div></div>
-<div class="stat"><div class="stat-num"><span class="odo" data-count="28"></span><span class="suffix">k sq.ft</span></div><div class="stat-label">Studio Area</div></div>
-<div class="stat"><div class="stat-num"><span class="odo" data-count="12"></span></div><div class="stat-label">Installation Bays</div></div>
-<div class="stat"><div class="stat-num"><span class="odo" data-count="24"></span></div><div class="stat-label">Certified Installers</div></div>
-<div class="stat"><div class="stat-num"><span class="odo" data-count="9"></span></div><div class="stat-label">Cities Served</div></div>
-<div class="stat"><div class="stat-num"><span class="odo" data-count="11"></span><span class="suffix">yrs</span></div><div class="stat-label">Experience</div></div>
-</div>
-</div>
-</section>
-
-<!-- LUXURY DESTINATION EXPERIENCE -->
-<section id="destination">
-<div class="section-head fade-up" style="text-align:center; margin: 0 auto 64px auto;">
-<div class="eyebrow ignite" style="justify-content:center;">Beyond the Build</div>
-<h2>Not just a studio. A destination.</h2>
-</div>
-<div class="dest-container fade-up">
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1616422285623-aa30eb0709bc?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Valet Drop-off</h3><p>Your car, our responsibility.</p></div></div>
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>PS5 Lounge</h3><p>Relax. Play. Enjoy the wait.</p></div></div>
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Café Bar</h3><p>Premium snacks & beverages.</p></div></div>
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>6000 Sq Ft Bay</h3><p>Space. Precision. Perfection.</p></div></div>
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Detail Perfected</h3><p>We build right, not fast.</p></div></div>
-</div>
-</section>
 
 <!-- WHAT WE DO -->
 <section id="services">
@@ -507,6 +468,76 @@ Book an Inspection
 </div>
 </div>
 </section>
+<style>
+/* Process, Compare, Reviews, Booking & Footer Styles */
+#compare { background: var(--void); }
+.compare-frame { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); user-select: none; background: var(--void); }
+.compare-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; }
+.compare-after { background-color: #1c1c1f; }
+.compare-before { background-color: #232019; clip-path: inset(0 50% 0 0); width: 100%; }
+.compare-before::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 26px); }
+.compare-label { position: absolute; top: 32px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; padding: 10px 20px; background: rgba(10,10,11,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; text-transform: uppercase; backdrop-filter: blur(12px); }
+.compare-label.l-before { left: 32px; } .compare-label.l-after { right: 32px; }
+.compare-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--accent); transform: translateX(-50%); cursor: ew-resize; }
+.compare-handle .grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 50%; background: var(--void); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0,0,0,0.5); pointer-events: none; }
+.compare-handle .grip svg { width: 16px; height: 16px; color: var(--accent); }
+
+#process { background: var(--graphite); }
+.process-tabs { display: flex; border-bottom: 1px solid var(--line); position: relative; margin-bottom: 80px; cursor: pointer; }
+.ptab { flex: 1; padding: 28px 0; text-align: center; font-family: var(--display); font-weight: 600; font-size: clamp(18px, 2vw, 24px); color: var(--ink-dim); transition: all 0.3s var(--ease); }
+.ptab.active { color: var(--accent-bright); }
+.ptab-indicator { position: absolute; bottom: -1px; left: 0; height: 2px; background: var(--accent-bright); width: 25%; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.process-content { display: grid; grid-template-columns: 1fr 480px; gap: 80px; align-items: center; }
+.p-media { aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; position: relative; background: var(--surface); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+.p-panel { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s var(--ease); }
+.p-panel.active { opacity: 1; z-index: 2; }
+.p-panel img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.p-panel.active img { transform: scale(1); }
+.p-text { display: none; animation: fadeInUp 0.8s var(--ease-out) forwards; }
+.p-text.active { display: block; }
+.p-text h4 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 3vw, 40px); margin-bottom: 20px; color: var(--ink); }
+.p-text p { font-family: var(--body); color: var(--ink-dim); font-size: 16px; line-height: 1.6; font-weight: 300;}
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+#testimonials { background: var(--void); }
+.testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 64px; }
+.testi-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; gap: 24px; transition: all 0.4s var(--ease); }
+.testi-card:hover { border-color: var(--line-strong); transform: translateY(-4px); }
+.testi-card .stars { display: flex; gap: 6px; color: #F59E0B; }
+.testi-card .stars svg { width: 20px; height: 20px; fill: currentColor; }
+.testi-card p.quote { font-family: var(--body); font-weight: 300; font-size: 15px; line-height: 1.6; color: var(--ink-dim); flex: 1; font-style: italic; }
+.testi-card .author { margin-top: auto; border-top: 1px solid var(--line); padding-top: 20px; }
+.testi-card .author h5 { font-size: 18px; color: var(--ink); margin-bottom: 6px; font-family: var(--display); font-weight: 700;}
+.testi-card .author span { font-size: 13px; color: var(--ink-faint); font-family: var(--mono); }
+
+#booking { background: var(--graphite); position: relative; overflow: hidden; }
+.booking-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 900px; height: 900px; background: radial-gradient(circle, rgba(193,127,62,0.06) 0%, transparent 65%); pointer-events: none; }
+.booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; position: relative; z-index: 1; }
+.field { margin-bottom: 32px; position: relative; }
+.field input, .field select, .field textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line-strong); padding: 14px 2px; color: var(--ink); font-family: var(--body); font-size: 16px; transition: border-color 0.3s var(--ease); }
+.field textarea { resize: vertical; min-height: 80px; }
+.field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
+.field label { position: absolute; top: 14px; left: 2px; color: var(--ink-faint); font-size: 16px; pointer-events: none; transition: all 0.25s var(--ease); font-family: var(--body); font-weight: 300;}
+.field input:focus + label, .field input:not(:placeholder-shown) + label, .field select:focus + label, .field select.filled + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label { transform: translateY(-24px); font-size: 12px; color: var(--accent); }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.confirm-card { position: absolute; inset: 0; background: var(--surface); border: 1px solid var(--accent); border-radius: 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 48px; opacity: 0; transform: scale(.97); pointer-events: none; transition: all 0.5s var(--ease); }
+.confirm-card.show { opacity: 1; transform: scale(1); pointer-events: auto; }
+.confirm-card svg { width: 42px; height: 42px; color: var(--accent); margin-bottom: 20px; }
+
+footer { background: var(--void); border-top: 1px solid var(--line); padding: 100px 0 40px; }
+.foot-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 60px; padding-bottom: 70px; border-bottom: 1px solid var(--line); }
+.foot-word { font-family: var(--display); font-size: clamp(44px, 8vw, 96px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--ink); opacity: .94; }
+.foot-cols { display: flex; gap: 80px; flex-wrap: wrap; }
+.foot-col h5 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
+.foot-col a, .foot-col p { display: block; font-size: 14px; font-family: var(--body); font-weight: 300; color: var(--ink-dim); margin-bottom: 12px; transition: color 0.3s; }
+.foot-col a:hover { color: var(--accent-bright); }
+.foot-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 30px; flex-wrap: wrap; gap: 16px; }
+.foot-bottom p { font-size: 13px; color: var(--ink-faint); font-family: var(--mono); }
+
+#wa-float { position: fixed; bottom: 32px; right: 32px; z-index: 90; width: 50px; height: 50px; border-radius: 50%; background: #25D366; color: #ffffff; display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(37,211,102,0.3); transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease; }
+#wa-float:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 12px 28px rgba(37,211,102,0.4); }
+#wa-float svg { width: 24px; height: 24px; }
+</style>
 
 <!-- BEFORE/AFTER -->
 <section id="compare" class="pad">
@@ -642,6 +673,7 @@ Book an Inspection
 <a href="https://wa.me/917300049430" target="_blank" id="wa-float" aria-label="Chat on WhatsApp">
 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" /></svg>
 </a>
+<!-- CORE SCRIPTS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
@@ -665,6 +697,37 @@ document.addEventListener('DOMContentLoaded', async function() {
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var isMobile = window.matchMedia('(pointer: coarse)').matches;
   if(window.gsap && window.ScrollTrigger) { gsap.registerPlugin(ScrollTrigger); }
+
+  /* TRUE PRELOADER LOGIC */
+  var ring = document.getElementById('plRing');
+  var needle = document.getElementById('plNeedle');
+  var pctEl = document.getElementById('plPct');
+  var preloader = document.getElementById('preloader');
+  var CIRC = 402;
+  
+  function updatePreloader(progress) {
+    if(progress > 100) progress = 100;
+    if(pctEl) pctEl.innerHTML = `<span>${Math.floor(progress)}</span>`;
+    if(ring) ring.style.strokeDashoffset = CIRC - (CIRC * progress / 100);
+    if(needle) needle.style.transform = 'rotate(' + (-110 + (progress / 100) * 220) + 'deg)';
+    
+    if(progress >= 100) {
+      setTimeout(() => {
+        if(preloader) preloader.classList.add('done');
+        var hero = document.getElementById('hero');
+        if(hero) hero.classList.add('revealed');
+      }, 400);
+    }
+  }
+  
+  // Fake progress for visual satisfaction while fetching data
+  let fakeProgress = 0;
+  let plInterval = setInterval(() => {
+    fakeProgress += Math.random() * 15;
+    if(fakeProgress >= 90) clearInterval(plInterval);
+    else updatePreloader(fakeProgress);
+  }, 150);
+
 
   /* HERO VIDEO AUDIO CONTROL */
   const audioBtn = document.getElementById('audioToggle');
@@ -754,7 +817,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     if(backTop) backTop.classList.toggle('show', y > 900);
   }, {passive:true});
 
-
   /* PORSCHE DYNAMIC THEME (Light Mode Toggle) */
   if(window.gsap && window.ScrollTrigger && !reduceMotion) {
     ScrollTrigger.create({
@@ -822,8 +884,15 @@ document.addEventListener('DOMContentLoaded', async function() {
       } catch(e) {}
       renderTestiGrid();
     }
+    
+    // Complete preloader once DB load finishes
+    clearInterval(plInterval);
+    updatePreloader(100);
   }
-  preloadSiteData();
+  
+  // Fallback if no DB connection configured yet
+  if(db) preloadSiteData();
+  else { clearInterval(plInterval); updatePreloader(100); }
 
   /* Odometer Animation */
   function buildOdometer(el) {
