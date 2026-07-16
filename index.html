@@ -15,7 +15,7 @@
 
 <style>
 /* ============================================================
-   REV NATION JAIPUR - V2 PREMIUM CSS
+   REV NATION JAIPUR - V3 UNCOMPROMISED PREMIUM CSS
    ============================================================ */
 :root {
   --void: #0a0a0b; --graphite: #131315; --surface: #1a1a1d; --surface-raised: #212124;
@@ -24,23 +24,33 @@
   --accent: #c17f3e; --accent-bright: #e0a565;
   --ignition: #e8462a; --ignition-bright: #ff7350;
   
-  /* Upgraded Typography Stack */
   --display: 'Montserrat', 'Gilroy', sans-serif;
   --body: 'Poppins', 'Proxima Nova', sans-serif;
   --mono: 'JetBrains Mono', monospace;
   
-  --ease: cubic-bezier(.7,0,.3,1); 
   --ease-out: cubic-bezier(.16,1,.3,1);
+  --ease-in-out: cubic-bezier(.7,0,.3,1);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* { margin: 0; padding: 0; box-sizing: border-box; cursor: none !important; } /* Custom Cursor Override */
 html { scroll-behavior: auto; }
 body { background: var(--void); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.6; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 img, video { display: block; max-width: 100%; }
-a, button { text-decoration: none !important; cursor: pointer; outline: none; }
+a, button, select, input, textarea { cursor: none !important; text-decoration: none !important; outline: none; }
 button { font-family: inherit; background: none; border: none; }
 ul { list-style: none; }
 ::selection { background: var(--ignition); color: var(--void); }
+
+/* Cinematic Film Grain */
+body::after { content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none; background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.04"/%3E%3C/svg%3E'); opacity: 0.8; }
+
+/* Custom Fluid Cursor */
+#cursor-dot { position: fixed; top: 0; left: 0; width: 6px; height: 6px; background: var(--ink); border-radius: 50%; pointer-events: none; z-index: 10000; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, background 0.3s; }
+#cursor-ring { position: fixed; top: 0; left: 0; width: 32px; height: 32px; border: 1px solid rgba(255,255,255,0.4); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: width 0.3s, height 0.3s, border-color 0.3s, background 0.3s; }
+body.cursor-hover #cursor-dot { opacity: 0; }
+body.cursor-hover #cursor-ring { width: 50px; height: 50px; border-color: var(--accent-bright); background: rgba(224, 165, 101, 0.1); backdrop-filter: blur(2px); }
+body.cursor-drag #cursor-ring { width: 64px; height: 64px; border-color: var(--ink); background: rgba(255,255,255,0.1); backdrop-filter: blur(4px); }
+body.cursor-drag #cursor-ring::after { content: 'DRAG'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-family: var(--mono); font-size: 9px; color: var(--ink); letter-spacing: 1px; }
 
 /* Lenis Scrolling */
 html.lenis, html.lenis body { height: auto; }
@@ -63,26 +73,24 @@ h2 { font-size: clamp(32px, 4vw, 56px); margin-top: 16px; }
 .section-head p { color: var(--ink-dim); margin-top: 20px; font-size: clamp(16px, 2vw, 18px); max-width: 560px; font-weight: 300; }
 section { position: relative; }
 .pad { padding: 140px 0; }
-@media(max-width: 768px) { .pad { padding: 80px 0; } }
 
-/* Premium Fade-Up Animation Class */
-.fade-up { opacity: 0; transform: translateY(40px); transition: opacity 1s var(--ease-out), transform 1s var(--ease-out); }
-.fade-up.in { opacity: 1; transform: translateY(0); }
+/* The "Swallow Up" / Cinematic Drop Classes (Handled by GSAP) */
+.cinema-drop { will-change: transform, opacity; }
 
-/* Liquid Buttons */
-.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 32px; border-radius: 100px; font-family: var(--body); font-weight: 500; font-size: 14px; letter-spacing: 0.01em; color: var(--ink); border: 1px solid var(--line-strong); transition: all 0.4s ease;}
+/* Liquid Buttons (Snappier easing applied in JS) */
+.btn { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 16px 32px; border-radius: 100px; font-family: var(--body); font-weight: 500; font-size: 14px; letter-spacing: 0.01em; color: var(--ink); border: 1px solid var(--line-strong); transition: background 0.3s, border-color 0.3s, color 0.3s;}
 .magnetic { will-change: transform; }
 .btn-liquid { overflow: hidden; isolation: isolate; border-color: var(--accent); background: rgba(193,127,62,0.05); }
 .goo-layer { position: absolute; inset: -50%; z-index: 0; pointer-events: none; filter: url(#liquid-goo); }
-.blob { position: absolute; bottom: -20px; width: 45%; height: 140%; border-radius: 50%; background: var(--accent); transform: translateY(100%); transition: transform 0.6s cubic-bezier(0.7,0,0.3,1); }
+.blob { position: absolute; bottom: -20px; width: 45%; height: 140%; border-radius: 50%; background: var(--accent); transform: translateY(100%); transition: transform 0.4s cubic-bezier(0.7,0,0.3,1); }
 .btn-liquid:hover .blob { transform: translateY(0); }
-.blob.b1 { left: -10%; transition-delay: 0s; } .blob.b2 { left: 20%; transition-delay: 0.04s; } .blob.b3 { left: 50%; transition-delay: 0.08s; } .blob.b4 { left: 80%; transition-delay: 0.12s; }
+.blob.b1 { left: -10%; transition-delay: 0s; } .blob.b2 { left: 20%; transition-delay: 0.03s; } .blob.b3 { left: 50%; transition-delay: 0.06s; } .blob.b4 { left: 80%; transition-delay: 0.09s; }
 .btn-liquid.ignite { border-color: var(--ignition); background: rgba(232,70,42,0.05); }
 .btn-liquid.ignite .blob { background: var(--ignition); }
-.btn-liquid .txt { position: relative; z-index: 2; color: var(--accent-bright); transition: color 0.4s var(--ease); }
+.btn-liquid .txt { position: relative; z-index: 2; color: var(--accent-bright); transition: color 0.3s ease; }
 .btn-liquid.ignite .txt { color: var(--ignition-bright); }
 .btn-liquid:hover .txt { color: var(--void); }
-.btn-ghost { border-color: var(--line-strong); background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); transition: all 0.4s var(--ease); }
+.btn-ghost { border-color: var(--line-strong); background: rgba(255,255,255,0.02); backdrop-filter: blur(12px); }
 .btn-ghost:hover { background: var(--surface-raised); border-color: var(--accent); color: var(--accent-bright); }
    /* ============================================================
    NAVBAR & MOBILE MENU
@@ -92,7 +100,7 @@ header { position: fixed; top: 24px; left: 50%; transform: translateX(-50%); wid
 .header-logo .mark { width: 24px; height: 24px; flex-shrink: 0; transition: all 0.6s var(--ease-out); }
 .header-links { display: flex; gap: 40px; position: absolute; left: 50%; transform: translateX(-50%); transition: all 0.6s var(--ease-out); }
 .header-links a { font-family: var(--body); font-size: 13px; font-weight: 500; color: var(--ink); position: relative; padding-bottom: 4px; transition: color 0.3s; opacity: 0.8; }
-.header-links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1.5px; background: var(--ignition-bright); transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease); }
+.header-links a::after { content: ""; position: absolute; left: 0; bottom: 0; width: 100%; height: 1.5px; background: var(--ignition-bright); transform: scaleX(0); transform-origin: right; transition: transform 0.4s var(--ease-out); }
 .header-links a:hover { opacity: 1; }
 .header-links a:hover::after { transform: scaleX(1); transform-origin: left; }
 .header-actions { display: flex; align-items: center; gap: 16px; transition: all 0.6s var(--ease-out); }
@@ -105,7 +113,7 @@ body.ui-minimized .header-links a { font-size: 12px; }
 body.ui-minimized .header-actions .btn { padding: 10px 20px; font-size: 12px; background: var(--ink); color: var(--void); border-color: transparent; }
 
 /* Audio Equalizer */
-.audio-toggle { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; gap: 4px; border-radius: 50%; border: 1px solid var(--line-strong); transition: border-color 0.3s; background: transparent; cursor: pointer; }
+.audio-toggle { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; gap: 4px; border-radius: 50%; border: 1px solid var(--line-strong); transition: border-color 0.3s; background: transparent; }
 .audio-toggle:hover { border-color: var(--ignition-bright); }
 .audio-toggle span { width: 2px; background: var(--ink-dim); border-radius: 2px; transition: height 0.2s; }
 .audio-toggle span:nth-child(1) { height: 8px; } .audio-toggle span:nth-child(2) { height: 14px; } .audio-toggle span:nth-child(3) { height: 10px; }
@@ -114,7 +122,7 @@ body.ui-minimized .header-actions .btn { padding: 10px 20px; font-size: 12px; ba
 @keyframes eq { 0% { height: 6px; } 100% { height: 20px; } }
 
 /* Mobile Menu Trigger & Drawer */
-.menu-trigger { display: none; background: none; border: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; z-index: 101; }
+.menu-trigger { display: none; background: none; border: none; flex-direction: column; gap: 5px; padding: 8px; z-index: 101; }
 .menu-trigger span { width: 22px; height: 2px; background: var(--ink); transition: 0.3s; border-radius: 2px; }
 #mobile-drawer { position: fixed; top: 0; right: -100%; width: 280px; height: 100vh; background: rgba(18, 18, 20, 0.98); backdrop-filter: blur(20px); z-index: 99; padding: 120px 32px 32px; display: flex; flex-direction: column; gap: 32px; transition: right 0.6s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid var(--line-strong); }
 #mobile-drawer.open { right: 0; box-shadow: -20px 0 60px rgba(0,0,0,0.5); }
@@ -128,11 +136,13 @@ body.menu-open { overflow: hidden; }
   header { top: 16px; padding: 12px 24px; width: calc(100% - 32px); } 
   body.ui-minimized header { width: calc(100% - 32px); justify-content: space-between; gap:0; }
   .menu-trigger { display: flex !important; } 
-  .audio-toggle { display: none !important; } /* Hidden on mobile per request */
+  .audio-toggle { display: none !important; } 
+  * { cursor: auto !important; } /* Disable custom cursor on mobile */
+  #cursor-dot, #cursor-ring { display: none !important; }
 }
 
 /* Preloader */
-#preloader { position: fixed; inset: 0; z-index: 999; background: var(--void); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 0.9s var(--ease), visibility 0.9s; }
+#preloader { position: fixed; inset: 0; z-index: 99999; background: var(--void); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; transition: opacity 0.9s var(--ease-out), visibility 0.9s; }
 #preloader.done { opacity: 0; visibility: hidden; pointer-events: none; }
 .pl-dial { width: 110px; height: 110px; position: relative; }
 .pl-dial svg { width: 100%; height: 100%; overflow: visible; }
@@ -145,8 +155,8 @@ body.menu-open { overflow: hidden; }
 /* --- HERO --- */
 #hero { height: 100vh; min-height: 700px; position: relative; overflow: hidden; background: var(--void); }
 .hero-media { position: absolute; inset: 0; }
-.hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 1s var(--ease); }
-.hero-scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(10,10,11,0) 0%, rgba(10,10,11,0.55) 62%, rgba(10,10,11,0.96) 100%), linear-gradient(180deg, rgba(10,10,11,0.4) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.8) 85%, var(--void) 100%); transition: opacity 1s var(--ease); }
+.hero-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.85; transition: opacity 1s var(--ease-out); }
+.hero-scrim { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 30%, rgba(10,10,11,0) 0%, rgba(10,10,11,0.55) 62%, rgba(10,10,11,0.96) 100%), linear-gradient(180deg, rgba(10,10,11,0.4) 0%, rgba(10,10,11,0.1) 30%, rgba(10,10,11,0.8) 85%, var(--void) 100%); transition: opacity 1s var(--ease-out); }
 .hero-content { position: relative; z-index: 2; height: 100%; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 120px; transition: transform 1s var(--ease-out), opacity 1s var(--ease-out); transform-origin: bottom left; }
 body.ui-minimized .hero-content { transform: scale(0.6) translateY(40px); opacity: 0.5; }
 body.ui-minimized .hero-scrim { opacity: 0.2; }
@@ -162,6 +172,10 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 </style>
 </head>
 <body>
+
+<!-- Custom Fluid Cursor Elements -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
 
 <!-- Shared SVG Filter for Liquid Button -->
 <svg width="0" height="0" style="position:absolute; pointer-events:none;">
@@ -189,23 +203,23 @@ body.ui-minimized .hero-scrim { opacity: 0.2; }
 
 <!-- SUPASTE-STYLE NAVBAR -->
 <header id="siteHeader">
-<div class="header-logo">
+<div class="header-logo" data-cursor="hover">
 <span class="mark"><svg viewBox="0 0 40 40" fill="none"><path d="M6 30 A16 16 0 0 1 34 30" stroke="var(--line-strong)" stroke-width="2.4" stroke-linecap="round"/><path d="M6 30 A16 16 0 0 1 21 14.4" stroke="var(--ignition-bright)" stroke-width="2.4" stroke-linecap="round"/><line x1="20" y1="30" x2="27.5" y2="16" stroke="var(--ignition-bright)" stroke-width="2.4" stroke-linecap="round"/><circle cx="20" cy="30" r="2.6" fill="var(--ignition-bright)"/></svg></span>
 REV NATION
 </div>
 <nav class="header-links">
-<a href="#services">Modifications</a>
-<a href="#destination">Experience</a>
-<a href="#builds">Builds</a>
-<a href="#process">Process</a>
-<a href="#testimonials">Reviews</a>
+<a href="#services" data-cursor="hover">Modifications</a>
+<a href="#destination" data-cursor="hover">Experience</a>
+<a href="#builds" data-cursor="hover">Builds</a>
+<a href="#process" data-cursor="hover">Process</a>
+<a href="#testimonials" data-cursor="hover">Reviews</a>
 </nav>
 <div class="header-actions">
 <!-- Audio Toggle (Controls Video Audio directly now) -->
-<button class="audio-toggle" id="audioToggle" aria-label="Toggle Audio">
+<button class="audio-toggle" id="audioToggle" aria-label="Toggle Audio" data-cursor="hover">
 <span></span><span></span><span></span>
 </button>
-<a href="#booking" class="btn btn-ghost magnetic">Book an Inspection</a>
+<a href="#booking" class="btn btn-ghost magnetic" data-cursor="hover">Book an Inspection</a>
 <!-- Hamburger Menu Trigger (Mobile Only) -->
 <button class="menu-trigger" id="menuTrigger" aria-label="Open menu">
 <span></span><span></span><span></span>
@@ -232,19 +246,19 @@ REV NATION
 </video>
 </div>
 <div class="hero-scrim"></div>
-<div class="container hero-content">
-<div class="hero-eyebrow" style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-bright); display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">Jaipur Custom Builds &amp; Protection</div>
-<h1>
+<div class="container hero-content cinema-drop">
+<div class="hero-eyebrow cinema-drop" style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent-bright); display: flex; align-items: center; gap: 12px; margin-bottom: 24px;">Jaipur Custom Builds &amp; Protection</div>
+<h1 class="cinema-drop">
 <span class="line"><span>Where Jaipur's cars</span></span>
 <span class="line"><span>get built, not just washed.</span></span>
 </h1>
-<p class="sub">Custom modifications, precision PPF, ceramic coatings and studio-grade detailing - engineered and installed in-house, to one uncompromising standard.</p>
-<div class="hero-actions">
-<a href="#builds" class="btn btn-liquid ignite magnetic">
+<p class="sub cinema-drop">Custom modifications, precision PPF, ceramic coatings and studio-grade detailing - engineered and installed in-house, to one uncompromising standard.</p>
+<div class="hero-actions cinema-drop">
+<a href="#builds" class="btn btn-liquid ignite magnetic" data-cursor="hover">
 <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
 <span class="txt">Explore Builds</span>
 </a>
-<a href="#booking" class="btn btn-ghost magnetic">
+<a href="#booking" class="btn btn-ghost magnetic" data-cursor="hover">
 Book an Inspection
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" style="width:16px;height:16px;margin-left:4px;"><path d="M7 17L17 7M17 7H9M17 7V15"/></svg>
 </a>
@@ -290,12 +304,12 @@ Book an Inspection
 /* LUXURY DESTINATION CARDS */
 #destination { background: var(--void); padding: 140px 0; overflow: hidden; }
 .dest-container { display: flex; gap: 16px; height: 500px; width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 40px; }
-.dest-card { position: relative; flex: 1; border-radius: 24px; overflow: hidden; cursor: pointer; transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); background: var(--surface); }
-.dest-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.7s var(--ease), filter 0.7s var(--ease); filter: brightness(0.5); }
+.dest-card { position: relative; flex: 1; border-radius: 24px; overflow: hidden; transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); background: var(--surface); }
+.dest-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.7s var(--ease-out), filter 0.7s var(--ease-out); filter: brightness(0.5); }
 .dest-container:hover .dest-card { flex: 0.5; opacity: 0.4; filter: blur(4px); transform: scale(0.97); }
 .dest-container .dest-card:hover { flex: 3.5; opacity: 1; filter: blur(0); transform: scale(1); z-index: 2; box-shadow: 0 24px 64px rgba(0,0,0,0.6); }
 .dest-card:hover .dest-bg { transform: scale(1.05); filter: brightness(0.85); }
-.dest-content { position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: flex-end; background: linear-gradient(0deg, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0) 60%); opacity: 0; transform: translateY(20px); transition: all 0.5s var(--ease) 0.15s; pointer-events: none; }
+.dest-content { position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: flex-end; background: linear-gradient(0deg, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0) 60%); opacity: 0; transform: translateY(20px); transition: all 0.5s var(--ease-out) 0.15s; pointer-events: none; }
 .dest-card:hover .dest-content { opacity: 1; transform: translateY(0); }
 .dest-content h3 { font-family: var(--display); font-weight: 700; font-size: clamp(24px, 3vw, 40px); color: var(--ink); margin-bottom: 8px; white-space: nowrap; }
 .dest-content p { font-family: var(--body); font-weight: 400; font-size: 14px; color: var(--accent-bright); letter-spacing: 0.05em; white-space: nowrap; }
@@ -312,11 +326,11 @@ Book an Inspection
 <!-- ASYMMETRICAL AUTHORITY STATS (Perfected Grid) -->
 <section id="authority" class="pad">
 <div class="container authority-grid">
-<div class="authority-left fade-up">
+<div class="authority-left cinema-drop">
 <div class="eyebrow">Built on proof</div>
 <h2>Every claim of scale is backed by <span class="accent">builds completed</span>, certified installers, and a studio built to run at volume.</h2>
 </div>
-<div class="stat-grid fade-up">
+<div class="stat-grid cinema-drop">
 <div class="stat"><div class="stat-num"><span class="odo" data-count="4200"></span><span class="suffix">+</span></div><div class="stat-label">Vehicles Serviced</div></div>
 <div class="stat"><div class="stat-num"><span class="odo" data-count="28"></span><span class="suffix">k sq.ft</span></div><div class="stat-label">Studio Area</div></div>
 <div class="stat"><div class="stat-num"><span class="odo" data-count="12"></span></div><div class="stat-label">Installation Bays</div></div>
@@ -329,180 +343,145 @@ Book an Inspection
 
 <!-- LUXURY DESTINATION EXPERIENCE -->
 <section id="destination">
-<div class="section-head fade-up" style="text-align:center; margin: 0 auto 64px auto;">
+<div class="section-head cinema-drop" style="text-align:center; margin: 0 auto 64px auto;">
 <div class="eyebrow ignite" style="justify-content:center;">Beyond the Build</div>
 <h2>Not just a studio. A destination.</h2>
 </div>
-<div class="dest-container fade-up">
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1616422285623-aa30eb0709bc?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Valet Drop-off</h3><p>Your car, our responsibility.</p></div></div>
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>PS5 Lounge</h3><p>Relax. Play. Enjoy the wait.</p></div></div>
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Café Bar</h3><p>Premium snacks & beverages.</p></div></div>
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>6000 Sq Ft Bay</h3><p>Space. Precision. Perfection.</p></div></div>
-<div class="dest-card"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Detail Perfected</h3><p>We build right, not fast.</p></div></div>
+<div class="dest-container cinema-drop">
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1616422285623-aa30eb0709bc?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Valet Drop-off</h3><p>Your car, our responsibility.</p></div></div>
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>PS5 Lounge</h3><p>Relax. Play. Enjoy the wait.</p></div></div>
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Café Bar</h3><p>Premium snacks & beverages.</p></div></div>
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>6000 Sq Ft Bay</h3><p>Space. Precision. Perfection.</p></div></div>
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Detail Perfected</h3><p>We build right, not fast.</p></div></div>
 </div>
 </section>
 <style>
+/* MARQUEE */
+.marquee { overflow: hidden; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--graphite); padding: 24px 0; }
+.marquee-track { display: flex; gap: 120px; width: max-content; animation: marquee-scroll 35s linear infinite; }
+.marquee-track span { font-family: var(--display); font-weight: 600; font-size: 15px; letter-spacing: 0.15em; color: var(--ink-faint); text-transform: uppercase; white-space: nowrap; }
+@keyframes marquee-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
 /* ============================================================
-   WHAT WE DO (Perfect Alignment & Smooth Fade Transitions)
+   AUTHORITY STATS (Fixed & Perfectly Aligned)
    ============================================================ */
-#services { padding: 140px 0; background: var(--void); position: relative; }
-.services-layout { display: flex; align-items: flex-start; gap: 100px; }
-.service-list-wrap { flex: 1; min-width: 0; }
+#authority { background: var(--void); }
+.authority-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+.authority-left h2 { font-family: var(--display); font-size: clamp(32px, 3.5vw, 48px); font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; margin-top: 16px; color: var(--ink); }
+.authority-left h2.accent { color: var(--accent-bright); }
 
-/* Adjusted top value to align perfectly with the first text item */
-.service-media-wrap { width: 50%; position: sticky; top: 160px; height: calc(100vh - 220px); max-height: 720px; display: flex; align-items: flex-start; flex-shrink: 0; }
+/* The Rebuilt Grid */
+.stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 60px 40px; }
+.stat { display: flex; flex-direction: column; position: relative; padding-bottom: 24px; border-bottom: 1px solid var(--line-strong); }
+.stat:nth-child(n+4) { border-bottom: none; padding-bottom: 0; } /* Remove border for bottom row */
 
-.service-list { border-top: 1px solid var(--line); margin-top: 40px;}
-.service-item { border-bottom: 1px solid var(--line); padding: 36px 0; display: flex; align-items: center; gap: 24px; transition: all 0.4s var(--ease); cursor: pointer; }
-.service-item .idx { font-family: var(--mono); font-size: 12px; color: var(--ink-faint); width: 32px; flex-shrink: 0; }
-.service-item h4 { font-family: var(--display); font-size: clamp(20px, 2.5vw, 32px); color: var(--ink-dim); font-weight: 600; flex: 1; transition: all 0.4s var(--ease); margin: 0; letter-spacing: -0.02em;}
-.service-item .lottie-icon { width: 24px; height: 24px; opacity: 0; transform: translateX(-8px); transition: all 0.4s var(--ease); flex-shrink: 0; }
+.stat-num { font-family: var(--display); font-size: clamp(48px, 5vw, 80px); font-weight: 800; display: flex; align-items: flex-end; gap: 4px; line-height: 0.9; color: var(--ink); letter-spacing: -0.04em; }
+.odo { display: inline-flex; overflow: hidden;}
+.odo-digit { display: inline-block; height: 1em; overflow: hidden; position: relative; width: 0.65em; vertical-align: top; }
+.odo-strip { position: absolute; left: 0; top: 0; display: flex; flex-direction: column; }
+.odo-strip span { height: 1em; display: flex; align-items: center; justify-content: center; }
+.stat-num .suffix { font-size: 0.4em; color: var(--accent-bright); margin-left: 2px; font-weight: 700; font-family: var(--display); padding-bottom: 6px; letter-spacing: 0;}
 
-.service-item.active { padding: 48px 0; border-bottom-color: var(--accent); }
-.service-item.active h4 { color: var(--ink); transform: translateX(8px); }
-.service-item.active .lottie-icon { opacity: 1; transform: translateX(0); }
-.service-desc { max-height: 0; overflow: hidden; font-family: var(--body); font-weight: 300; font-size: 15px; color: var(--ink-dim); transition: all 0.5s var(--ease); opacity: 0; }
-.service-item.active .service-desc { max-height: 80px; margin-top: 16px; opacity: 1; transform: translateX(8px); }
+.stat-label { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); letter-spacing: 0.15em; margin-top: 12px; text-transform: uppercase; font-weight: 500;}
 
-.service-media { width: 100%; height: 100%; border-radius: 24px; overflow: hidden; background: var(--surface); position: relative; box-shadow: 0 24px 64px rgba(0,0,0,0.4); }
+@media(max-width: 900px) { 
+  .authority-grid { grid-template-columns: 1fr; gap: 60px; } 
+  .stat-grid { gap: 40px 20px; grid-template-columns: repeat(2, 1fr);} 
+  .stat { border-bottom: 1px solid var(--line-strong); padding-bottom: 20px;}
+  .stat:last-child { border-bottom: none;}
+}
 
-/* Premium Smooth Image Transitions */
-.service-media .panel { position: absolute; inset: 0; opacity: 0; transform: translateY(20px) scale(0.98); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); background: var(--surface-raised); pointer-events: none;}
-.service-media .panel.active { opacity: 1; transform: translateY(0) scale(1); z-index: 2; pointer-events: auto;}
-.service-media .panel img { width: 100%; height: 100%; object-fit: cover; }
-
-@media(max-width: 900px) { .services-layout {flex-direction: column; gap: 60px; } .service-media-wrap { width: 100%; position: relative; height: auto; top: 0; } .service-media { height: 60vw; min-height: 300px; } }
-
-/* Builds Gallery */
-#builds { background: var(--graphite); overflow: hidden; }
-.builds-layout { display: flex; flex-direction: column; gap: 60px; }
-.builds-header { max-width: 480px; }
-.builds-viewport { width: 90vw; max-width: 1300px; align-self: flex-end; padding-left: 40px; overflow: hidden; }
-.builds-track { display: flex; gap: 40px; width: max-content; padding-bottom: 40px; will-change: transform; }
-.build-card { width: 440px; flex-shrink: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); transition: all 0.5s var(--ease); display: flex; flex-direction: column; }
-.build-card:hover { border-color: var(--line-strong); }
-.build-card .bc-media { aspect-ratio: 16/9; position: relative; background: var(--surface-raised); overflow: hidden; }
-.build-card .bc-media img { width: 100%; height: 100%; object-fit: cover; }
-.build-card .bc-tag { position: absolute; top: 20px; left: 20px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 14px; border-radius: 100px; border: 1px solid var(--ignition); color: var(--ignition-bright); background: rgba(10,10,11,0.7); backdrop-filter: blur(12px); z-index: 2; }
-.build-card .bc-body { padding: 32px; }
-.build-card h4 { font-family: var(--display); font-weight: 700; font-size: 26px; color: var(--ink); margin-bottom: 8px; }
-.build-card p { font-size: 15px; color: var(--ink-faint); font-family: var(--body); }
-.build-card.build-end { justify-content: center; gap: 20px; padding: 48px; background: transparent; border-style: dashed; box-shadow: none; align-items: center; text-align: center; }
+/* LUXURY DESTINATION CARDS */
+#destination { background: var(--void); padding: 140px 0; overflow: hidden; }
+.dest-container { display: flex; gap: 16px; height: 500px; width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 40px; }
+.dest-card { position: relative; flex: 1; border-radius: 24px; overflow: hidden; transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); background: var(--surface); }
+.dest-bg { position: absolute; inset: 0; background-size: cover; background-position: center; transition: transform 0.7s var(--ease-out), filter 0.7s var(--ease-out); filter: brightness(0.5); }
+.dest-container:hover .dest-card { flex: 0.5; opacity: 0.4; filter: blur(4px); transform: scale(0.97); }
+.dest-container .dest-card:hover { flex: 3.5; opacity: 1; filter: blur(0); transform: scale(1); z-index: 2; box-shadow: 0 24px 64px rgba(0,0,0,0.6); }
+.dest-card:hover .dest-bg { transform: scale(1.05); filter: brightness(0.85); }
+.dest-content { position: absolute; inset: 0; padding: 40px; display: flex; flex-direction: column; justify-content: flex-end; background: linear-gradient(0deg, rgba(10,10,11,0.95) 0%, rgba(10,10,11,0) 60%); opacity: 0; transform: translateY(20px); transition: all 0.5s var(--ease-out) 0.15s; pointer-events: none; }
+.dest-card:hover .dest-content { opacity: 1; transform: translateY(0); }
+.dest-content h3 { font-family: var(--display); font-weight: 700; font-size: clamp(24px, 3vw, 40px); color: var(--ink); margin-bottom: 8px; white-space: nowrap; }
+.dest-content p { font-family: var(--body); font-weight: 400; font-size: 14px; color: var(--accent-bright); letter-spacing: 0.05em; white-space: nowrap; }
 </style>
 
-<!-- WHAT WE DO -->
-<section id="services">
-<div class="container services-layout">
-<div class="service-list-wrap">
-<div class="section-head fade-up" style="padding-bottom:32px;">
-<div class="eyebrow ignite">What we do</div>
-<h2>One studio. Every layer.</h2>
-<p>From wraps and wheels to optically clear film and ceramic gloss - each service is engineered to work together.</p>
-</div>
-<div class="service-list fade-up">
-<div class="service-item active" data-panel="0">
-<span class="idx">01</span>
-<div><h4>Custom Modifications</h4><div class="service-desc">Wraps, alloy wheels, lighting, exhaust and interior builds.</div></div>
-<div class="lottie-icon" id="lottie-mod"></div>
-</div>
-<div class="service-item" data-panel="1">
-<span class="idx">02</span>
-<div><h4>Paint Protection Film</h4><div class="service-desc">Self-healing, optically clear film against stone chips and scratches.</div></div>
-<div class="lottie-icon" id="lottie-ppf"></div>
-</div>
-<div class="service-item" data-panel="2">
-<span class="idx">03</span>
-<div><h4>Ceramic Coating</h4><div class="service-desc">Chemical-resistant gloss that keeps paint clean for longer.</div></div>
-<div class="lottie-icon" id="lottie-ceramic"></div>
-</div>
-<div class="service-item" data-panel="3">
-<span class="idx">04</span>
-<div><h4>Premium Detailing</h4><div class="service-desc">Multi-stage correction that restores true paint depth.</div></div>
-<div class="lottie-icon" id="lottie-detail"></div>
-</div>
-<div class="service-item" data-panel="4">
-<span class="idx">05</span>
-<div><h4>Windshield Protection</h4><div class="service-desc">Impact-rated film engineered for clarity and visibility.</div></div>
-<div class="lottie-icon" id="lottie-glass"></div>
-</div>
-<div class="service-item" data-panel="5">
-<span class="idx">06</span>
-<div><h4>Interior Protection</h4><div class="service-desc">Leather, fabric and trim treatments built for daily use.</div></div>
-<div class="lottie-icon" id="lottie-interior"></div>
+<!-- MARQUEE -->
+<div class="marquee">
+<div class="marquee-track">
+<span>BMW</span><span>Audi</span><span>Mercedes-Benz</span><span>Range Rover</span><span>Porsche</span><span>Jaguar</span><span>Volvo</span><span>MINI</span><span>Mahindra</span><span>Tata</span>
+<span>BMW</span><span>Audi</span><span>Mercedes-Benz</span><span>Range Rover</span><span>Porsche</span><span>Jaguar</span><span>Volvo</span><span>MINI</span><span>Mahindra</span><span>Tata</span>
 </div>
 </div>
+
+<!-- ASYMMETRICAL AUTHORITY STATS (Perfected Grid) -->
+<section id="authority" class="pad">
+<div class="container authority-grid">
+<div class="authority-left cinema-drop">
+<div class="eyebrow">Built on proof</div>
+<h2>Every claim of scale is backed by <span class="accent">builds completed</span>, certified installers, and a studio built to run at volume.</h2>
 </div>
-<div class="service-media-wrap fade-up">
-<div class="service-media">
-<div class="panel active" data-panel="0" id="media-service_1"><svg viewBox="0 0 100 100"><circle cx="50" cy="60" r="16" fill="none" stroke="#e8462a" stroke-width="1"/><path d="M20 30 L80 30 L74 55 L26 55 Z" fill="none" stroke="#ff7350" stroke-width="0.7" stroke-dasharray="3 2"/></svg></div>
-<div class="panel" data-panel="1" id="media-service_2"><svg viewBox="0 0 100 100"><rect x="15" y="20" width="70" height="55" rx="3" fill="none" stroke="#c17f3e" stroke-width="1"/><rect x="22" y="27" width="56" height="41" rx="2" fill="rgba(193,127,62,0.08)" stroke="#e0a565" stroke-width="0.6" stroke-dasharray="2 2"/></svg></div>
-<div class="panel" data-panel="2" id="media-service_3"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="28" fill="none" stroke="#c17f3e" stroke-width="1"/><circle cx="50" cy="50" r="20" fill="none" stroke="#e0a565" stroke-width="0.6"/><circle cx="50" cy="50" r="12" fill="rgba(193,127,62,0.1)"/></svg></div>
-<div class="panel" data-panel="3" id="media-service_4"><svg viewBox="0 0 100 100"><path d="M20 60 Q50 20 80 60" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M20 68 Q50 34 80 68" fill="none" stroke="#e0a565" stroke-width="0.6"/></svg></div>
-<div class="panel" data-panel="4" id="media-service_5"><svg viewBox="0 0 100 100"><path d="M15 30 L85 30 L78 75 L22 75 Z" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M50 30 L50 75 M30 45 L70 45" stroke="#e0a565" stroke-width="0.5"/></svg></div>
-<div class="panel" data-panel="5" id="media-service_6"><svg viewBox="0 0 100 100"><rect x="20" y="25" width="60" height="50" rx="6" fill="none" stroke="#c17f3e" stroke-width="1"/><path d="M20 45 L80 45" stroke="#e0a565" stroke-width="0.5"/></svg></div>
-</div>
+<div class="stat-grid cinema-drop">
+<div class="stat"><div class="stat-num"><span class="odo" data-count="4200"></span><span class="suffix">+</span></div><div class="stat-label">Vehicles Serviced</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="28"></span><span class="suffix">k sq.ft</span></div><div class="stat-label">Studio Area</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="12"></span></div><div class="stat-label">Installation Bays</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="24"></span></div><div class="stat-label">Certified Installers</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="9"></span></div><div class="stat-label">Cities Served</div></div>
+<div class="stat"><div class="stat-num"><span class="odo" data-count="11"></span><span class="suffix">yrs</span></div><div class="stat-label">Experience</div></div>
 </div>
 </div>
 </section>
 
-<!-- BUILDS GALLERY -->
-<section id="builds" class="pad">
-<div class="container">
-<div class="builds-layout">
-<div class="section-head builds-header fade-up">
-<div class="eyebrow ignite">Recent builds</div>
-<h2>Proof, not promises.</h2>
-<p>A running log of what's left the studio. Scroll through real project photos populate here automatically.</p>
+<!-- LUXURY DESTINATION EXPERIENCE -->
+<section id="destination">
+<div class="section-head cinema-drop" style="text-align:center; margin: 0 auto 64px auto;">
+<div class="eyebrow ignite" style="justify-content:center;">Beyond the Build</div>
+<h2>Not just a studio. A destination.</h2>
 </div>
-<div class="builds-viewport fade-up" id="buildsViewport">
-<div class="builds-track" id="buildsTrack">
-<div class="build-card build-end">
-<div><div class="eyebrow ignite" style="margin-bottom: 14px; justify-content:center;">Yours next?</div><p>Want your build featured in this gallery?</p></div>
-<a href="#booking" class="btn btn-liquid ignite magnetic">
-<span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
-<span class="txt">Book a Build</span>
-</a>
-</div>
-</div>
-</div>
-</div>
+<div class="dest-container cinema-drop">
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1616422285623-aa30eb0709bc?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Valet Drop-off</h3><p>Your car, our responsibility.</p></div></div>
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>PS5 Lounge</h3><p>Relax. Play. Enjoy the wait.</p></div></div>
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Café Bar</h3><p>Premium snacks & beverages.</p></div></div>
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>6000 Sq Ft Bay</h3><p>Space. Precision. Perfection.</p></div></div>
+<div class="dest-card" data-cursor="hover"><div class="dest-bg" style="background-image: url('https://images.unsplash.com/photo-1601362840469-51e4d8d58785?q=80&w=800&auto=format&fit=crop');"></div><div class="dest-content"><h3>Detail Perfected</h3><p>We build right, not fast.</p></div></div>
 </div>
 </section>
 <style>
 /* Process, Compare, Reviews, Booking & Footer Styles */
 #compare { background: var(--void); }
-.compare-frame { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); user-select: none; background: var(--void); }
-.compare-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; }
+.compare-frame { position: relative; width: 100%; aspect-ratio: 16/9; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); user-select: none; background: var(--void); box-shadow: 0 30px 60px rgba(0,0,0,0.5); }
+.compare-layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background-size: cover; background-position: center; transition: transform 0.1s ease-out; }
 .compare-after { background-color: #1c1c1f; }
 .compare-before { background-color: #232019; clip-path: inset(0 50% 0 0); width: 100%; }
-.compare-before::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.05) 0 2px, transparent 2px 26px); }
-.compare-label { position: absolute; top: 32px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; padding: 10px 20px; background: rgba(10,10,11,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; text-transform: uppercase; backdrop-filter: blur(12px); }
+.compare-before::before { content: ""; position: absolute; inset: 0; background-image: repeating-linear-gradient(115deg, rgba(255,255,255,0.03) 0 2px, transparent 2px 26px); }
+.compare-label { position: absolute; top: 32px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; padding: 10px 20px; background: rgba(10,10,11,0.6); color: #fff; border: 1px solid rgba(255,255,255,0.1); border-radius: 100px; text-transform: uppercase; backdrop-filter: blur(12px); z-index: 5; pointer-events: none; }
 .compare-label.l-before { left: 32px; } .compare-label.l-after { right: 32px; }
-.compare-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: var(--accent); transform: translateX(-50%); cursor: ew-resize; }
-.compare-handle .grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 64px; height: 64px; border-radius: 50%; background: var(--void); border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 24px rgba(0,0,0,0.5); pointer-events: none; }
-.compare-handle .grip svg { width: 16px; height: 16px; color: var(--accent); }
+
+/* Premium Frosted Glass Slider Handle */
+.compare-handle { position: absolute; top: 0; bottom: 0; left: 50%; width: 2px; background: rgba(255,255,255,0.2); backdrop-filter: blur(4px); transform: translateX(-50%); z-index: 10; pointer-events: none; box-shadow: 0 0 12px rgba(0,0,0,0.6); }
+.compare-handle .grip { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 56px; height: 80px; border-radius: 100px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 0 12px rgba(255,255,255,0.1); backdrop-filter: blur(16px); pointer-events: none; }
+.compare-handle .grip::before, .compare-handle .grip::after { content: ""; width: 2px; height: 24px; background: rgba(255,255,255,0.6); border-radius: 2px; margin: 0 3px; }
 
 #process { background: var(--graphite); }
-.process-tabs { display: flex; border-bottom: 1px solid var(--line); position: relative; margin-bottom: 80px; cursor: pointer; }
-.ptab { flex: 1; padding: 28px 0; text-align: center; font-family: var(--display); font-weight: 600; font-size: clamp(18px, 2vw, 24px); color: var(--ink-dim); transition: all 0.3s var(--ease); }
+.process-tabs { display: flex; border-bottom: 1px solid var(--line); position: relative; margin-bottom: 80px; }
+.ptab { flex: 1; padding: 28px 0; text-align: center; font-family: var(--display); font-weight: 600; font-size: clamp(18px, 2vw, 24px); color: var(--ink-dim); transition: all 0.3s var(--ease-out); }
 .ptab.active { color: var(--accent-bright); }
-.ptab-indicator { position: absolute; bottom: -1px; left: 0; height: 2px; background: var(--accent-bright); width: 25%; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+.ptab-indicator { position: absolute; bottom: -1px; left: 0; height: 2px; background: var(--accent-bright); width: 25%; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 -2px 10px rgba(224, 165, 101, 0.4); }
 .process-content { display: grid; grid-template-columns: 1fr 480px; gap: 80px; align-items: center; }
-.p-media { aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; position: relative; background: var(--surface); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-.p-panel { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s var(--ease); }
+.p-media { aspect-ratio: 16/9; border-radius: 20px; overflow: hidden; position: relative; background: var(--surface); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+.p-panel { position: absolute; inset: 0; opacity: 0; transition: opacity 0.8s var(--ease-out); }
 .p-panel.active { opacity: 1; z-index: 2; }
 .p-panel img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.05); transition: transform 1.6s cubic-bezier(0.16, 1, 0.3, 1); }
 .p-panel.active img { transform: scale(1); }
-.p-text { display: none; animation: fadeInUp 0.8s var(--ease-out) forwards; }
-.p-text.active { display: block; }
+.p-text { display: none; }
+.p-text.active { display: block; animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 .p-text h4 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 3vw, 40px); margin-bottom: 20px; color: var(--ink); }
 .p-text p { font-family: var(--body); color: var(--ink-dim); font-size: 16px; line-height: 1.6; font-weight: 300;}
 @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
 #testimonials { background: var(--void); }
 .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 24px; margin-top: 64px; }
-.testi-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; gap: 24px; transition: all 0.4s var(--ease); }
-.testi-card:hover { border-color: var(--line-strong); transform: translateY(-4px); }
+.testi-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 40px; display: flex; flex-direction: column; gap: 24px; transition: all 0.4s var(--ease-out); }
+.testi-card:hover { border-color: var(--line-strong); transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
 .testi-card .stars { display: flex; gap: 6px; color: #F59E0B; }
 .testi-card .stars svg { width: 20px; height: 20px; fill: currentColor; }
 .testi-card p.quote { font-family: var(--body); font-weight: 300; font-size: 15px; line-height: 1.6; color: var(--ink-dim); flex: 1; font-style: italic; }
@@ -514,19 +493,20 @@ Book an Inspection
 .booking-glow { position: absolute; top: -20%; left: 50%; transform: translateX(-50%); width: 900px; height: 900px; background: radial-gradient(circle, rgba(193,127,62,0.06) 0%, transparent 65%); pointer-events: none; }
 .booking-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; position: relative; z-index: 1; }
 .field { margin-bottom: 32px; position: relative; }
-.field input, .field select, .field textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line-strong); padding: 14px 2px; color: var(--ink); font-family: var(--body); font-size: 16px; transition: border-color 0.3s var(--ease); }
+.field input, .field select, .field textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--line-strong); padding: 14px 2px; color: var(--ink); font-family: var(--body); font-size: 16px; transition: border-color 0.3s var(--ease-out); }
 .field textarea { resize: vertical; min-height: 80px; }
 .field input:focus, .field select:focus, .field textarea:focus { outline: none; border-color: var(--accent); }
-.field label { position: absolute; top: 14px; left: 2px; color: var(--ink-faint); font-size: 16px; pointer-events: none; transition: all 0.25s var(--ease); font-family: var(--body); font-weight: 300;}
+.field label { position: absolute; top: 14px; left: 2px; color: var(--ink-faint); font-size: 16px; pointer-events: none; transition: all 0.25s var(--ease-out); font-family: var(--body); font-weight: 300;}
 .field input:focus + label, .field input:not(:placeholder-shown) + label, .field select:focus + label, .field select.filled + label, .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label { transform: translateY(-24px); font-size: 12px; color: var(--accent); }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.confirm-card { position: absolute; inset: 0; background: var(--surface); border: 1px solid var(--accent); border-radius: 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 48px; opacity: 0; transform: scale(.97); pointer-events: none; transition: all 0.5s var(--ease); }
-.confirm-card.show { opacity: 1; transform: scale(1); pointer-events: auto; }
+.confirm-card { position: absolute; inset: 0; background: var(--surface); border: 1px solid var(--accent); border-radius: 16px; display: flex; flex-direction: column; align-items: flex-start; justify-content: center; padding: 48px; opacity: 0; transform: scale(.97); pointer-events: none; transition: all 0.5s var(--ease-out); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+.confirm-card.show { opacity: 1; transform: scale(1); pointer-events: auto; z-index: 10; }
 .confirm-card svg { width: 42px; height: 42px; color: var(--accent); margin-bottom: 20px; }
 
 footer { background: var(--void); border-top: 1px solid var(--line); padding: 100px 0 40px; }
 .foot-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 60px; padding-bottom: 70px; border-bottom: 1px solid var(--line); }
-.foot-word { font-family: var(--display); font-size: clamp(44px, 8vw, 96px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--ink); opacity: .94; }
+.foot-word { font-family: var(--display); font-size: clamp(44px, 8vw, 96px); font-weight: 800; letter-spacing: -0.03em; line-height: 1; color: var(--ink); opacity: .94; transition: color 0.4s var(--ease-out); }
+.foot-word:hover { color: var(--accent-bright); }
 .foot-cols { display: flex; gap: 80px; flex-wrap: wrap; }
 .foot-col h5 { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-faint); margin-bottom: 20px; }
 .foot-col a, .foot-col p { display: block; font-size: 14px; font-family: var(--body); font-weight: 300; color: var(--ink-dim); margin-bottom: 12px; transition: color 0.3s; }
@@ -542,16 +522,16 @@ footer { background: var(--void); border-top: 1px solid var(--line); padding: 10
 <!-- BEFORE/AFTER -->
 <section id="compare" class="pad">
 <div class="container">
-<div class="section-head fade-up" style="text-align:center; margin:0 auto 64px auto;">
+<div class="section-head cinema-drop" style="text-align:center; margin:0 auto 64px auto;">
 <div class="eyebrow" style="justify-content:center;">See the difference</div>
 <h2>Drag to reveal the result.</h2>
 </div>
-<div class="compare-frame fade-up" id="compareFrame">
+<div class="compare-frame cinema-drop" id="compareFrame" data-cursor="drag">
 <div class="compare-layer compare-after" id="media-after_img"></div>
 <div class="compare-layer compare-before" id="media-before_img"></div>
 <div class="compare-label l-before">Before</div>
 <div class="compare-label l-after">After Rev Nation</div>
-<div class="compare-handle" id="compareHandle"><div class="grip"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 8L4 12L8 16M16 8L20 12L16 16"/></svg></div></div>
+<div class="compare-handle" id="compareHandle"><div class="grip"></div></div>
 </div>
 </div>
 </section>
@@ -559,18 +539,18 @@ footer { background: var(--void); border-top: 1px solid var(--line); padding: 10
 <!-- INTERACTIVE PROCESS TABS -->
 <section id="process" class="pad">
 <div class="container">
-<div class="section-head fade-up" style="text-align:center; margin:0 auto 64px auto;">
+<div class="section-head cinema-drop" style="text-align:center; margin:0 auto 64px auto;">
 <div class="eyebrow" style="justify-content:center;">How it's built</div>
 <h2>Craftsmanship, made visible.</h2>
 </div>
-<div class="process-tabs fade-up">
-<div class="ptab active">1. Inspect</div>
-<div class="ptab">2. Prep</div>
-<div class="ptab">3. Install</div>
-<div class="ptab">4. Delivery</div>
+<div class="process-tabs cinema-drop">
+<div class="ptab active" data-cursor="hover">1. Inspect</div>
+<div class="ptab" data-cursor="hover">2. Prep</div>
+<div class="ptab" data-cursor="hover">3. Install</div>
+<div class="ptab" data-cursor="hover">4. Delivery</div>
 <div class="ptab-indicator"></div>
 </div>
-<div class="process-content fade-up">
+<div class="process-content cinema-drop">
 <div>
 <div class="p-text active" id="p-text-0">
 <h4>Vehicle Inspection</h4>
@@ -601,7 +581,7 @@ footer { background: var(--void); border-top: 1px solid var(--line); padding: 10
 
 <!-- REVIEWS -->
 <section id="testimonials" class="pad">
-<div class="container fade-up">
+<div class="container cinema-drop">
 <div class="section-head" style="margin: 0 auto; text-align: center;">
 <div class="eyebrow" style="justify-content: center;">In their words</div>
 <h2>Unmatched quality and service.</h2>
@@ -614,27 +594,27 @@ footer { background: var(--void); border-top: 1px solid var(--line); padding: 10
 <section id="booking" class="pad">
 <div class="booking-glow"></div>
 <div class="container booking-grid">
-<div class="fade-up">
+<div class="cinema-drop">
 <div class="eyebrow">Book an inspection</div>
 <h2>Build the car you've been picturing.</h2>
 <p>Tell us about your vehicle and what you're after. Our team responds within one business day with availability and a plan.</p>
 </div>
-<div class="booking-form-wrap fade-up">
+<div class="booking-form-wrap cinema-drop">
 <form id="bookingForm">
 <div class="field-row">
-<div class="field"><input type="text" name="name" placeholder=" " required><label>Full name</label></div>
-<div class="field"><input type="tel" name="phone" placeholder=" " required><label>Phone number</label></div>
+<div class="field"><input type="text" name="name" placeholder=" " required data-cursor="hover"><label>Full name</label></div>
+<div class="field"><input type="tel" name="phone" placeholder=" " required data-cursor="hover"><label>Phone number</label></div>
 </div>
 <div class="field-row">
-<div class="field"><input type="text" name="city" placeholder=" " required><label>City</label></div>
-<div class="field"><input type="text" name="car" placeholder=" " required><label>Vehicle make &amp; model</label></div>
+<div class="field"><input type="text" name="city" placeholder=" " required data-cursor="hover"><label>City</label></div>
+<div class="field"><input type="text" name="car" placeholder=" " required data-cursor="hover"><label>Vehicle make &amp; model</label></div>
 </div>
 <div class="field">
-<select required id="serviceSelect" name="service"><option value="" disabled selected hidden></option><option>Custom Modifications</option><option>Paint Protection Film</option><option>Ceramic Coating</option><option>Detailing</option><option>Not sure yet</option></select>
+<select required id="serviceSelect" name="service" data-cursor="hover"><option value="" disabled selected hidden></option><option>Custom Modifications</option><option>Paint Protection Film</option><option>Ceramic Coating</option><option>Detailing</option><option>Not sure yet</option></select>
 <label class="filled">Service required</label>
 </div>
-<div class="field"><textarea name="message" placeholder=" "></textarea><label>Message (optional)</label></div>
-<button type="submit" class="btn btn-liquid magnetic" style="width: 100%; justify-content:center; margin-top:12px;">
+<div class="field"><textarea name="message" placeholder=" " data-cursor="hover"></textarea><label>Message (optional)</label></div>
+<button type="submit" class="btn btn-liquid magnetic" style="width: 100%; justify-content:center; margin-top:12px;" data-cursor="hover">
 <span class="goo-layer"><span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span><span class="blob b4"></span></span>
 <span class="txt">Request Inspection</span>
 </button>
@@ -651,26 +631,26 @@ footer { background: var(--void); border-top: 1px solid var(--line); padding: 10
 
 <!-- FOOTER -->
 <footer id="siteFooter">
-<div class="container fade-up">
+<div class="container cinema-drop">
 <div class="foot-top">
-<div class="foot-word">REV NATION</div>
+<div class="foot-word" data-cursor="hover">REV NATION</div>
 <div class="foot-cols">
 <div class="foot-col"><h5>Studio</h5><p>Vaishali Nagar, Jaipur</p><p>Rajasthan, India</p></div>
-<div class="foot-col"><h5>Contact</h5><a href="tel:+917300049430">+91 73000 49430</a><a href="mailto:revnationjaipur@gmail.com">revnationjaipur@gmail.com</a></div>
-<div class="foot-col"><h5>Studio Links</h5><a href="#services">Services</a><a href="#destination">Experience</a><a href="#builds">Builds</a><a href="#booking">Booking</a></div>
-<div class="foot-col"><h5>Follow</h5><a href="https://instagram.com/rev.nation.jaipur" target="_blank">@rev.nation.jaipur</a></div>
+<div class="foot-col"><h5>Contact</h5><a href="tel:+917300049430" data-cursor="hover">+91 73000 49430</a><a href="mailto:revnationjaipur@gmail.com" data-cursor="hover">revnationjaipur@gmail.com</a></div>
+<div class="foot-col"><h5>Studio Links</h5><a href="#services" data-cursor="hover">Services</a><a href="#destination" data-cursor="hover">Experience</a><a href="#builds" data-cursor="hover">Builds</a><a href="#booking" data-cursor="hover">Booking</a></div>
+<div class="foot-col"><h5>Follow</h5><a href="https://instagram.com/rev.nation.jaipur" target="_blank" data-cursor="hover">@rev.nation.jaipur</a></div>
 </div>
 </div>
 <div class="foot-bottom">
 <p>© 2026 Rev Nation Jaipur. All rights reserved.</p>
-<button class="back-top" id="backTop" aria-label="Back to top">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+<button class="back-top btn-ghost" id="backTop" aria-label="Back to top" data-cursor="hover" style="border-radius: 50%; padding: 12px;">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="width: 20px; height: 20px;"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
 </button>
 </div>
 </div>
 </footer>
 
-<a href="https://wa.me/917300049430" target="_blank" id="wa-float" aria-label="Chat on WhatsApp">
+<a href="https://wa.me/917300049430" target="_blank" id="wa-float" aria-label="Chat on WhatsApp" data-cursor="hover">
 <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" /></svg>
 </a>
 <!-- CORE SCRIPTS -->
@@ -698,6 +678,26 @@ document.addEventListener('DOMContentLoaded', async function() {
   var isMobile = window.matchMedia('(pointer: coarse)').matches;
   if(window.gsap && window.ScrollTrigger) { gsap.registerPlugin(ScrollTrigger); }
 
+  /* ==========================================
+     CUSTOM FLUID CURSOR LOGIC
+     ========================================== */
+  const cursorDot = document.getElementById('cursor-dot');
+  const cursorRing = document.getElementById('cursor-ring');
+  
+  if(!isMobile && window.innerWidth > 900) {
+    window.addEventListener('mousemove', (e) => {
+      // Dot instantly follows mouse
+      gsap.to(cursorDot, { x: e.clientX, y: e.clientY, duration: 0, ease: 'none' });
+      // Ring trails slightly behind for a fluid feel
+      gsap.to(cursorRing, { x: e.clientX, y: e.clientY, duration: 0.15, ease: 'power2.out' });
+    });
+
+    document.querySelectorAll('[data-cursor]').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-' + el.dataset.cursor));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-' + el.dataset.cursor));
+    });
+  }
+
   /* TRUE PRELOADER LOGIC */
   var ring = document.getElementById('plRing');
   var needle = document.getElementById('plNeedle');
@@ -720,7 +720,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
   }
   
-  // Fake progress for visual satisfaction while fetching data
   let fakeProgress = 0;
   let plInterval = setInterval(() => {
     fakeProgress += Math.random() * 15;
@@ -735,24 +734,31 @@ document.addEventListener('DOMContentLoaded', async function() {
   
   if(audioBtn && heroVideo) {
     audioBtn.addEventListener('click', () => {
-      heroVideo.muted = !heroVideo.muted; // Toggle native video audio
+      heroVideo.muted = !heroVideo.muted; 
       audioBtn.classList.toggle('playing', !heroVideo.muted);
     });
   }
 
-  /* PREMIUM SCROLL FADE-UPS (GSAP) */
-  if(window.gsap && window.ScrollTrigger) {
-    gsap.utils.toArray('.fade-up').forEach(elem => {
-      ScrollTrigger.create({
-        trigger: elem,
-        start: "top 85%",
-        onEnter: () => elem.classList.add('in'),
-        once: true
+  /* ==========================================
+     CINEMATIC BI-DIRECTIONAL SCROLL EFFECTS
+     ========================================== */
+  if(window.gsap && window.ScrollTrigger && !reduceMotion) {
+    gsap.utils.toArray('.cinema-drop').forEach(elem => {
+      let tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: elem,
+          start: "top 95%", 
+          end: "bottom 5%", 
+          scrub: 1.5 // Smooth dampening
+        }
       });
+      // Fades in & floats up on entry, then continues floating up & fades out on exit
+      tl.fromTo(elem, { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" })
+        .to(elem, { y: -80, opacity: 0, duration: 0.4, ease: "power2.in" }, "+=0.2");
     });
   }
 
-  /* SUPASTE-STYLE AUTO MINIMIZE LOGIC */
+  /* AUTO MINIMIZE LOGIC */
   let idleTimer = setTimeout(() => { document.body.classList.add('ui-minimized'); }, 3000);
   let lastScroll = window.pageYOffset || 0;
   
@@ -779,17 +785,21 @@ document.addEventListener('DOMContentLoaded', async function() {
     gsap.ticker.lagSmoothing(0);
   }
 
-  /* Magnetic Hover Effect */
+  /* ==========================================
+     SNAPPY MAGNETIC BUTTONS
+     ========================================== */
   if(!reduceMotion && !isMobile && window.innerWidth > 900) {
     document.querySelectorAll('.magnetic').forEach(function(btn){
       btn.addEventListener('mousemove', function(e){
         var r = btn.getBoundingClientRect();
         var x = e.clientX - r.left - r.width/2;
         var y = e.clientY - r.top - r.height/2;
-        gsap.to(btn, {x: x * 0.35, y: y * 0.35, duration: 0.4, ease: 'power3.out'});
+        // Hyper-responsive tight ease for the drag
+        gsap.to(btn, {x: x * 0.4, y: y * 0.4, duration: 0.15, ease: 'power2.out'});
       });
       btn.addEventListener('mouseleave', function(){
-        gsap.to(btn, {x: 0, y: 0, duration: 0.6, ease: 'elastic.out(1,0.5)'});
+        // Snappy elastic release
+        gsap.to(btn, {x: 0, y: 0, duration: 0.5, ease: 'elastic.out(1, 0.4)'});
       });
     });
   }
@@ -817,17 +827,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     if(backTop) backTop.classList.toggle('show', y > 900);
   }, {passive:true});
 
-  /* PORSCHE DYNAMIC THEME (Light Mode Toggle) */
-  if(window.gsap && window.ScrollTrigger && !reduceMotion) {
-    ScrollTrigger.create({
-      trigger: "#services", start: "top 45%", endTrigger: "#process", end: "bottom 55%",
-      onEnter: () => document.body.classList.add("theme-light"),
-      onLeaveBack: () => document.body.classList.remove("theme-light"),
-      onEnterBack: () => document.body.classList.add("theme-light"),
-      onLeave: () => document.body.classList.remove("theme-light")
-    });
-  }
 
+  /* ==========================================
+     DATABASE FETCHING & INJECTION
+     ========================================== */
   async function preloadSiteData() {
     if(db) {
       try {
@@ -884,13 +887,10 @@ document.addEventListener('DOMContentLoaded', async function() {
       } catch(e) {}
       renderTestiGrid();
     }
-    
-    // Complete preloader once DB load finishes
     clearInterval(plInterval);
     updatePreloader(100);
   }
   
-  // Fallback if no DB connection configured yet
   if(db) preloadSiteData();
   else { clearInterval(plInterval); updatePreloader(100); }
 
@@ -926,19 +926,32 @@ document.addEventListener('DOMContentLoaded', async function() {
   }, {threshold: 0.3});
   if(authSec) clo.observe(authSec);
 
-  /* Services Panel Switching */
+  /* ==========================================
+     WHAT WE DO - PROGRESS TRACK LOGIC
+     ========================================== */
   var serviceItems = document.querySelectorAll('.service-item');
   var panels = document.querySelectorAll('.service-media .panel');
-  serviceItems.forEach(item => {
-    item.addEventListener('click', () => {
-      serviceItems.forEach(i => i.classList.remove('active'));
-      panels.forEach(p => p.classList.remove('active'));
-      item.classList.add('active');
-      var targetPanel = document.querySelector('.panel[data-panel="' + item.dataset.panel + '"]');
-      if(targetPanel) targetPanel.classList.add('active');
-    });
-    item.addEventListener('mouseenter', () => { if(window.innerWidth > 900) item.click(); });
+  var progBar = document.getElementById('serviceProgress');
+  
+  function updateServiceActive(index) {
+    serviceItems.forEach(i => i.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    
+    if(serviceItems[index]) serviceItems[index].classList.add('active');
+    var targetPanel = document.querySelector('.panel[data-panel="' + index + '"]');
+    if(targetPanel) targetPanel.classList.add('active');
+    
+    if(progBar && serviceItems.length > 1) {
+      var pct = (index / (serviceItems.length - 1)) * 100;
+      progBar.style.height = pct + '%';
+    }
+  }
+
+  serviceItems.forEach((item, idx) => {
+    item.addEventListener('click', () => updateServiceActive(idx));
+    item.addEventListener('mouseenter', () => { if(window.innerWidth > 900) updateServiceActive(idx); });
   });
+  updateServiceActive(0);
 
   /* Interactive Process Tabs */
   var pTabs = document.querySelectorAll('.ptab');
@@ -1044,7 +1057,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     if(testiGrid) {
       var svgStar = '<svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
       testiGrid.innerHTML = testimonials.map((t, i) =>
-        '<div class="testi-card fade-up" style="transition-delay: ' + ((i % 3) * 0.15) + 's;">' +
+        '<div class="testi-card cinema-drop" style="transition-delay: ' + ((i % 3) * 0.05) + 's;">' +
         '<div class="stars">' + svgStar + svgStar + svgStar + svgStar + svgStar + '</div>' +
         '<p class="quote">' + t.q + '</p>' +
         '<div class="author">' +
@@ -1053,10 +1066,13 @@ document.addEventListener('DOMContentLoaded', async function() {
         '</div>' +
         '</div>'
       ).join('');
-      // Trigger scroll animations for dynamically injected cards
-      if(window.ScrollTrigger) {
-        gsap.utils.toArray('#testiGrid .fade-up').forEach(elem => {
-          ScrollTrigger.create({ trigger: elem, start: "top 85%", onEnter: () => elem.classList.add('in'), once: true });
+      
+      // Inject GSAP triggers for the newly created Review cards
+      if(window.gsap && window.ScrollTrigger && !reduceMotion) {
+        gsap.utils.toArray('#testiGrid .cinema-drop').forEach(elem => {
+          let tl = gsap.timeline({ scrollTrigger: { trigger: elem, start: "top 95%", end: "bottom 5%", scrub: 1.5 } });
+          tl.fromTo(elem, { y: 80, opacity: 0 }, { y: 0, opacity: 1, duration: 0.4, ease: "power2.out" })
+            .to(elem, { y: -80, opacity: 0, duration: 0.4, ease: "power2.in" }, "+=0.2");
         });
       }
     }
