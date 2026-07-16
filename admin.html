@@ -41,15 +41,12 @@ a { color: var(--accent-bright); }
 .btn.danger:hover { background: var(--bad); color: var(--ink); }
 .btn.block { width: 100%; }
 .err { color: var(--ignition-bright); font-size: 13px; margin-top: 10px; min-height: 16px; }
-.notice { background: var(--surface); border: 1px solid var(--line-strong); border-radius: 6px; padding: 16px 18px; font-size: 13.5px; color: var(--ink-dim); line-height: 1.6; }
-.notice code { background: var(--void); padding: 1px 6px; border-radius: 3px; font-family: var(--mono); font-size: 12.5px; color: var(--accent-bright); }
 
 /* app shell ----- */
 #app { display: none; min-height: 100vh; }
 #app.show { display: flex; }
 .sidebar { width: 260px; flex-shrink: 0; background: var(--graphite); border-right: 1px solid var(--line); padding: 32px 0; display: flex; flex-direction: column; }
 .sidebar .brand { padding: 0 28px 28px; font-family: var(--display); font-weight: 700; font-size: 18px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
-.sidebar .brand span { display: block; font-family: var(--mono); font-weight: 400; font-size: 10px; color: var(--ink-faint); letter-spacing: .1em; margin-top: 4px; }
 .sidebar nav { flex: 1; }
 .sidebar button.tab { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; background: none; border: none; color: var(--ink-dim); padding: 12px 28px; font-size: 14px; font-weight: 500; cursor: pointer; border-left: 2px solid transparent; transition: .2s; }
 .sidebar button.tab:hover { color: var(--ink); background: rgba(255,255,255,.02); }
@@ -61,7 +58,6 @@ main h2 { font-size: 28px; margin-bottom: 8px; }
 main .lede { color: var(--ink-dim); font-size: 15px; margin-bottom: 36px; }
 .panel { display: none; animation: fadeIn .4s ease-out; }
 .panel.active { display: block; }
-
 @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
 .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px; margin-bottom: 24px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
@@ -85,7 +81,6 @@ td select, td input { background: var(--void); border: 1px solid var(--line-stro
 .progress-line { font-family: var(--mono); font-size: 12.5px; color: var(--accent-bright); margin-top: 12px; }
 .thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 6px; background: var(--void); }
 .muted { color: var(--ink-faint); font-size: 13px; }
-
 @media(max-width:800px) { .sidebar { display: none; } .grid2, .grid3 { grid-template-columns: 1fr; } .main { padding: 24px; } }
 </style>
 </head>
@@ -93,12 +88,7 @@ td select, td input { background: var(--void); border: 1px solid var(--line-stro
 <!-- GATE -->
 <div id="gate">
   <div class="gate-card">
-    <div id="gateNotConfigured" style="display:none;">
-      <h1>Admin not connected yet</h1>
-      <p class="sub">This panel needs a Supabase project before it can do anything.</p>
-      <div class="notice">Check config.js and ensure you have added your Supabase URL and Anon Key.</div>
-    </div>
-    <div id="gateLogin" style="display:none;">
+    <div id="gateLogin">
       <h1>Studio Admin</h1>
       <p class="sub">Rev Nation Jaipur - sign in to manage the site.</p>
       <form id="loginForm">
@@ -114,7 +104,7 @@ td select, td input { background: var(--void); border: 1px solid var(--line-stro
 <!-- APP SHELL -->
 <div id="app">
   <aside class="sidebar">
-    <div class="brand">REV NATION<span>Studio Admin</span></div>
+    <div class="brand">REV NATION</div>
     <nav>
       <button class="tab active" data-tab="overview">Overview</button>
       <button class="tab" data-tab="leads">Leads</button>
@@ -122,7 +112,6 @@ td select, td input { background: var(--void); border: 1px solid var(--line-stro
       <button class="tab" data-tab="testimonials">Testimonials</button>
       <button class="tab" data-tab="stats">Stats</button>
       <button class="tab" data-tab="media">Site Media & Video</button>
-      <button class="tab" data-tab="frames">Frame Sequences</button>
     </nav>
     <div class="foot">
       <p id="sessionEmail"></p>
@@ -208,7 +197,6 @@ td select, td input { background: var(--void); border: 1px solid var(--line-stro
     <!-- STATS -->
     <section class="panel" id="panel-stats">
       <h2>Authority Stats</h2>
-      <p class="lede">The odometer counters on the live site. Edit values and save.</p>
       <div class="card">
         <table>
           <thead><tr><th>Label</th><th>Value</th><th>Suffix</th><th></th></tr></thead>
@@ -217,14 +205,12 @@ td select, td input { background: var(--void); border: 1px solid var(--line-stro
       </div>
     </section>
 
-    <!-- SITE MEDIA & VIDEO -->
+    <!-- SITE MEDIA -->
     <section class="panel" id="panel-media">
       <h2>Site Media & Content</h2>
-      <p class="lede">Manage universal assets like the Hero video, Before/After sliders, and Services imagery.</p>
       
       <div class="card">
         <h3>Hero Video</h3>
-        <p class="muted" style="margin-bottom: 16px;">Upload a compressed MP4 video for the top of the site.</p>
         <div class="field"><input type="file" id="heroVideoFile" accept="video/mp4, video/webm"></div>
         <button class="btn ghost" onclick="uploadMedia('hero_video', 'heroVideoFile', 'heroStatus')">Upload Video</button>
         <div class="progress-line" id="heroStatus"></div>
@@ -248,87 +234,49 @@ td select, td input { background: var(--void); border: 1px solid var(--line-stro
       
       <div class="card">
         <h3>Services (What We Do) Images</h3>
-        <p class="muted" style="margin-bottom: 16px;">Replace the abstract icons with actual photos for the 6 services.</p>
         <div class="grid3">
-          <div><div class="field"><label>1. Custom Mods</label><input type="file" id="s1"></div><button class="btn ghost" style="padding:6px 12px; font-size:12px;" onclick="uploadMedia('service_1', 's1', 's1Stat')">Upload</button><div class="progress-line" id="s1Stat"></div></div>
-          <div><div class="field"><label>2. PPF</label><input type="file" id="s2"></div><button class="btn ghost" style="padding:6px 12px; font-size:12px;" onclick="uploadMedia('service_2', 's2', 's2Stat')">Upload</button><div class="progress-line" id="s2Stat"></div></div>
-          <div><div class="field"><label>3. Ceramic</label><input type="file" id="s3"></div><button class="btn ghost" style="padding:6px 12px; font-size:12px;" onclick="uploadMedia('service_3', 's3', 's3Stat')">Upload</button><div class="progress-line" id="s3Stat"></div></div>
-          <div><div class="field"><label>4. Detailing</label><input type="file" id="s4"></div><button class="btn ghost" style="padding:6px 12px; font-size:12px;" onclick="uploadMedia('service_4', 's4', 's4Stat')">Upload</button><div class="progress-line" id="s4Stat"></div></div>
-          <div><div class="field"><label>5. Windshield</label><input type="file" id="s5"></div><button class="btn ghost" style="padding:6px 12px; font-size:12px;" onclick="uploadMedia('service_5', 's5', 's5Stat')">Upload</button><div class="progress-line" id="s5Stat"></div></div>
-          <div><div class="field"><label>6. Interior</label><input type="file" id="s6"></div><button class="btn ghost" style="padding:6px 12px; font-size:12px;" onclick="uploadMedia('service_6', 's6', 's6Stat')">Upload</button><div class="progress-line" id="s6Stat"></div></div>
+          <div><div class="field"><label>1. Custom Mods</label><input type="file" id="s1" accept="image/*"></div><button class="btn ghost" onclick="uploadMedia('service_1', 's1', 's1Stat')">Upload</button><div class="progress-line" id="s1Stat"></div></div>
+          <div><div class="field"><label>2. PPF</label><input type="file" id="s2" accept="image/*"></div><button class="btn ghost" onclick="uploadMedia('service_2', 's2', 's2Stat')">Upload</button><div class="progress-line" id="s2Stat"></div></div>
+          <div><div class="field"><label>3. Ceramic</label><input type="file" id="s3" accept="image/*"></div><button class="btn ghost" onclick="uploadMedia('service_3', 's3', 's3Stat')">Upload</button><div class="progress-line" id="s3Stat"></div></div>
+          <div><div class="field"><label>4. Detailing</label><input type="file" id="s4" accept="image/*"></div><button class="btn ghost" onclick="uploadMedia('service_4', 's4', 's4Stat')">Upload</button><div class="progress-line" id="s4Stat"></div></div>
+          <div><div class="field"><label>5. Windshield</label><input type="file" id="s5" accept="image/*"></div><button class="btn ghost" onclick="uploadMedia('service_5', 's5', 's5Stat')">Upload</button><div class="progress-line" id="s5Stat"></div></div>
+          <div><div class="field"><label>6. Interior</label><input type="file" id="s6" accept="image/*"></div><button class="btn ghost" onclick="uploadMedia('service_6', 's6', 's6Stat')">Upload</button><div class="progress-line" id="s6Stat"></div></div>
         </div>
       </div>
       
       <div class="card">
-        <h3>How It's Built (Process Tabs)</h3>
-        <p class="muted" style="margin-bottom: 16px;">Upload images for the 4 interactive process tabs.</p>
+        <h3>How It's Built (Premium Cards)</h3>
+        <p class="muted" style="margin-bottom: 16px;">You can upload standard images or looping videos (.mp4/.webm) for the sleek horizontal process gallery.</p>
         <div class="grid2">
-          <div><div class="field"><label>Tab 1: Inspect</label><input type="file" id="p1"></div><button class="btn ghost" onclick="uploadMedia('process_1', 'p1', 'p1Stat')">Upload</button><div class="progress-line" id="p1Stat"></div></div>
-          <div><div class="field"><label>Tab 2: Prep</label><input type="file" id="p2"></div><button class="btn ghost" onclick="uploadMedia('process_2', 'p2', 'p2Stat')">Upload</button><div class="progress-line" id="p2Stat"></div></div>
-          <div><div class="field"><label>Tab 3: Install</label><input type="file" id="p3"></div><button class="btn ghost" onclick="uploadMedia('process_3', 'p3', 'p3Stat')">Upload</button><div class="progress-line" id="p3Stat"></div></div>
-          <div><div class="field"><label>Tab 4: Delivery</label><input type="file" id="p4"></div><button class="btn ghost" onclick="uploadMedia('process_4', 'p4', 'p4Stat')">Upload</button><div class="progress-line" id="p4Stat"></div></div>
+          <div><div class="field"><label>Step 1: Inspect</label><input type="file" id="p1" accept="image/*, video/mp4, video/webm"></div><button class="btn ghost" onclick="uploadMedia('process_1', 'p1', 'p1Stat')">Upload</button><div class="progress-line" id="p1Stat"></div></div>
+          <div><div class="field"><label>Step 2: Prep</label><input type="file" id="p2" accept="image/*, video/mp4, video/webm"></div><button class="btn ghost" onclick="uploadMedia('process_2', 'p2', 'p2Stat')">Upload</button><div class="progress-line" id="p2Stat"></div></div>
+          <div><div class="field"><label>Step 3: Install</label><input type="file" id="p3" accept="image/*, video/mp4, video/webm"></div><button class="btn ghost" onclick="uploadMedia('process_3', 'p3', 'p3Stat')">Upload</button><div class="progress-line" id="p3Stat"></div></div>
+          <div><div class="field"><label>Step 4: Delivery</label><input type="file" id="p4" accept="image/*, video/mp4, video/webm"></div><button class="btn ghost" onclick="uploadMedia('process_4', 'p4', 'p4Stat')">Upload</button><div class="progress-line" id="p4Stat"></div></div>
         </div>
       </div>
     </section>
 
-    <!-- FRAME SEQUENCES -->
-    <section class="panel" id="panel-frames">
-      <h2>Frame Sequences</h2>
-      <p class="lede">Upload a numbered image sequence for a canvas scroll-scrub scene. Select files in order.</p>
-      <div class="card">
-        <div class="grid3">
-          <div class="field"><label>Project (optional)</label><select id="fProject"><option value="">- General / not tied to a project -</option></select></div>
-          <div class="field"><label>Section</label><select id="fSection"><option value="ppf">PPF Signature Scene</option><option value="hero">Hero</option><option value="mods">Mods Scene</option></select></div>
-          <div class="field"><label>Frames (multi-select 27+)</label><input type="file" id="fFiles" accept="image/*" multiple></div>
-        </div>
-        <button class="btn" id="uploadFramesBtn">Upload Sequence</button>
-        <div class="progress-line" id="frameUploadStatus"></div>
-      </div>
-      <div class="card">
-        <h3>Existing sequences</h3>
-        <table>
-          <thead><tr><th>Section</th><th>Folder</th><th>Frame Count</th><th>Project</th><th></th></tr></thead>
-          <tbody id="framesTable"></tbody>
-        </table>
-      </div>
-    </section>
   </main>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="config.js"></script>
 <script>
-var db = null;
-var configured = false;
+var db = supabase.createClient(window.REV_NATION_CONFIG.SUPABASE_URL, window.REV_NATION_CONFIG.SUPABASE_ANON_KEY);
 
-(function init(){
-  var cfg = window.REV_NATION_CONFIG;
-  configured = !!(cfg && cfg.SUPABASE_URL && cfg.SUPABASE_ANON_KEY && cfg.SUPABASE_URL.indexOf('YOUR_') === -1);
-  if(!configured){ 
-    document.getElementById('gateNotConfigured').style.display = 'block'; 
-    return; 
-  }
-  db = supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
-  checkSession();
-})();
-
-async function checkSession(){
+(async function init(){
   var { data } = await db.auth.getSession();
   if(data && data.session){ showApp(data.session); }
   else { document.getElementById('gateLogin').style.display = 'block'; }
-}
+})();
 
 document.getElementById('loginForm').addEventListener('submit', async function(e){
   e.preventDefault();
-  var errEl = document.getElementById('loginErr');
-  errEl.textContent = '';
-  
   var { data, error } = await db.auth.signInWithPassword({
     email: document.getElementById('loginEmail').value,
     password: document.getElementById('loginPassword').value
   });
-  
-  if(error){ errEl.textContent = error.message; return; }
+  if(error){ document.getElementById('loginErr').textContent = error.message; return; }
   showApp(data.session);
 });
 
@@ -344,7 +292,6 @@ document.getElementById('logoutBtn').addEventListener('click', async function(){
   window.location.reload();
 });
 
-/* Tabs */
 document.querySelectorAll('.tab').forEach(function(btn){
   btn.addEventListener('click', function(){
     document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
@@ -354,62 +301,28 @@ document.querySelectorAll('.tab').forEach(function(btn){
   });
 });
 
-/* Data loading */
-var cache = { leads: [], projects: [], testimonials: [], stats: [], frames: [] };
-
+var cache = { leads: [], projects: [], testimonials: [], stats: [] };
 async function loadAll(){
-  await Promise.all([loadLeads(), loadProjects(), loadTestimonials(), loadStats(), loadFrames()]);
+  await Promise.all([loadLeads(), loadProjects(), loadTestimonials(), loadStats()]);
   renderOverview();
 }
 
-async function loadLeads(){
-  var { data } = await db.from('leads').select('*').order('created_at', {ascending: false});
-  cache.leads = data || []; 
-  renderLeads();
-}
+async function loadLeads(){ var { data } = await db.from('leads').select('*').order('created_at', {ascending: false}); cache.leads = data || []; renderLeads(); }
+async function loadProjects(){ var { data } = await db.from('projects').select('*').order('sort_order'); cache.projects = data || []; renderProjects(); }
+async function loadTestimonials(){ var { data } = await db.from('testimonials').select('*').order('sort_order'); cache.testimonials = data || []; renderTestimonials(); }
+async function loadStats(){ var { data } = await db.from('stats').select('*').order('sort_order'); cache.stats = data || []; renderStats(); }
 
-async function loadProjects(){
-  var { data } = await db.from('projects').select('*').order('sort_order');
-  cache.projects = data || []; 
-  renderProjects();
-}
-
-async function loadTestimonials(){
-  var { data } = await db.from('testimonials').select('*').order('sort_order');
-  cache.testimonials = data || []; 
-  renderTestimonials();
-}
-
-async function loadStats(){
-  var { data } = await db.from('stats').select('*').order('sort_order');
-  cache.stats = data || []; 
-  renderStats();
-}
-
-async function loadFrames(){
-  var { data } = await db.from('frame_sequences').select('*, projects(title)').order('created_at', {ascending: false});
-  cache.frames = data || []; 
-  renderFrames();
-}
-
-/* Overview */
 function renderOverview(){
   var newLeads = cache.leads.filter(l => l.status === 'new').length;
-  var cardsHtml = [
-    {n: cache.leads.length, l: 'Total Leads'}, 
-    {n: newLeads, l: 'New Leads'},
-    {n: cache.projects.length, l: 'Projects'}, 
-    {n: cache.testimonials.length, l: 'Testimonials'},
-    {n: cache.frames.length, l: 'Frame Sequences'}
+  document.getElementById('overviewCards').innerHTML = [
+    {n: cache.leads.length, l: 'Total Leads'}, {n: newLeads, l: 'New Leads'},
+    {n: cache.projects.length, l: 'Projects'}, {n: cache.testimonials.length, l: 'Testimonials'}
   ].map(c => '<div class="sc"><div class="n">' + c.n + '</div><div class="l">' + c.l + '</div></div>').join('');
-  
-  document.getElementById('overviewCards').innerHTML = cardsHtml;
   document.querySelector('#overviewLeadsTable tbody').innerHTML = cache.leads.slice(0,6).map(l =>
     '<tr><td><strong>' + esc(l.name) + '</strong></td><td>' + esc(l.car || '') + '</td><td>' + esc(l.service || '') + '</td><td><span class="tag ' + l.status + '">' + l.status + '</span></td></tr>'
   ).join('') || '<tr><td colspan="4" class="muted">No leads yet.</td></tr>';
 }
 
-/* Leads */
 function renderLeads(){
   var tbody = document.getElementById('leadsTable');
   tbody.innerHTML = cache.leads.map(l =>
@@ -418,17 +331,11 @@ function renderLeads(){
     '<td class="muted">' + esc(l.message || '-') + '</td>' +
     '<td><select data-id="' + l.id + '" class="leadStatus"><option value="new"' + (l.status === 'new' ? ' selected' : '') + '>New</option><option value="contacted"' + (l.status === 'contacted' ? ' selected' : '') + '>Contacted</option><option value="closed"' + (l.status === 'closed' ? ' selected' : '') + '>Closed</option></select></td></tr>'
   ).join('') || '<tr><td colspan="8" class="muted">No leads yet.</td></tr>';
-
   tbody.querySelectorAll('.leadStatus').forEach(sel => {
-    sel.addEventListener('change', async function() {
-      await db.from('leads').update({status: sel.value}).eq('id', sel.dataset.id);
-      await loadLeads(); 
-      renderOverview();
-    });
+    sel.addEventListener('change', async function() { await db.from('leads').update({status: sel.value}).eq('id', sel.dataset.id); await loadLeads(); renderOverview(); });
   });
 }
 
-/* Projects */
 function renderProjects(){
   var tbody = document.getElementById('projectsTable');
   tbody.innerHTML = cache.projects.map(p =>
@@ -437,94 +344,48 @@ function renderProjects(){
     '<td>' + (p.published ? 'Yes' : 'No') + '</td>' +
     '<td><button class="btn danger" data-id="' + p.id + '" style="padding:6px 12px;font-size:12px;">Delete</button></td></tr>'
   ).join('') || '<tr><td colspan="6" class="muted">No projects yet.</td></tr>';
-
   tbody.querySelectorAll('button.danger').forEach(btn => {
-    btn.addEventListener('click', async function(){
-      if(!confirm('Delete this project?')) return;
-      await db.from('projects').delete().eq('id', btn.dataset.id);
-      await loadProjects(); 
-      renderOverview();
-    });
+    btn.addEventListener('click', async function(){ if(confirm('Delete?')){ await db.from('projects').delete().eq('id', btn.dataset.id); await loadProjects(); renderOverview(); }});
   });
 }
 
 document.getElementById('addProjectBtn').addEventListener('click', async function(){
   var status = document.getElementById('projectUploadStatus');
   var title = document.getElementById('pTitle').value.trim();
-  if(!title){ alert('Title is required'); return; }
-  
-  var payload = {
-    title: title, 
-    car_make: document.getElementById('pMake').value.trim(), 
-    car_model: document.getElementById('pModel').value.trim(),
-    service_type: document.getElementById('pService').value.trim(), 
-    published: document.getElementById('pPublished').checked
-  };
-  
+  if(!title){ alert('Title required'); return; }
+  var payload = { title: title, car_make: document.getElementById('pMake').value.trim(), car_model: document.getElementById('pModel').value.trim(), service_type: document.getElementById('pService').value.trim(), published: document.getElementById('pPublished').checked };
   var file = document.getElementById('pCoverFile').files[0];
   if(file){
-    status.textContent = 'Uploading cover image...';
+    status.textContent = 'Uploading...';
     var path = Date.now() + '-' + file.name.replace(/[^a-zA-Z0-9._-]/g, '-');
     var { error: upErr } = await db.storage.from('project-images').upload(path, file);
-    if(upErr){ status.textContent = 'Upload failed: ' + upErr.message; return; }
+    if(upErr){ status.textContent = 'Failed: ' + upErr.message; return; }
     payload.cover_image = db.storage.from('project-images').getPublicUrl(path).data.publicUrl;
   }
-  
   status.textContent = 'Saving...';
-  var { error } = await db.from('projects').insert([payload]);
-  if(error){ status.textContent = 'Save failed: ' + error.message; return; }
-  
+  await db.from('projects').insert([payload]);
   status.textContent = 'Added.';
-  document.getElementById('pTitle').value = '';
-  document.getElementById('pMake').value = '';
-  document.getElementById('pModel').value = '';
-  document.getElementById('pService').value = '';
-  document.getElementById('pCoverFile').value = '';
-  await loadProjects(); 
-  renderOverview();
-  setTimeout(() => status.textContent = '', 2500);
+  ['pTitle','pMake','pModel','pService','pCoverFile'].forEach(id => document.getElementById(id).value = '');
+  await loadProjects(); renderOverview(); setTimeout(() => status.textContent = '', 2500);
 });
 
-/* Testimonials */
 function renderTestimonials(){
   var tbody = document.getElementById('testiTable');
   tbody.innerHTML = cache.testimonials.map(t =>
     '<tr><td><strong>' + esc(t.name) + '</strong></td><td>' + esc(t.car || '') + '</td><td class="muted" style="max-width:320px;">' + esc(t.quote) + '</td>' +
     '<td>' + (t.published ? 'Yes' : 'No') + '</td><td><button class="btn danger" data-id="' + t.id + '" style="padding:6px 12px; font-size:12px;">Delete</button></td></tr>'
   ).join('') || '<tr><td colspan="5" class="muted">No testimonials yet.</td></tr>';
-
   tbody.querySelectorAll('button.danger').forEach(btn => {
-    btn.addEventListener('click', async function(){
-      if(!confirm('Delete this testimonial?')) return;
-      await db.from('testimonials').delete().eq('id', btn.dataset.id);
-      await loadTestimonials(); 
-      renderOverview();
-    });
+    btn.addEventListener('click', async function(){ if(confirm('Delete?')){ await db.from('testimonials').delete().eq('id', btn.dataset.id); await loadTestimonials(); renderOverview(); }});
   });
 }
 
 document.getElementById('addTestiBtn').addEventListener('click', async function(){
-  var name = document.getElementById('tName').value.trim();
-  var quote = document.getElementById('tQuote').value.trim();
-  if(!name || !quote){ alert('Name and quote are required'); return; }
-  
-  await db.from('testimonials').insert([{ 
-    name: name, 
-    city: document.getElementById('tCity').value.trim(), 
-    car: document.getElementById('tCar').value.trim(), 
-    quote: quote, 
-    published: true 
-  }]);
-  
-  document.getElementById('tName').value = '';
-  document.getElementById('tCity').value = ''; 
-  document.getElementById('tCar').value = '';
-  document.getElementById('tQuote').value = '';
-  await loadTestimonials(); 
-  renderOverview();
+  await db.from('testimonials').insert([{ name: document.getElementById('tName').value.trim(), city: document.getElementById('tCity').value.trim(), car: document.getElementById('tCar').value.trim(), quote: document.getElementById('tQuote').value.trim(), published: true }]);
+  ['tName','tCity','tCar','tQuote'].forEach(id => document.getElementById(id).value = '');
+  await loadTestimonials(); renderOverview();
 });
 
-/* Stats */
 function renderStats(){
   var tbody = document.getElementById('statsTable');
   tbody.innerHTML = cache.stats.map(s =>
@@ -532,95 +393,28 @@ function renderStats(){
     '<td><input type="number" class="statValue" value="' + s.value + '" style="width:100px;"></td>' +
     '<td><input type="text" class="statSuffix" value="' + esc(s.suffix || '') + '" style="width:90px;"></td>' +
     '<td><button class="btn" style="padding:6px 12px;font-size:12px;">Save</button></td></tr>'
-  ).join('') || '<tr><td colspan="4" class="muted">No stats yet.</td></tr>';
-
+  ).join('');
   tbody.querySelectorAll('button.btn').forEach(btn => {
     btn.addEventListener('click', async function(){
       var row = btn.closest('tr');
-      await db.from('stats').update({ 
-        value: parseInt(row.querySelector('.statValue').value, 10), 
-        suffix: row.querySelector('.statSuffix').value 
-      }).eq('id', row.dataset.id);
-      
-      btn.textContent = 'Saved'; 
-      setTimeout(() => btn.textContent = 'Save', 1200);
+      await db.from('stats').update({ value: parseInt(row.querySelector('.statValue').value, 10), suffix: row.querySelector('.statSuffix').value }).eq('id', row.dataset.id);
+      btn.textContent = 'Saved'; setTimeout(() => btn.textContent = 'Save', 1200);
     });
   });
 }
 
-/* Universal Media Uploader */
 async function uploadMedia(dbId, fileInputId, statusId) {
   var file = document.getElementById(fileInputId).files[0];
   var status = document.getElementById(statusId);
-  if(!file) { status.textContent = "Please select a file."; return; }
-  status.textContent = "Uploading...";
-  
-  var ext = file.name.split('.').pop();
-  var path = dbId + '-' + Date.now() + '.' + ext;
+  if(!file) return; status.textContent = "Uploading...";
+  var path = dbId + '-' + Date.now() + '.' + file.name.split('.').pop();
   var { error: upErr } = await db.storage.from('site-assets').upload(path, file);
-  
-  if(upErr) { status.textContent = "Upload failed: " + upErr.message; return; }
+  if(upErr) { status.textContent = "Failed: " + upErr.message; return; }
   var pubUrl = db.storage.from('site-assets').getPublicUrl(path).data.publicUrl;
-  
-  var { error: dbErr } = await db.from('site_media').upsert({ id: dbId, media_url: pubUrl });
-  
-  if(dbErr) { status.textContent = "Save failed: " + dbErr.message; }
-  else { status.textContent = "Uploaded and live!"; }
+  await db.from('site_media').upsert({ id: dbId, media_url: pubUrl });
+  status.textContent = "Live!"; setTimeout(() => status.textContent = '', 2000);
 }
-
-/* Frame Sequences */
-function renderFrames(){
-  var tbody = document.getElementById('framesTable');
-  tbody.innerHTML = cache.frames.map(f =>
-    '<tr><td><strong>' + esc(f.section_key || '') + '</strong></td><td class="muted">' + esc(f.folder_path) + '</td><td>' + f.frame_count + '</td>' +
-    '<td>' + esc((f.projects && f.projects.title) || '-') + '</td>' +
-    '<td><button class="btn danger" data-id="' + f.id + '" style="padding:6px 12px;font-size:12px;">Delete</button></td></tr>'
-  ).join('') || '<tr><td colspan="5" class="muted">No sequences uploaded yet.</td></tr>';
-
-  tbody.querySelectorAll('button.danger').forEach(btn => {
-    btn.addEventListener('click', async function(){
-      if(!confirm('Delete this sequence record?')) return;
-      await db.from('frame_sequences').delete().eq('id', btn.dataset.id);
-      await loadFrames(); 
-      renderOverview();
-    });
-  });
-}
-
-document.getElementById('uploadFramesBtn').addEventListener('click', async function(){
-  var status = document.getElementById('frameUploadStatus');
-  var files = Array.from(document.getElementById('fFiles').files);
-  if(!files.length){ alert('Select at least one image'); return; }
-  
-  files.sort((a,b) => a.name.localeCompare(b.name, undefined, {numeric: true}));
-  var section = document.getElementById('fSection').value;
-  var folder = 'general/' + section;
-  
-  for(var i = 0; i < files.length; i++){
-    status.textContent = 'Uploading ' + (i + 1) + '/' + files.length + '...';
-    var { error } = await db.storage.from('frame-sequences').upload(folder + '/' + files[i].name, files[i], {upsert: true});
-    if(error){ status.textContent = 'Failed on frame ' + (i + 1) + ': ' + error.message; return; }
-  }
-  
-  var { error: insertErr } = await db.from('frame_sequences').insert([{ 
-    folder_path: folder + '/', 
-    frame_count: files.length, 
-    section_key: section 
-  }]);
-  
-  if(insertErr){ status.textContent = 'Upload OK, but failed to save record: ' + insertErr.message; return; }
-  
-  status.textContent = 'Done - ' + files.length + ' frames uploaded to ' + folder + '/';
-  document.getElementById('fFiles').value = '';
-  await loadFrames(); 
-  renderOverview();
-});
-
-function esc(s){ 
-  var d = document.createElement('div');
-  d.textContent = s == null ? '' : String(s); 
-  return d.innerHTML; 
-}
+function esc(s){ var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
 </script>
 </body>
 </html>
