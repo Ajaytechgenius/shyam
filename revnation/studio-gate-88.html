@@ -3,763 +3,288 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>REV NATION | CMS Command Center</title>
-<link href="https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>Rev Nation | Secure Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ============================================================
-   STRICT, FUNCTIONAL CMS STYLING
-   ============================================================ */
 :root {
-  --bg: #050505; --surface: #111111; --surface-hover: #1a1a1a;
-  --border: #222222; --border-focus: #444444;
-  --text: #ffffff; --text-muted: #888888;
-  --primary: #ffffff; --primary-bg: #ffffff; --primary-text: #000000;
-  --danger: #ff4444; --danger-bg: rgba(255,68,68,0.1);
-  --success: #00C851;
-  --font-sans: 'General Sans', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
+  --bg: #030303;
+  --surface: #0a0a0a;
+  --surface-hover: #121212;
+  --border: rgba(255, 255, 255, 0.08);
+  --ink: #fdfdfd;
+  --ink-dim: rgba(253, 253, 253, 0.45);
+  --accent: #ffffff;
+  --sans: 'Inter', sans-serif;
 }
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: var(--bg); color: var(--text); font-family: var(--font-sans); font-size: 14px; line-height: 1.5; height: 100vh; overflow: hidden; }
-a, button { cursor: pointer; outline: none; border: none; font-family: inherit; }
-input, select, textarea { font-family: inherit; }
-
-/* UTILITIES */
-.flex { display: flex; } .flex-col { display: flex; flex-direction: column; }
-.justify-between { justify-content: space-between; } .align-center { align-items: center; }
-.gap-2 { gap: 8px; } .gap-4 { gap: 16px; } .gap-6 { gap: 24px; }
-.mt-4 { margin-top: 16px; } .mb-2 { margin-bottom: 8px; } .mb-6 { margin-bottom: 24px; }
-.text-mono { font-family: var(--font-mono); } .text-sm { font-size: 12px; } .text-muted { color: var(--text-muted); }
-
-/* AUTH GATE */
-#gate { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1000; }
-.auth-box { background: var(--surface); border: 1px solid var(--border); padding: 40px; width: 100%; max-width: 360px; border-radius: 8px; }
-.auth-box h2 { font-weight: 600; margin-bottom: 24px; font-size: 20px; }
-
-/* LAYOUT */
-#app { display: none; height: 100vh; }
-#app.show { display: flex; }
-.sidebar { width: 260px; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; }
-.sidebar-header { padding: 24px; border-bottom: 1px solid var(--border); font-weight: 600; letter-spacing: 0.05em; }
-.nav-links { flex: 1; padding: 16px 8px; display: flex; flex-direction: column; gap: 4px; overflow-y: auto; }
-.nav-item { padding: 10px 16px; border-radius: 6px; color: var(--text-muted); text-align: left; font-weight: 500; transition: 0.2s; display: flex; justify-content: space-between; }
-.nav-item:hover { background: var(--surface-hover); color: var(--text); }
-.nav-item.active { background: var(--text); color: var(--bg); }
-.sidebar-footer { padding: 16px 24px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted); }
-
-.main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg); }
-.topbar { height: 64px; border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 32px; font-weight: 500; justify-content: space-between; }
-.workspace { flex: 1; overflow-y: auto; padding: 32px; }
-
-/* PANELS & CARDS */
-.panel { display: none; }
-.panel.active { display: block; animation: fade 0.2s ease-out; }
-@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px; margin-bottom: 24px; }
-.card-header { margin-bottom: 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 16px; }
-.card-title { font-size: 16px; font-weight: 600; }
-
-/* FORMS & BUTTONS */
-.form-group { margin-bottom: 16px; }
-.form-label { display: block; margin-bottom: 6px; font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); text-transform: uppercase; }
-.form-control { width: 100%; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 4px; transition: 0.2s; }
-.form-control:focus { border-color: var(--border-focus); outline: none; }
-.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-
-.btn { padding: 8px 16px; border-radius: 4px; font-weight: 500; transition: 0.2s; font-size: 13px; display: inline-flex; align-items: center; justify-content: center; }
-.btn-primary { background: var(--primary-bg); color: var(--primary-text); }
-.btn-primary:hover { opacity: 0.9; }
-.btn-outline { border: 1px solid var(--border); color: var(--text); background: transparent; }
-.btn-outline:hover { background: var(--surface-hover); }
-.btn-danger { background: var(--danger-bg); color: var(--danger); border: 1px solid rgba(255,68,68,0.2); }
-.btn-danger:hover { background: var(--danger); color: #fff; }
-.btn-sm { padding: 6px 12px; font-size: 12px; }
-
-/* ASSET GRID (MEDIA VAULT) */
-.asset-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
-.asset-card { border: 1px solid var(--border); border-radius: 6px; background: var(--bg); overflow: hidden; display: flex; flex-direction: column; }
-.asset-preview { aspect-ratio: 16/9; background: #000; border-bottom: 1px solid var(--border); position: relative; display: flex; align-items: center; justify-content: center; }
-.asset-preview img, .asset-preview video { width: 100%; height: 100%; object-fit: cover; }
-.asset-meta { padding: 12px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
-.asset-id { font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); }
-.file-input-wrapper { position: relative; overflow: hidden; }
-.file-input-wrapper input[type=file] { position: absolute; left: 0; top: 0; opacity: 0; cursor: pointer; height: 100%; width: 100%; }
-
-/* DATA TABLES */
-.table-wrapper { overflow-x: auto; }
-table { width: 100%; border-collapse: collapse; text-align: left; }
-th { padding: 12px 16px; font-family: var(--font-mono); font-size: 11px; text-transform: uppercase; color: var(--text-muted); border-bottom: 1px solid var(--border); background: var(--bg); }
-td { padding: 16px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-tr:hover td { background: var(--surface-hover); }
-.status-badge { padding: 4px 8px; border-radius: 4px; font-size: 11px; font-family: var(--font-mono); text-transform: uppercase; }
-.status-active { background: rgba(0,200,81,0.1); color: var(--success); border: 1px solid rgba(0,200,81,0.2); }
-.status-pending { background: rgba(255,255,255,0.1); color: var(--text); border: 1px solid var(--border); }
-
-/* TOAST NOTIFICATIONS */
-#toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column; gap: 8px; }
-.toast { background: var(--text); color: var(--bg); padding: 12px 20px; border-radius: 4px; font-weight: 500; font-size: 13px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); animation: slideIn 0.3s cubic-bezier(0.16,1,0.3,1); }
-.toast.error { background: var(--danger); color: #fff; }
-@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+}
+a, button, input, textarea { font-family: inherit; color: inherit; outline: none; border: none; background: transparent; }
+a { text-decoration: none; }
+ul { list-style: none; }
+   .sidebar {
+  width: 280px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  z-index: 10;
+}
+.brand {
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  color: var(--ink-dim);
+  transition: all 0.3s ease;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 6px;
+}
+.nav-link:hover, .nav-link.active {
+  color: var(--ink);
+  background: var(--surface-hover);
+}
+.main-content {
+  flex: 1;
+  padding: 60px 5vw;
+  overflow-y: auto;
+  position: relative;
+}
+.header {
+  margin-bottom: 60px;
+}
+.page-title {
+  font-size: 32px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+}
+.page-subtitle {
+  color: var(--ink-dim);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 50px;
+  border-radius: 12px;
+  max-width: 800px;
+}
+.form-group {
+  margin-bottom: 35px;
+}
+.form-label {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--ink-dim);
+}
+.form-input {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  padding: 18px;
+  color: var(--ink);
+  font-size: 14px;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+}
+.form-input:focus {
+  border-color: var(--ink-dim);
+}
+textarea.form-input {
+  resize: vertical;
+  min-height: 150px;
+}
+.upload-zone {
+  border: 1px dashed var(--border);
+  background: var(--bg);
+  padding: 80px 20px;
+  text-align: center;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+.upload-zone:hover, .upload-zone.dragover {
+  border-color: var(--ink-dim);
+  background: rgba(255, 255, 255, 0.02);
+}
+.upload-text {
+  font-size: 12px;
+  color: var(--ink-dim);
+  letter-spacing: 0.05em;
+}
+.upload-highlight {
+  color: var(--ink);
+  text-decoration: underline;
+}
+.file-input {
+  display: none;
+}
+#image-preview {
+  display: none;
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-top: 20px;
+  border: 1px solid var(--border);
+}
+.btn {
+  background: var(--ink);
+  color: var(--bg);
+  padding: 18px 40px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  width: auto;
+  display: inline-block;
+}
+.btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0);
+}
 </style>
 </head>
 <body>
-  <!-- AUTHENTICATION GATE -->
-<div id="gate">
-  <div class="auth-box">
-    <h2>Studio Command</h2>
-    <div class="form-group">
-      <label class="form-label">Admin Email</label>
-      <input type="email" id="email" class="form-control" placeholder="admin@revnation.in" autocomplete="email">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Password</label>
-      <input type="password" id="password" class="form-control" placeholder="••••••••" autocomplete="current-password">
-    </div>
-    <button class="btn btn-primary" id="loginBtn" onclick="signIn()" style="width: 100%;">Authenticate</button>
-    <div id="authErr" class="text-sm mt-4" style="color: var(--danger); text-align: center; min-height: 20px;"></div>
-  </div>
-</div>
+<aside class="sidebar">
+  <div class="brand">Rev Nation</div>
+  <ul class="nav-menu">
+    <li><a href="#" class="nav-link">Dashboard</a></li>
+    <li><a href="#" class="nav-link active">Add Project Log</a></li>
+    <li><a href="#" class="nav-link">Gallery Media</a></li>
+    <li><a href="#" class="nav-link">Settings</a></li>
+  </ul>
+</aside>
 
-<!-- MAIN CMS APP -->
-<div id="app">
-  
-  <!-- SIDEBAR NAVIGATION -->
-  <aside class="sidebar">
-    <div class="sidebar-header">REV NATION CMS</div>
-    <nav class="nav-links">
-      <button class="nav-item active" onclick="switchTab('dashboard', this)">Dashboard <span>📊</span></button>
-      <button class="nav-item" onclick="switchTab('media', this)">Media Vault <span>🖼️</span></button>
-      <button class="nav-item" onclick="switchTab('projects', this)">Portfolio / Log <span>🏎️</span></button>
-      <button class="nav-item" onclick="switchTab('testimonials', this)">Reviews <span>⭐</span></button>
-      <button class="nav-item" onclick="switchTab('stats', this)">Studio Stats <span>📈</span></button>
-      <button class="nav-item" onclick="switchTab('leads', this)">Client Leads <span>📩</span></button>
-    </nav>
-    <div class="sidebar-footer">
-      <div class="text-mono">System v2.0 / Active</div>
-    </div>
-  </aside>
+<main class="main-content">
+  <header class="header">
+    <h1 class="page-title">Project Logs</h1>
+    <p class="page-subtitle">Upload and document recent detailing projects.</p>
+  </header>
 
-  <!-- MAIN CONTENT AREA -->
-  <div class="main-content">
-    
-    <!-- TOPBAR -->
-    <header class="topbar">
-      <div id="userEmail" class="text-mono text-muted text-sm">Not logged in</div>
-      <button class="btn btn-outline btn-sm" onclick="signOut()">Secure Log Out</button>
-    </header>
+  <section class="card">
+    <form id="upload-form">
+      <div class="form-group">
+        <label class="form-label">Vehicle & Service Title</label>
+        <input type="text" class="form-input" placeholder="e.g. Porsche 911 GT3 RS - Full PPF & Ceramic" required>
+      </div>
 
-    <!-- WORKSPACE -->
-    <div class="workspace">
-      
-      <!-- PANEL 1: DASHBOARD -->
-      <div id="panel-dashboard" class="panel active">
-        <h2 class="mb-6">System Overview</h2>
-        <div class="asset-grid">
-          <div class="card" style="margin-bottom:0;">
-            <div class="form-label">NEW LEADS</div>
-            <div id="dashLeads" style="font-size: 32px; font-weight: 600;">0</div>
-          </div>
-          <div class="card" style="margin-bottom:0;">
-            <div class="form-label">ACTIVE PROJECTS</div>
-            <div id="dashProjects" style="font-size: 32px; font-weight: 600;">0</div>
-          </div>
-          <div class="card" style="margin-bottom:0;">
-            <div class="form-label">DATABASE STATUS</div>
-            <div style="font-size: 16px; font-weight: 600; color: var(--success); margin-top: 12px;">● Secure & Synchronized</div>
-          </div>
+      <div class="form-group">
+        <label class="form-label">Project Media</label>
+        <div class="upload-zone" id="drop-zone">
+          <span class="upload-text" id="upload-instruction">Drag and drop high-res image here or <span class="upload-highlight">click to browse</span>.</span>
+          <input type="file" id="file-input" class="file-input" accept="image/png, image/jpeg, image/webp" required>
+          <img id="image-preview" alt="">
         </div>
       </div>
 
-      <!-- PANEL 2: MEDIA VAULT -->
-      <div id="panel-media" class="panel">
-        <h2 class="mb-2">Media Vault</h2>
-        <p class="text-muted mb-6">Manage static structural assets mapped exactly to the frontend layout slots.</p>
-        
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Live Website Slots</div>
-            <button class="btn btn-outline btn-sm" onclick="loadMedia()">↻ Refresh Data</button>
-          </div>
-          <!-- Dense grid of exactly what is on the site -->
-          <div id="mediaGrid" class="asset-grid">
-            <div class="text-muted text-sm">Synchronizing asset map...</div>
-          </div>
-        </div>
-      </div>
-      <!-- PANEL 3: PORTFOLIO / STUDIO LOG -->
-      <div id="panel-projects" class="panel">
-        <h2 class="mb-2">Studio Log / Portfolio</h2>
-        <p class="text-muted mb-6">Manage the horizontal scrolling project gallery at the bottom of the site.</p>
-        
-        <div class="card">
-          <div class="card-header"><div class="card-title">Add / Edit Project</div></div>
-          <form id="form-project" class="form-grid mb-6" onsubmit="event.preventDefault(); saveProject();">
-            <input type="hidden" id="proj-id">
-            <div class="form-group">
-              <label class="form-label">Project Title (e.g. Murdered Out G-Wagon)</label>
-              <input type="text" id="proj-title" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Service Tag (e.g. Full PPF + Wrap)</label>
-              <input type="text" id="proj-service" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Car Make (e.g. Mercedes-Benz)</label>
-              <input type="text" id="proj-make" class="form-control">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Car Model (e.g. G63 AMG)</label>
-              <input type="text" id="proj-model" class="form-control">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Cover Image URL (Direct Link)</label>
-              <input type="text" id="proj-image" class="form-control" placeholder="https://..." required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Sort Order (Lowest number shows first)</label>
-              <input type="number" id="proj-sort" class="form-control" value="0">
-            </div>
-            <div class="form-group" style="grid-column: span 2; display: flex; gap: 12px;">
-              <button type="submit" class="btn btn-primary">Save to Database</button>
-              <button type="button" class="btn btn-outline" onclick="resetForm('form-project', 'proj-id')">Clear Form</button>
-            </div>
-          </form>
-          
-          <div class="table-wrapper">
-            <table>
-              <thead><tr><th>Sort</th><th>Title</th><th>Vehicle</th><th>Service</th><th>Actions</th></tr></thead>
-              <tbody id="projectsBody"></tbody>
-            </table>
-          </div>
-        </div>
+      <div class="form-group">
+        <label class="form-label">Log Details</label>
+        <textarea class="form-input" placeholder="Describe the process, materials used, and client requirements..." required></textarea>
       </div>
 
-      <!-- PANEL 4: REVIEWS -->
-      <div id="panel-testimonials" class="panel">
-        <h2 class="mb-2">Client Reviews</h2>
-        <p class="text-muted mb-6">Manage the dark-glass review cards above the booking form.</p>
-        
-        <div class="card">
-          <div class="card-header"><div class="card-title">Add / Edit Review</div></div>
-          <form id="form-testi" class="form-grid mb-6" onsubmit="event.preventDefault(); saveTestimonial();">
-            <input type="hidden" id="testi-id">
-            <div class="form-group">
-              <label class="form-label">Client Name</label>
-              <input type="text" id="testi-name" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Car Model</label>
-              <input type="text" id="testi-car" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">City (Optional)</label>
-              <input type="text" id="testi-city" class="form-control">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Sort Order</label>
-              <input type="number" id="testi-sort" class="form-control" value="0">
-            </div>
-            <div class="form-group" style="grid-column: span 2;">
-              <label class="form-label">Testimonial Quote</label>
-              <textarea id="testi-quote" class="form-control" required rows="3"></textarea>
-            </div>
-            <div class="form-group" style="grid-column: span 2; display: flex; gap: 12px;">
-              <button type="submit" class="btn btn-primary">Save Review</button>
-              <button type="button" class="btn btn-outline" onclick="resetForm('form-testi', 'testi-id')">Clear Form</button>
-            </div>
-          </form>
-          
-          <div class="table-wrapper">
-            <table>
-              <thead><tr><th>Sort</th><th>Client</th><th>Vehicle</th><th>Quote</th><th>Actions</th></tr></thead>
-              <tbody id="testiBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- PANEL 5: STATS -->
-      <div id="panel-stats" class="panel">
-        <h2 class="mb-2">Studio Stats</h2>
-        <p class="text-muted mb-6">Manage the animated odometer numbers in the Infrastructure section.</p>
-        
-        <div class="card">
-          <div class="card-header"><div class="card-title">Manage Stats</div></div>
-          <form id="form-stat" class="form-grid mb-6" onsubmit="event.preventDefault(); saveStat();">
-            <input type="hidden" id="stat-id">
-            <div class="form-group">
-              <label class="form-label">Label (e.g. Vehicles Serviced)</label>
-              <input type="text" id="stat-label" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Value (Numbers Only!)</label>
-              <input type="number" id="stat-value" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Suffix (e.g. +, k) - Optional</label>
-              <input type="text" id="stat-suffix" class="form-control">
-            </div>
-            <div class="form-group">
-              <label class="form-label">Sort Order</label>
-              <input type="number" id="stat-sort" class="form-control" value="0">
-            </div>
-            <div class="form-group" style="grid-column: span 2; display: flex; gap: 12px;">
-              <button type="submit" class="btn btn-primary">Save Stat</button>
-              <button type="button" class="btn btn-outline" onclick="resetForm('form-stat', 'stat-id')">Clear Form</button>
-            </div>
-          </form>
-          
-          <div class="table-wrapper">
-            <table>
-              <thead><tr><th>Sort</th><th>Label</th><th>Value</th><th>Suffix</th><th>Actions</th></tr></thead>
-              <tbody id="statsBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- PANEL 6: LEADS -->
-      <div id="panel-leads" class="panel">
-        <h2 class="mb-2">Client Inquiries</h2>
-        <p class="text-muted mb-6">Live feed of form submissions from the website.</p>
-        
-        <div class="card">
-          <div class="card-header">
-            <div class="card-title">Inbox</div>
-            <button class="btn btn-outline btn-sm" onclick="loadLeads()">↻ Refresh Inbox</button>
-          </div>
-          <div class="table-wrapper">
-            <table>
-              <thead><tr><th>Date</th><th>Name</th><th>Contact</th><th>Vehicle</th><th>Service</th><th>Message</th><th>Actions</th></tr></thead>
-              <tbody id="leadsBody"></tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-    </div> <!-- End Workspace -->
-  </div> <!-- End Main Content -->
-</div> <!-- End App -->
-
-<!-- TOAST NOTIFICATIONS -->
-<div id="toast-container"></div>
-<!-- ============================================================
-     CMS JAVASCRIPT ENGINE
-     ============================================================ -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-
+      <button type="submit" class="btn">Publish Log</button>
+    </form>
+  </section>
+</main>
 <script>
-let db = null;
-const errEl = document.getElementById('authErr');
-const loginBtn = document.getElementById('loginBtn');
-
-// 1. INITIALIZATION
 document.addEventListener('DOMContentLoaded', () => {
-  try {
-    if (window.REV_NATION_CONFIG && window.REV_NATION_CONFIG.SUPABASE_URL) {
-      db = window.supabase.createClient(window.REV_NATION_CONFIG.SUPABASE_URL, window.REV_NATION_CONFIG.SUPABASE_ANON_KEY);
-      checkAuth();
-    } else {
-      throw new Error("Missing config.");
-    }
-  } catch (error) {
-    errEl.textContent = "System Offline: config.js is missing or invalid.";
-    loginBtn.disabled = true;
-  }
-  
-  document.getElementById('password').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') signIn();
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'F12' || e.keyCode === 123) e.preventDefault();
+    if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) e.preventDefault();
+    if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C', 'i', 'j', 'c'].includes(e.key)) e.preventDefault();
   });
+
+  const dropZone = document.getElementById('drop-zone');
+  const fileInput = document.getElementById('file-input');
+  const imagePreview = document.getElementById('image-preview');
+  const uploadInstruction = document.getElementById('upload-instruction');
+
+  dropZone.addEventListener('click', () => fileInput.click());
+
+  dropZone.addEventListener('dragover', e => {
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+  });
+
+  dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('dragover');
+  });
+
+  dropZone.addEventListener('drop', e => {
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+    if (e.dataTransfer.files.length) {
+      fileInput.files = e.dataTransfer.files;
+      handleFile(fileInput.files[0]);
+    }
+  });
+
+  fileInput.addEventListener('change', () => {
+    if (fileInput.files.length) {
+      handleFile(fileInput.files[0]);
+    }
+  });
+
+  function handleFile(file) {
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        imagePreview.src = e.target.result;
+        imagePreview.style.display = 'block';
+        uploadInstruction.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 });
-
-// 2. TOAST NOTIFICATION SYSTEM
-function showToast(message, type = 'success') {
-  const container = document.getElementById('toast-container');
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.textContent = message;
-  container.appendChild(toast);
-  setTimeout(() => {
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateX(100%)';
-    toast.style.transition = 'all 0.3s ease';
-    setTimeout(() => toast.remove(), 300);
-  }, 3000);
-}
-
-// 3. AUTHENTICATION
-async function signIn() {
-  if (!db) return;
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value;
-
-  if (!email || !password) { errEl.textContent = "Enter both email and password."; return; }
-
-  loginBtn.textContent = "Authenticating...";
-  loginBtn.disabled = true;
-  errEl.textContent = "";
-
-  try {
-    const { data, error } = await db.auth.signInWithPassword({ email, password });
-    if (error) {
-      errEl.textContent = error.message;
-      loginBtn.textContent = "Authenticate";
-      loginBtn.disabled = false;
-    } else {
-      checkAuth();
-    }
-  } catch (err) {
-    errEl.textContent = "Network error.";
-    loginBtn.textContent = "Authenticate";
-    loginBtn.disabled = false;
-  }
-}
-
-async function signOut() {
-  if (!db) return;
-  await db.auth.signOut();
-  window.location.reload();
-}
-
-async function checkAuth() {
-  if (!db) return;
-  const { data: { session } } = await db.auth.getSession();
-  
-  if (session) {
-    document.getElementById('gate').style.display = 'none';
-    document.getElementById('app').className = 'show';
-    document.getElementById('userEmail').textContent = session.user.email;
-    loadAllData();
-  } else {
-    document.getElementById('gate').style.display = 'flex';
-    document.getElementById('app').className = '';
-  }
-}
-
-// 4. NAVIGATION
-function switchTab(tabId, btn) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
-  document.getElementById('panel-' + tabId).classList.add('active');
-  btn.classList.add('active');
-}
-
-function resetForm(formId, hiddenId) {
-  document.getElementById(formId).reset();
-  document.getElementById(hiddenId).value = "";
-}
-
-// 5. MASTER DATA LOADER
-function loadAllData() {
-  loadMedia();
-  loadProjects();
-  loadTestimonials();
-  loadStats();
-  loadLeads();
-}
-
-// 6. MEDIA VAULT LOGIC
-async function loadMedia() {
-  if (!db) return;
-  const { data: media, error } = await db.from('site_media').select('*');
-  if (error) { showToast("Failed to load media", "error"); return; }
-  
-  const grid = document.getElementById('mediaGrid');
-  grid.innerHTML = '';
-  
-  media.forEach(m => {
-    const isVid = m.media_url.match(/\.(mp4|webm)$/i);
-    const card = document.createElement('div');
-    card.className = 'asset-card';
-    card.innerHTML = `
-      <div class="asset-preview">
-        ${isVid ? `<video src="${m.media_url}" autoplay muted loop playsinline></video>` : `<img src="${m.media_url}">`}
-      </div>
-      <div class="asset-meta">
-        <div>
-          <div class="asset-id">SLOT ID: ${m.id.toUpperCase()}</div>
-        </div>
-        <div class="file-input-wrapper btn btn-outline" style="width:100%; position:relative;">
-          Replace Asset
-          <input type="file" accept="image/*,video/*" onchange="uploadMedia('${m.id}', this.files[0], this)">
-        </div>
-      </div>
-    `;
-    grid.appendChild(card);
-  });
-}
-
-async function uploadMedia(id, file, inputEl) {
-  if (!db || !file) return;
-  if (file.size > 20000000) { showToast("File too large. 20MB limit.", "error"); return; }
-  
-  const btn = inputEl.parentElement;
-  const originalText = btn.innerHTML;
-  btn.innerHTML = "Uploading... ⏳";
-  
-  try {
-    const fileExt = file.name.split('.').pop();
-    const filePath = 'assets/' + id + '_' + Date.now() + '.' + fileExt; 
-    
-    const { data, error: uploadErr } = await db.storage.from('media').upload(filePath, file, { upsert: true });
-    if (uploadErr) throw uploadErr;
-    
-    const { data: { publicUrl } } = db.storage.from('media').getPublicUrl(data.path);
-    
-    const { error: updateErr } = await db.from('site_media').update({ media_url: publicUrl }).eq('id', id);
-    if (updateErr) throw updateErr;
-
-    showToast(`Slot ${id.toUpperCase()} updated successfully`);
-    loadMedia(); // Reload to show new asset
-  } catch (err) {
-    showToast(err.message, "error");
-    btn.innerHTML = originalText;
-  }
-}
-  // 7. PORTFOLIO / STUDIO LOG LOGIC
-async function loadProjects() {
-  if (!db) return;
-  const { data: projects, error } = await db.from('projects').select('*').order('sort_order');
-  if (error) return;
-  
-  const tbody = document.getElementById('projectsBody');
-  tbody.innerHTML = '';
-  
-  if (projects) {
-    document.getElementById('dashProjects').textContent = projects.length; // Update dashboard count
-    projects.forEach(p => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${p.sort_order || 0}</td>
-          <td><strong>${p.title}</strong></td>
-          <td>${[p.car_make, p.car_model].filter(Boolean).join(' ')}</td>
-          <td>${p.service_type}</td>
-          <td>
-            <div class="flex gap-2">
-              <button class="btn btn-outline btn-sm" onclick='editProject(${JSON.stringify(p).replace(/'/g, "&#39;")})'>Edit</button>
-              <button class="btn btn-danger btn-sm" onclick="deleteRecord('projects', '${p.id}', loadProjects)">Delete</button>
-            </div>
-          </td>
-        </tr>
-      `;
-    });
-  }
-}
-
-async function saveProject() {
-  const id = document.getElementById('proj-id').value;
-  const payload = {
-    title: document.getElementById('proj-title').value,
-    service_type: document.getElementById('proj-service').value,
-    car_make: document.getElementById('proj-make').value,
-    car_model: document.getElementById('proj-model').value,
-    cover_image: document.getElementById('proj-image').value,
-    sort_order: parseInt(document.getElementById('proj-sort').value) || 0,
-    published: true
-  };
-
-  let error;
-  if (id) {
-    const res = await db.from('projects').update(payload).eq('id', id);
-    error = res.error;
-  } else {
-    const res = await db.from('projects').insert([payload]);
-    error = res.error;
-  }
-
-  if (error) { showToast(error.message, "error"); } 
-  else { 
-    showToast("Project saved successfully"); 
-    resetForm('form-project', 'proj-id'); 
-    loadProjects(); 
-  }
-}
-
-function editProject(p) {
-  document.getElementById('proj-id').value = p.id;
-  document.getElementById('proj-title').value = p.title;
-  document.getElementById('proj-service').value = p.service_type;
-  document.getElementById('proj-make').value = p.car_make || '';
-  document.getElementById('proj-model').value = p.car_model || '';
-  document.getElementById('proj-image').value = p.cover_image || '';
-  document.getElementById('proj-sort').value = p.sort_order || 0;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// 8. TESTIMONIALS LOGIC
-async function loadTestimonials() {
-  if (!db) return;
-  const { data: testi, error } = await db.from('testimonials').select('*').order('sort_order');
-  if (error) return;
-  
-  const tbody = document.getElementById('testiBody');
-  tbody.innerHTML = '';
-  if (testi) {
-    testi.forEach(t => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${t.sort_order || 0}</td>
-          <td><strong>${t.name}</strong></td>
-          <td>${t.car}</td>
-          <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${t.quote}</td>
-          <td>
-            <div class="flex gap-2">
-              <button class="btn btn-outline btn-sm" onclick='editTestimonial(${JSON.stringify(t).replace(/'/g, "&#39;")})'>Edit</button>
-              <button class="btn btn-danger btn-sm" onclick="deleteRecord('testimonials', '${t.id}', loadTestimonials)">Delete</button>
-            </div>
-          </td>
-        </tr>
-      `;
-    });
-  }
-}
-
-async function saveTestimonial() {
-  const id = document.getElementById('testi-id').value;
-  const payload = {
-    name: document.getElementById('testi-name').value,
-    car: document.getElementById('testi-car').value,
-    city: document.getElementById('testi-city').value,
-    quote: document.getElementById('testi-quote').value,
-    sort_order: parseInt(document.getElementById('testi-sort').value) || 0,
-    published: true
-  };
-
-  let error;
-  if (id) {
-    const res = await db.from('testimonials').update(payload).eq('id', id);
-    error = res.error;
-  } else {
-    const res = await db.from('testimonials').insert([payload]);
-    error = res.error;
-  }
-
-  if (error) { showToast(error.message, "error"); } 
-  else { 
-    showToast("Review saved successfully"); 
-    resetForm('form-testi', 'testi-id'); 
-    loadTestimonials(); 
-  }
-}
-
-function editTestimonial(t) {
-  document.getElementById('testi-id').value = t.id;
-  document.getElementById('testi-name').value = t.name;
-  document.getElementById('testi-car').value = t.car;
-  document.getElementById('testi-city').value = t.city || '';
-  document.getElementById('testi-quote').value = t.quote;
-  document.getElementById('testi-sort').value = t.sort_order || 0;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// 9. STATS LOGIC
-async function loadStats() {
-  if (!db) return;
-  const { data: stats, error } = await db.from('stats').select('*').order('sort_order');
-  if (error) return;
-  
-  const tbody = document.getElementById('statsBody');
-  tbody.innerHTML = '';
-  if (stats) {
-    stats.forEach(s => {
-      tbody.innerHTML += `
-        <tr>
-          <td>${s.sort_order || 0}</td>
-          <td><strong>${s.label}</strong></td>
-          <td>${s.value}</td>
-          <td>${s.suffix || '-'}</td>
-          <td>
-            <div class="flex gap-2">
-              <button class="btn btn-outline btn-sm" onclick='editStat(${JSON.stringify(s).replace(/'/g, "&#39;")})'>Edit</button>
-              <button class="btn btn-danger btn-sm" onclick="deleteRecord('stats', '${s.id}', loadStats)">Delete</button>
-            </div>
-          </td>
-        </tr>
-      `;
-    });
-  }
-}
-
-async function saveStat() {
-  const id = document.getElementById('stat-id').value;
-  const payload = {
-    label: document.getElementById('stat-label').value,
-    value: parseInt(document.getElementById('stat-value').value) || 0,
-    suffix: document.getElementById('stat-suffix').value,
-    sort_order: parseInt(document.getElementById('stat-sort').value) || 0
-  };
-
-  let error;
-  if (id) {
-    const res = await db.from('stats').update(payload).eq('id', id);
-    error = res.error;
-  } else {
-    const res = await db.from('stats').insert([payload]);
-    error = res.error;
-  }
-
-  if (error) { showToast(error.message, "error"); } 
-  else { 
-    showToast("Stat saved successfully"); 
-    resetForm('form-stat', 'stat-id'); 
-    loadStats(); 
-  }
-}
-
-function editStat(s) {
-  document.getElementById('stat-id').value = s.id;
-  document.getElementById('stat-label').value = s.label;
-  document.getElementById('stat-value').value = s.value;
-  document.getElementById('stat-suffix').value = s.suffix || '';
-  document.getElementById('stat-sort').value = s.sort_order || 0;
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// 10. LEADS LOGIC (Inbox)
-async function loadLeads() {
-  if (!db) return;
-  const { data: leads, error } = await db.from('leads').select('*').order('created_at', { ascending: false });
-  if (error) return;
-  
-  const tbody = document.getElementById('leadsBody');
-  tbody.innerHTML = '';
-  
-  if (leads) {
-    document.getElementById('dashLeads').textContent = leads.length; // Update dashboard count
-    leads.forEach(l => {
-      const date = new Date(l.created_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
-      tbody.innerHTML += `
-        <tr>
-          <td class="text-muted">${date}</td>
-          <td><strong>${l.name}</strong></td>
-          <td>${l.phone}<br><span class="text-sm text-muted">${l.city || ''}</span></td>
-          <td>${l.car}</td>
-          <td><span class="status-badge status-active">${l.service}</span></td>
-          <td style="max-width: 200px; font-size:12px;">${l.message || '-'}</td>
-          <td>
-            <button class="btn btn-danger btn-sm" onclick="deleteRecord('leads', '${l.id}', loadLeads)">Delete</button>
-          </td>
-        </tr>
-      `;
-    });
-  }
-}
-
-// 11. GLOBAL DELETE HANDLER
-async function deleteRecord(table, id, callback) {
-  if (confirm("Are you sure you want to delete this record? This cannot be undone.")) {
-    const { error } = await db.from(table).delete().eq('id', id);
-    if (error) {
-      showToast(error.message, "error");
-    } else {
-      showToast("Record deleted successfully");
-      callback();
-    }
-  }
-}
 </script>
 </body>
 </html>
