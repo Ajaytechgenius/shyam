@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AJAY BUILDS | Digital Architect</title>
+<link href="https://api.fontshare.com/v2/css?f[]=clash-display@500,600,700&f[]=general-sans@300,400,500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/lenis@1.3.25/dist/lenis.css">
+
+<style>
+/* ============================================================
+   AJAY BUILDS - THE UNCOMPROMISED ARCHITECTURE
+   ============================================================ */
+:root {
+  --bg: #020202; 
+  --ink: #ffffff; 
+  --ink-dim: rgba(255, 255, 255, 0.4);
+  --line: rgba(255, 255, 255, 0.1); 
+  --accent: #ff3333;
+  --display: 'Clash Display', sans-serif; 
+  --body: 'General Sans', sans-serif; 
+  --mono: 'JetBrains Mono', monospace;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { 
+  background: var(--bg); 
+  cursor: none; /* Hides default cursor for our custom tracker */
+} 
+
+body { 
+  background: var(--bg); 
+  color: var(--ink); 
+  font-family: var(--body); 
+  font-size: 16px; 
+  overflow-x: hidden; 
+  -webkit-font-smoothing: antialiased; 
+}
+
+a, button { 
+  text-decoration: none; 
+  color: inherit; 
+  cursor: none; 
+}
+
+::selection { 
+  background: var(--ink); 
+  color: var(--bg); 
+}
+
+/* ============================================================
+   KINETIC FILM GRAIN (THE LIVING SCREEN)
+   ============================================================ */
+@keyframes noise {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1%, -1%); }
+  50% { transform: translate(1%, -1%); }
+  75% { transform: translate(-1%, 1%); }
+}
+
+body::after { 
+  content: ""; 
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%; 
+  z-index: 9999; 
+  pointer-events: none; 
+  background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)" opacity="0.06"/%3E%3C/svg%3E'); 
+  animation: noise 0.2s steps(2) infinite; 
+}
+
+/* ============================================================
+   GRID BACKGROUND SYSTEM
+   ============================================================ */
+.grid-overlay { 
+  position: fixed; 
+  inset: 0; 
+  z-index: 0; 
+  pointer-events: none; 
+  background-size: 100px 100px; 
+  background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px); 
+  mask-image: radial-gradient(circle at center, black 40%, transparent 100%); 
+  -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%); 
+}
+   /* ============================================================
+   ELITE CUSTOM CURSOR
+   ============================================================ */
+#cursor { position: fixed; top: 0; left: 0; width: 12px; height: 12px; background: var(--ink); border-radius: 50%; pointer-events: none; z-index: 10000; mix-blend-mode: exclusion; transition: width 0.3s, height 0.3s, margin 0.3s; transform: translate(-50%, -50%); will-change: transform; }
+#cursor.active { width: 80px; height: 80px; background: rgba(255,255,255,1); }
+#cursor-follower { position: fixed; top: 0; left: 0; width: 40px; height: 40px; border: 1px solid var(--ink-dim); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%, -50%); transition: opacity 0.3s; will-change: transform; }
+#cursor.active ~ #cursor-follower { opacity: 0; }
+
+/* ============================================================
+   CRYPTOGRAPHIC SYSTEM PRELOADER
+   ============================================================ */
+#preloader { position: fixed; inset: 0; background: var(--bg); z-index: 9000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+#boot-log { font-family: var(--mono); font-size: 11px; color: var(--ink-dim); margin-bottom: 24px; text-align: left; width: 220px; display: flex; flex-direction: column; gap: 4px; height: 60px; justify-content: flex-end; overflow: hidden; }
+#loader-text { font-family: var(--mono); font-size: clamp(24px, 4vw, 48px); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; }
+.scramble-dull { color: var(--ink-dim); opacity: 0.5; }
+.loader-bar-wrap { width: 220px; height: 2px; background: var(--line); margin-top: 24px; overflow: hidden; position: relative; }
+.loader-bar { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: var(--ink); }
+
+/* ============================================================
+   GLOBAL LAYOUT & TYPOGRAPHY
+   ============================================================ */
+.container { position: relative; z-index: 10; max-width: 1600px; margin: 0 auto; padding: 0 5vw; }
+section { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; position: relative; padding: 120px 0; }
+.label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--ink-dim); margin-bottom: 24px; display: flex; align-items: center; gap: 16px; }
+.label::before { content: ""; width: 40px; height: 1px; background: var(--ink-dim); }
+
+/* ============================================================
+   MAGNETIC HOVER BACKGROUND ENGINE
+   ============================================================ */
+#hover-bg-engine { position: fixed; inset: 0; z-index: 1; pointer-events: none; background: var(--bg); }
+.bg-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: scale(1.05); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 3s cubic-bezier(0.16, 1, 0.3, 1); filter: grayscale(100%) contrast(1.2); }
+.bg-img.active { opacity: 0.3; transform: scale(1); }
+#hover-bg-engine::after { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 0%, var(--bg) 100%); }
+
+/* ============================================================
+   HERO & PORTFOLIO INDEX
+   ============================================================ */
+.hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: 15vh; }
+.hero-title { font-family: var(--display); font-size: clamp(60px, 10vw, 160px); font-weight: 700; line-height: 0.85; letter-spacing: -0.04em; text-transform: uppercase; margin-bottom: 24px; position: relative; z-index: 2; }
+.hero-subtitle { font-family: var(--mono); font-size: clamp(14px, 1.5vw, 18px); color: var(--ink-dim); max-width: 600px; line-height: 1.6; letter-spacing: 0.05em; }
+
+.project-list { display: flex; flex-direction: column; width: 100%; border-top: 1px solid var(--line); }
+.project-item { display: flex; justify-content: space-between; align-items: flex-end; padding: 48px 0; border-bottom: 1px solid var(--line); position: relative; z-index: 2; transition: padding 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+.project-item:hover { padding-left: 2vw; padding-right: 2vw; border-bottom-color: var(--ink); }
+.project-title { font-family: var(--display); font-size: clamp(40px, 6vw, 100px); font-weight: 600; line-height: 0.9; letter-spacing: -0.02em; text-transform: uppercase; color: var(--ink-dim); transition: color 0.4s; }
+.project-item:hover .project-title { color: var(--ink); }
+.project-meta { font-family: var(--mono); font-size: 14px; color: var(--ink-dim); text-align: right; display: flex; flex-direction: column; gap: 8px; text-transform: uppercase; letter-spacing: 0.1em; }
+.project-year { font-weight: 700; color: var(--ink); }
+
+.footer { padding: 40px 0; border-top: 1px solid var(--line); margin-top: 120px; display: flex; justify-content: space-between; font-family: var(--mono); font-size: 12px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: 0.1em; }
+</style>
+</head>
+<body>
+   <!-- ============================================================
+     CUSTOM TRACKER CURSOR
+     ============================================================ -->
+<div id="cursor"></div>
+<div id="cursor-follower"></div>
+
+<!-- ============================================================
+     MAGNETIC BACKGROUND IMAGE ENGINE
+     ============================================================ -->
+<div id="hover-bg-engine">
+  <!-- Image for Project 1: Rev Nation -->
+  <img src="https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1920&auto=format&fit=crop" id="bg-revnation" class="bg-img" alt="Rev Nation">
+  
+  <!-- Image for Project 2: Future Slot -->
+  <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1920&auto=format&fit=crop" id="bg-future1" class="bg-img" alt="Future Project">
+</div>
+
+<!-- ============================================================
+     GRID OVERLAY & PRELOADER
+     ============================================================ -->
+<div class="grid-overlay"></div>
+
+<div id="preloader">
+  <div id="boot-log"></div>
+  <div id="loader-text" data-text="AJAY_BUILDS">AJAY_BUILDS</div>
+  <div class="loader-bar-wrap"><div class="loader-bar" id="loader-bar"></div></div>
+</div>
+
+<!-- ============================================================
+     MAIN PORTFOLIO CONTENT
+     ============================================================ -->
+<main>
+  <!-- HERO SECTION -->
+  <section class="hero container">
+    <div class="label">System Initialized</div>
+    <h1 class="hero-title" data-scramble="AJAY BUILDS">AJAY BUILDS</h1>
+    <p class="hero-subtitle">Creative Developer & Digital Architect.<br>Engineering uncompromised web experiences.</p>
+  </section>
+
+  <!-- THE INDEX (PROJECT LIST) -->
+  <section class="container" style="padding-top: 0;">
+    <div class="label">Live Deployments [02]</div>
+    
+    <div class="project-list">
+      
+      <!-- PROJECT 1: REV NATION -->
+      <!-- Replace '/revnation/' with your actual link if needed -->
+      <a href="/revnation/" class="project-item" data-target="bg-revnation">
+        <div class="project-title scramble-target" data-text="REV NATION">REV NATION</div>
+        <div class="project-meta">
+          <span class="project-year">2026</span>
+          <span>Automotive Studio</span>
+        </div>
+      </a>
+
+      <!-- PROJECT 2: FUTURE SLOT -->
+      <a href="#" class="project-item" data-target="bg-future1">
+        <div class="project-title scramble-target" data-text="NEXUS LOGISTICS">NEXUS LOGISTICS</div>
+        <div class="project-meta">
+          <span class="project-year">TBD</span>
+          <span>Enterprise Platform</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="container footer">
+  <div>© 2026 Ajay Builds. All Rights Reserved.</div>
+  <div>Jaipur, Rajasthan</div>
+</footer>
+<!-- ============================================================
+     THE CREATIVE AGENCY JAVASCRIPT ENGINE
+     ============================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  
+  /* ==========================================
+     1. LENIS SMOOTH SCROLL
+     ========================================== */
+  const lenis = new Lenis({ 
+    duration: 1.2, 
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+    direction: 'vertical', 
+    smooth: true 
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  /* ==========================================
+     2. ELITE CUSTOM CURSOR
+     ========================================== */
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('cursor-follower');
+  let mouseX = 0, mouseY = 0, posX = 0, posY = 0;
+  
+  window.addEventListener('mousemove', e => {
+    mouseX = e.clientX; 
+    mouseY = e.clientY;
+    gsap.to(cursor, { x: mouseX, y: mouseY, duration: 0.1, ease: "power2.out" });
+  });
+
+  gsap.ticker.add(() => {
+    posX += (mouseX - posX) / 6; 
+    posY += (mouseY - posY) / 6;
+    gsap.set(follower, { x: posX, y: posY });
+  });
+
+  /* ==========================================
+     3. HAPTIC SOUND EFFECTS (THE "TICK")
+     ========================================== */
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  function playTick() {
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.connect(gain); 
+    gain.connect(audioCtx.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.05);
+    
+    gain.gain.setValueAtTime(0.03, audioCtx.currentTime); 
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    
+    osc.start(); 
+    osc.stop(audioCtx.currentTime + 0.05);
+  }
+
+  // Attach hover states and haptic sounds to all interactable elements
+  document.querySelectorAll('a, button, .project-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { 
+      cursor.classList.add('active'); 
+      playTick(); 
+    });
+    el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+  });
+   <!-- ============================================================
+     SECURITY PROTOCOLS (NO SELECT)
+     ============================================================ -->
+<style>
+  body {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none;    /* Firefox */
+    -ms-user-select: none;     /* IE10+/Edge */
+    user-select: none;         /* Standard */
+  }
+</style>
+
+<!-- ============================================================
+     THE CREATIVE AGENCY JAVASCRIPT ENGINE (AUDIO + SECURITY)
+     ============================================================ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ==========================================
+     0. ANTI-THEFT SECURITY PROTOCOLS
+     ========================================== */
+  // Disable Right-Click
+  document.addEventListener('contextmenu', e => e.preventDefault());
+
+  // Disable DevTools & Source Code Shortcuts
+  document.addEventListener('keydown', e => {
+    // Block F12
+    if (e.key === 'F12' || e.keyCode === 123) e.preventDefault();
+    // Block Ctrl+U (View Source) or Ctrl+S (Save Page)
+    if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) e.preventDefault();
+    // Block Ctrl+Shift+I / J / C (Dev Tools)
+    if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C', 'i', 'j', 'c'].includes(e.key)) e.preventDefault();
+  });
+  
+  /* ==========================================
+     1. LENIS SMOOTH SCROLL
+     ========================================== */
+  const lenis = new Lenis({ 
+    duration: 1.2, 
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), 
+    direction: 'vertical', 
+    smooth: true 
+  });
+  function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
+  requestAnimationFrame(raf);
+
+  /* ==========================================
+     2. ELITE CUSTOM CURSOR
+     ========================================== */
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('cursor-follower');
+  let mouseX = 0, mouseY = 0, posX = 0, posY = 0;
+  
+  window.addEventListener('mousemove', e => {
+    mouseX = e.clientX; mouseY = e.clientY;
+    gsap.to(cursor, { x: mouseX, y: mouseY, duration: 0.1, ease: "power2.out" });
+  });
+
+  gsap.ticker.add(() => {
+    posX += (mouseX - posX) / 6; posY += (mouseY - posY) / 6;
+    gsap.set(follower, { x: posX, y: posY });
+  });
+
+  /* ==========================================
+     3. HAPTIC SOUND EFFECTS (THE "TICK")
+     ========================================== */
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  function playTick() {
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.05);
+    
+    gain.gain.setValueAtTime(0.03, audioCtx.currentTime); 
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.05);
+    
+    osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+  }
+
+  // Attach hover states and haptic sounds
+  document.querySelectorAll('a, button, .project-item').forEach(el => {
+    el.addEventListener('mouseenter', () => { 
+      cursor.classList.add('active'); 
+      playTick(); 
+    });
+    el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+  });
+
+  /* ==========================================
+     4. CRYPTOGRAPHIC TEXT SCRAMBLER
+     ========================================== */
+  const chars = '!<>-_\\/[]{}—=+*^?#________'; 
+  class Scrambler {
+    constructor(el) { this.el = el; this.chars = chars; this.update = this.update.bind(this); }
+    setText(newText) {
+      const oldText = this.el.innerText;
+      const length = Math.max(oldText.length, newText.length);
+      const promise = new Promise((resolve) => this.resolve = resolve);
+      this.queue = [];
+      for (let i = 0; i < length; i++) {
+        const from = oldText[i] || ''; const to = newText[i] || '';
+        const start = Math.floor(Math.random() * 40); const end = start + Math.floor(Math.random() * 40);
+        this.queue.push({ from, to, start, end });
+      }
+      cancelAnimationFrame(this.frameRequest); this.frame = 0; this.update();
+      return promise;
+    }
+    update() {
+      let output = ''; let complete = 0;
+      for (let i = 0, n = this.queue.length; i < n; i++) {
+        let { from, to, start, end, char } = this.queue[i];
+        if (this.frame >= end) { complete++; output += to; } 
+        else if (this.frame >= start) {
+          if (!char || Math.random() < 0.28) { char = this.chars[Math.floor(Math.random() * this.chars.length)]; this.queue[i].char = char; }
+          output += `<span class="scramble-dull">${char}</span>`;
+        } else { output += from; }
+      }
+      this.el.innerHTML = output;
+      if (complete === this.queue.length) { this.resolve(); } else { this.frameRequest = requestAnimationFrame(this.update); this.frame++; }
+    }
+  }
+
+  /* ==========================================
+     5. BOOT SEQUENCE PRELOADER
+     ========================================== */
+  const preloader = document.getElementById('preloader');
+  const loaderBar = document.getElementById('loader-bar');
+  const loaderText = document.getElementById('loader-text');
+  const bootLog = document.getElementById('boot-log');
+  
+  const heroScrambler = new Scrambler(document.querySelector('.hero-title'));
+  const loaderScrambler = new Scrambler(loaderText);
+
+  gsap.to(loaderBar, { width: "100%", duration: 1.8, ease: "power3.inOut" });
+  
+  const logs = ['> establishing secure connection...', '> decrypting layout modules...', '> visual engine [OK]'];
+  logs.forEach((log, i) => {
+    setTimeout(() => { const span = document.createElement('span'); span.textContent = log; bootLog.appendChild(span); }, i * 400);
+  });
+  
+  setTimeout(() => {
+    loaderScrambler.setText("SYSTEM_READY").then(() => {
+      gsap.to(preloader, { 
+        opacity: 0, duration: 0.8, ease: "power2.out", 
+        onComplete: () => { 
+          preloader.style.display = 'none'; 
+          heroScrambler.setText(document.querySelector('.hero-title').getAttribute('data-scramble')); 
+        }
+      });
+    });
+  }, 2000);
+
+  /* ==========================================
+     6. MAGNETIC PARALLAX IMAGE ENGINE
+     ========================================== */
+  const projects = document.querySelectorAll('.project-item');
+  const bgImages = document.querySelectorAll('.bg-img');
+
+  projects.forEach(project => {
+    const titleEl = project.querySelector('.scramble-target');
+    const originalText = titleEl.getAttribute('data-text');
+    const targetBgId = project.getAttribute('data-target');
+    const scrambler = new Scrambler(titleEl);
+    
+    project.addEventListener('mouseenter', () => {
+      scrambler.setText(originalText);
+      bgImages.forEach(img => img.classList.remove('active'));
+      const targetBg = document.getElementById(targetBgId);
+      if (targetBg) targetBg.classList.add('active');
+    });
+
+    project.addEventListener('mousemove', (e) => {
+      const targetBg = document.getElementById(targetBgId);
+      if (targetBg) {
+        const rect = project.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        gsap.to(targetBg, { x: x * -50, y: y * -50, duration: 1, ease: "power2.out" });
+      }
+    });
+
+    project.addEventListener('mouseleave', () => {
+      bgImages.forEach(img => img.classList.remove('active'));
+      const targetBg = document.getElementById(targetBgId);
+      if (targetBg) gsap.to(targetBg, { x: 0, y: 0, duration: 1.5, ease: "power2.out" });
+    });
+  });
+
+});
+</script>
+</body>
+</html>
