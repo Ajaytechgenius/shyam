@@ -3,34 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rev Nation | Premium Automotive Studio</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+<title>Ajay | Digital Architect</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.25/dist/lenis.css">
 <style>
 :root {
-  --bg: #030303;
-  --ink: #fdfdfd;
-  --ink-dim: rgba(253, 253, 253, 0.45);
-  --line: rgba(253, 253, 253, 0.08);
-  --serif: 'Cormorant Garamond', serif;
+  --bg: #050505;
+  --ink: #f7f7f7;
+  --ink-dim: rgba(255, 255, 255, 0.4);
+  --line: rgba(255, 255, 255, 0.08);
   --sans: 'Inter', sans-serif;
 }
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--sans);
-  font-size: 12px;
-  font-weight: 300;
-  overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-a, button { text-decoration: none; color: inherit; background: transparent; border: none; outline: none; }
-#preloader {
+a, button { text-decoration: none; color: inherit; background: transparent; border: none; cursor: none; }
+#cursor {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 10000;
+  mix-blend-mode: difference;
+}
+#cursor-follower {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--ink-dim);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background 0.3s;
+}
+#cursor.active ~ #cursor-follower {
+  width: 60px;
+  height: 60px;
+  background: rgba(255, 255, 255, 0.05);
+}
+  #preloader {
   position: fixed;
   inset: 0;
   background: var(--bg);
@@ -54,7 +80,7 @@ a, button { text-decoration: none; color: inherit; background: transparent; bord
 }
 #boot-log {
   font-family: var(--sans);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.25em;
   color: var(--ink-dim);
@@ -77,7 +103,7 @@ a, button { text-decoration: none; color: inherit; background: transparent; bord
   opacity: 0;
   transform: scale(1.05);
   transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-  filter: brightness(0.25);
+  filter: brightness(0.3);
 }
 .media-item.active {
   opacity: 1;
@@ -86,61 +112,61 @@ a, button { text-decoration: none; color: inherit; background: transparent; bord
 .container {
   position: relative;
   z-index: 10;
-  max-width: 1100px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 0 5vw;
   transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease;
 }
 body.media-active .container {
-  transform: scale(0.92);
-  opacity: 0.9;
+  transform: scale(0.95);
+  opacity: 0.8;
 }
 .hero {
-  height: 85vh;
+  height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .hero-title {
-  font-family: var(--serif);
-  font-size: clamp(32px, 5vw, 64px);
-  font-weight: 300;
-  line-height: 1.1;
-  letter-spacing: -0.01em;
-  max-width: 750px;
+  font-family: var(--sans);
+  font-size: clamp(40px, 6vw, 85px);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  max-width: 800px;
 }
 .hero-subtitle {
   font-family: var(--sans);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.3em;
   color: var(--ink-dim);
   margin-top: 40px;
 }
-.service-list {
-  margin-top: 5vh;
+.project-list {
+  margin-top: 10vh;
   border-top: 1px solid var(--line);
 }
-.service-item {
+.project-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 40px 0;
+  padding: 50px 0;
   border-bottom: 1px solid var(--line);
   transition: padding 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
-.service-item:hover {
+.project-item:hover {
   padding-left: 2vw;
   padding-right: 2vw;
 }
-.service-title {
-  font-family: var(--serif);
-  font-size: clamp(24px, 3.5vw, 42px);
-  font-weight: 300;
-}
-.service-meta {
+.project-title {
   font-family: var(--sans);
-  font-size: 10px;
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 400;
+}
+.project-meta {
+  font-family: var(--sans);
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.3em;
   color: var(--ink-dim);
@@ -152,14 +178,14 @@ body.media-active .container {
   justify-content: space-between;
   align-items: center;
   font-family: var(--sans);
-  font-size: 10px;
+  font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.25em;
   color: var(--ink-dim);
 }
 .footer-links {
   display: flex;
-  gap: 50px;
+  gap: 60px;
 }
 .footer-link {
   transition: color 0.4s ease;
@@ -170,63 +196,61 @@ body.media-active .container {
 </style>
 </head>
 <body>
-  <div id="preloader">
+  <div id="cursor"></div>
+<div id="cursor-follower"></div>
+
+<div id="preloader">
   <div id="loader-bar-bg">
     <div id="loader-bar"></div>
   </div>
   <div id="boot-log">
-    <span class="log-line">INITIALIZING STUDIO PROTOCOLS...</span>
-    <span class="log-line">LOADING AUTOMOTIVE ASSETS...</span>
-    <span class="log-line">ASSEMBLING REV NATION ENGINE...</span>
+    <span class="log-line">INITIALIZING SECURE PROTOCOLS...</span>
+    <span class="log-line">ESTABLISHING CONNECTION...</span>
+    <span class="log-line">ASSEMBLING DIGITAL ARCHITECTURE...</span>
   </div>
 </div>
 
 <div id="media-engine">
-  <img src="https://images.unsplash.com/photo-1611821064430-0d40220e4e03?q=80&w=1920&auto=format&fit=crop" id="media-ppf" class="media-item" alt="">
-  <img src="https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1920&auto=format&fit=crop" id="media-ceramic" class="media-item" alt="">
-  <img src="https://images.unsplash.com/photo-1603584173870-7f23fdae1b7a?q=80&w=1920&auto=format&fit=crop" id="media-wrap" class="media-item" alt="">
+  <img src="https://images.unsplash.com/photo-1603386329225-868f9b1ee6c9?q=80&w=1920&auto=format&fit=crop" id="media-revnation" class="media-item" alt="">
+  <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=1920&auto=format&fit=crop" id="media-jaipur" class="media-item" alt="">
 </div>
 
 <div class="container">
   <main>
     <section class="hero">
-      <h1 class="hero-title scramble-text" data-text="Precision automotive detailing and protection.">Precision automotive detailing and protection.</h1>
-      <p class="hero-subtitle">Rev Nation &mdash; Premium Studio</p>
+      <h1 class="hero-title scramble-text" data-text="Architecting digital spaces for premium brands.">Architecting digital spaces for premium brands.</h1>
+      <p class="hero-subtitle">Ajay &mdash; Independent Digital Architect</p>
     </section>
 
-    <section class="service-list">
-      <a href="#" class="service-item magnetic" data-media="media-ppf">
-        <h2 class="service-title scramble-text" data-text="Paint Protection Film">Paint Protection Film</h2>
-        <span class="service-meta">Self-Healing Clear Bra</span>
+    <section class="project-list">
+      <a href="/revnation/" class="project-item magnetic" data-media="media-revnation">
+        <h2 class="project-title scramble-text" data-text="Rev Nation">Rev Nation</h2>
+        <span class="project-meta">Automotive Studio</span>
       </a>
 
-      <a href="#" class="service-item magnetic" data-media="media-ceramic">
-        <h2 class="service-title scramble-text" data-text="Ceramic Coating">Ceramic Coating</h2>
-        <span class="service-meta">9H Nano Protection</span>
-      </a>
-
-      <a href="#" class="service-item magnetic" data-media="media-wrap">
-        <h2 class="service-title scramble-text" data-text="Custom Vinyl Wraps">Custom Vinyl Wraps</h2>
-        <span class="service-meta">Color Change & Livery</span>
+      <a href="#" class="project-item magnetic" data-media="media-jaipur">
+        <h2 class="project-title scramble-text" data-text="Jaipur Customs">Jaipur Customs</h2>
+        <span class="project-meta">Architecture Firm</span>
       </a>
     </section>
   </main>
 
   <footer class="footer">
-    <div>&copy; 2026 Rev Nation. All Rights Reserved.</div>
+    <div>&copy; 2026 Ajay. All Rights Reserved.</div>
     <div class="footer-links">
-      <a href="#" class="footer-link magnetic">Services</a>
-      <a href="#" class="footer-link magnetic">Gallery</a>
-      <a href="#" class="footer-link magnetic">Bookings</a>
+      <a href="#" class="footer-link magnetic">Work</a>
+      <a href="#" class="footer-link magnetic">Studio</a>
+      <a href="#" class="footer-link magnetic">Inquiries</a>
     </div>
   </footer>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://unpkg.com/lenis@1.3.25/dist/lenis.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   document.addEventListener('contextmenu', e => e.preventDefault());
-  
+
   document.addEventListener('keydown', e => {
     if (e.key === 'F12' || e.keyCode === 123) e.preventDefault();
     if (e.ctrlKey && (e.key === 'u' || e.key === 'U' || e.key === 's' || e.key === 'S')) e.preventDefault();
@@ -244,6 +268,20 @@ document.addEventListener('DOMContentLoaded', () => {
     requestAnimationFrame(raf); 
   }
   requestAnimationFrame(raf);
+
+  const cursor = document.getElementById('cursor');
+  const cursorFollower = document.getElementById('cursor-follower');
+  const interactables = document.querySelectorAll('a, .magnetic');
+
+  window.addEventListener('mousemove', e => {
+    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+    gsap.to(cursorFollower, { x: e.clientX, y: e.clientY, duration: 0.4 });
+  });
+
+  interactables.forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+  });
 
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   const scrambleElements = document.querySelectorAll('.scramble-text');
@@ -277,10 +315,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  const serviceItems = document.querySelectorAll('.service-item');
+  const projectItems = document.querySelectorAll('.project-item');
   const mediaItems = document.querySelectorAll('.media-item');
 
-  serviceItems.forEach(item => {
+  projectItems.forEach(item => {
     item.addEventListener('mouseenter', () => {
       const targetId = item.getAttribute('data-media');
       document.body.classList.add('media-active');
